@@ -1,5 +1,4 @@
 ---
-
 # Easy Learning Platform
 
 Welcome to the Easy Learning Platform, a web application aimed at providing high-quality psychological courses for personal and professional development.
@@ -121,5 +120,19 @@ The OTP model manages OTP verification for user authentication.
 - `otp`: String, required - OTP generated for verification.
 - `createdAt`: Date - Date and time when OTP is generated.
 
-
 ---
+## Routes
+
+### Get Started
+
+- **Route**: /
+  - **Description**: Get the status of the API.
+  - **Method**: GET
+  - **Response**: "API Running"
+
+- **Route**: /*
+  - **Description**: Handle undefined routes.
+  - **Method**: All methods
+  - **Response**: "Route not found"
+ 
+ ---
