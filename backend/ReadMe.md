@@ -1,4 +1,7 @@
+Sure, here's the updated README:
+
 ---
+
 # Easy Learning Platform
 
 Welcome to the Easy Learning Platform, a web application aimed at providing high-quality psychological courses for personal and professional development.
@@ -10,6 +13,8 @@ Welcome to the Easy Learning Platform, a web application aimed at providing high
 The User model represents the users of the platform.
 
 **Attributes**:
+
+- `name`: String, required - Name of the user.
 - `email`: String, required, unique - Email address of the user.
 - `password`: String, required - Password of the user.
 - `role`: String, enum: ['student', 'teacher', 'admin'], required - Role of the user (student, teacher, admin).
@@ -21,6 +26,7 @@ The User model represents the users of the platform.
 The Course model represents the courses offered on the platform.
 
 **Attributes**:
+
 - `title`: String, required - Title of the course.
 - `price`: Number, required - Price of the course.
 - `instructor`: ObjectId, ref: 'User', required - Instructor of the course.
@@ -39,6 +45,7 @@ The Course model represents the courses offered on the platform.
 The Module model represents the modules within a course.
 
 **Attributes**:
+
 - `title`: String, required - Title of the module.
 - `course`: ObjectId, ref: 'Course', required - Course to which the module belongs.
 - `order`: Number, required - Order of the module within the course.
@@ -51,6 +58,7 @@ The Module model represents the modules within a course.
 The Topic model represents the topics within a module.
 
 **Attributes**:
+
 - `title`: String, required - Title of the topic.
 - `module`: ObjectId, ref: 'Module', required - Module to which the topic belongs.
 - `order`: Number, required - Order of the topic within the module.
@@ -62,6 +70,7 @@ The Topic model represents the topics within a module.
 The Material model represents the different types of learning materials within a topic.
 
 **Attributes**:
+
 - `type`: String, enum: ['reading', 'video', 'quiz', 'online_class'], required - Type of the material.
 - `content`: Mixed - Content of the material (can vary based on the type).
 
@@ -70,6 +79,7 @@ The Material model represents the different types of learning materials within a
 The Quiz model represents quizzes within topics.
 
 **Attributes**:
+
 - `title`: String, required - Title of the quiz.
 - `questions`: Array of ObjectIds - Questions included in the quiz.
 - `topic`: ObjectId, ref: 'Topic', required - Topic to which the quiz belongs.
@@ -79,6 +89,7 @@ The Quiz model represents quizzes within topics.
 The Question model represents individual questions within quizzes.
 
 **Attributes**:
+
 - `quiz`: ObjectId, ref: 'Quiz', required - Quiz to which the question belongs.
 - `questionText`: String, required - Text of the question.
 - `options`: Array of Strings - Options for the question.
@@ -89,6 +100,7 @@ The Question model represents individual questions within quizzes.
 The Progress model tracks the progress of users in courses.
 
 **Attributes**:
+
 - `user`: ObjectId, ref: 'User', required - User whose progress is being tracked.
 - `course`: ObjectId, ref: 'Course', required - Course in which the user's progress is being tracked.
 - `completedModules`: Array of ObjectIds - Modules completed by the user.
@@ -99,6 +111,7 @@ The Progress model tracks the progress of users in courses.
 The Review model represents reviews given to courses by users.
 
 **Attributes**:
+
 - `course`: ObjectId, ref: 'Course', required - Course being reviewed.
 - `user`: ObjectId, ref: 'User', required - User who gave the review.
 - `rating`: Number, required - Rating given to the course.
@@ -109,6 +122,7 @@ The Review model represents reviews given to courses by users.
 The Category model represents categories of courses.
 
 **Attributes**:
+
 - `name`: String, required, unique - Name of the category.
 
 ### 11. OTP Model
@@ -116,23 +130,165 @@ The Category model represents categories of courses.
 The OTP model manages OTP verification for user authentication.
 
 **Attributes**:
+
 - `email`: String, required - Email address to which OTP is sent.
 - `otp`: String, required - OTP generated for verification.
 - `createdAt`: Date - Date and time when OTP is generated.
 
----
 ## Routes
 
 ### Get Started
 
-- **Route**: /
-  - **Description**: Get the status of the API.
-  - **Method**: GET
-  - **Response**: "API Running"
+#### 1. Check API Status
 
-- **Route**: /*
-  - **Description**: Handle undefined routes.
-  - **Method**: All methods
-  - **Response**: "Route not found"
- 
- ---
+**Route**: `GET http://localhost:5000/api/v1/`
+
+- **Description**: This route is used to check if the API is running.
+- **Response**:
+  ```json
+  {
+    "message": "API Running"
+  }
+  ```
+
+#### 2. Handle Undefined Routes
+
+**Route**: `GET /*`
+
+- **Response**:
+  ```json
+  {
+    "message": "Route not found"
+  }
+  ```
+
+### Auth Routes
+
+#### 1. Send OTP to Student
+
+**Route**: `POST http://localhost:5000/api/v1/auth/student/sendOTP`
+
+- **Body**:
+  ```json
+  {
+    "email": "student@example.com"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "OTP sent successfully"
+  }
+  ```
+
+#### 2. Check OTP for Student
+
+**Route**: `POST http://localhost:5000/api/v1/auth/student/checkOTP`
+
+- **Body**:
+  ```json
+  {
+    "email": "student@example.com",
+    "otp": "123456"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "OTP verified successfully"
+  }
+  ```
+
+#### 3. Register Student
+
+**Route**: `POST http://localhost:5000/api/v1/auth/student/register`
+
+- **Body**:
+  ```json
+  {
+    "name": "John Doe",
+    "email": "student@example.com",
+    "password": "password123"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "token": "JWT_TOKEN"
+  }
+  ```
+
+#### 4. Login Student
+
+**Route**: `POST http://localhost:5000/api/v1/auth/student/login`
+
+- **Body**:
+  ```json
+  {
+    "email": "student@example.com",
+    "password": "password123"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "token": "JWT_TOKEN"
+  }
+  ```
+
+#### 5. Register Teacher
+
+**Route**: `POST http://localhost:5000/api/v1/auth/teacher/register`
+
+- **Body**:
+  ```json
+  {
+    "name": "Jane Smith",
+    "email": "teacher@example.com",
+    "password": "password123"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "token": "JWT_TOKEN"
+  }
+  ```
+
+#### 6. Login Teacher
+
+**Route**: `POST http://localhost:5000/api/v1/auth/teacher/login`
+
+- **Body**:
+  ```json
+  {
+    "email": "teacher@example.com",
+    "password": "password123"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "token": "JWT_TOKEN"
+  }
+  ```
+
+#### 7. Login Admin
+
+**Route**: `POST http://localhost:5000/api/v1/auth/admin/login`
+
+- **Body**:
+  ```json
+  {
+    "email": "admin@example.com",
+    "password": "adminpassword"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "token": "JWT_TOKEN"
+  }
+  ```
+
+---
