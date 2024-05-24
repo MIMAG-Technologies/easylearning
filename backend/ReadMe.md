@@ -292,3 +292,132 @@ The OTP model manages OTP verification for user authentication.
   ```
 
 ---
+
+### Category Routes
+
+All routes except `GET /categories/:categoryId` (when requesting a specific category by ID) require an `Authorization` header with a valid JWT token.
+
+#### Headers
+
+- `Authorization`: `Bearer <token>`
+
+#### 1. Create Category
+
+**Route**: `POST http://localhost:5000/api/v1/categories/create`
+
+**Headers**:
+
+```json
+{
+  "Authorization": "Bearer <token>"
+}
+```
+
+**Request Body**:
+
+```json
+{
+  "name": "Psychology"
+}
+```
+
+**Sample Response**:
+
+```json
+{
+  "_id": "60b7c2b5f1d2b10c8c8d2b10",
+  "name": "Psychology",
+  "__v": 0
+}
+```
+
+#### 2. Get Category By ID
+
+**Route**: `GET http://localhost:5000/api/v1/categories/:categoryId`
+
+**Request (Single Category)**:
+
+- `GET http://localhost:5000/api/v1/categories/60b7c2b5f1d2b10c8c8d2b10`
+
+**Sample Response**:
+
+```json
+{
+  "_id": "60b7c2b5f1d2b10c8c8d2b10",
+  "name": "Psychology",
+  "__v": 0
+}
+```
+
+**Request (All Categories)**:
+
+- `GET http://localhost:5000/api/v1/categories/all`
+
+**Sample Response**:
+
+```json
+[
+  {
+    "_id": "60b7c2b5f1d2b10c8c8d2b10",
+    "name": "Psychology",
+    "__v": 0
+  },
+  {
+    "_id": "60b7c2b6f1d2b10c8c8d2b11",
+    "name": "Sociology",
+    "__v": 0
+  }
+]
+```
+
+#### 3. Update Category
+
+**Route**: `PUT http://localhost:5000/api/v1/categories/:categoryId`
+
+**Headers**:
+
+```json
+{
+  "Authorization": "Bearer <token>"
+}
+```
+
+**Request Body**:
+
+```json
+{
+  "name": "Advanced Psychology"
+}
+```
+
+**Sample Response**:
+
+```json
+{
+  "_id": "60b7c2b5f1d2b10c8c8d2b10",
+  "name": "Advanced Psychology",
+  "__v": 0
+}
+```
+
+#### 4. Delete Category
+
+**Route**: `DELETE http://localhost:5000/api/v1/categories/:categoryId`
+
+**Headers**:
+
+```json
+{
+  "Authorization": "Bearer <token>"
+}
+```
+
+**Sample Response**:
+
+```json
+{
+  "message": "Category deleted successfully"
+}
+```
+
+---
