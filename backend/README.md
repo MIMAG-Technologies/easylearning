@@ -421,3 +421,272 @@ All routes except `GET /categories/:categoryId` (when requesting a specific cate
 ```
 
 ---
+
+### Course Routes
+
+1. **Create a Course**
+
+   - **Endpoint**: `POST /courses/create`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Body**:
+     ```json
+     {
+       "title": "Introduction to Python",
+       "price": 2999,
+       "category": "6650be0ca5f777b66e243a08",
+       "whatWillLearn": [
+         "Learn Python basics",
+         "Understand data types and structures",
+         "Write basic programs in Python",
+         "Implement functions and loops"
+       ],
+       "description": "This course covers the basics of Python programming...",
+       "thumbnailUrl": "http://example.com/thumbnail.jpg"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "_id": "courseId",
+       "title": "Introduction to Python",
+       "price": 2999,
+       "category": "6650be0ca5f777b66e243a08",
+       "instructor": "userId",
+       "whatWillLearn": [
+         "Learn Python basics",
+         "Understand data types and structures",
+         "Write basic programs in Python",
+         "Implement functions and loops"
+       ],
+       "description": "This course covers the basics of Python programming...",
+       "thumbnailUrl": "http://example.com/thumbnail.jpg",
+       "modules": [],
+       "reviews": [],
+       "studentsEnrolled": [],
+       "createdAt": "2024-05-24T12:00:00.000Z",
+       "updatedAt": "2024-05-24T12:00:00.000Z"
+     }
+     ```
+
+2. **Assign Teacher to a Course**
+
+   - **Endpoint**: `POST /courses/assignTeacher/:action`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Body**:
+     ```json
+     {
+       "teacherId": "teacherUserId"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "Teacher assigned successfully",
+       "course": {
+         "_id": "courseId",
+         "title": "Introduction to Python",
+         "instructor": "teacherUserId"
+       }
+     }
+     ```
+
+3. **Get Course by ID or Category**
+
+   - **Endpoint**: `GET /courses/:courseId`
+   - **Headers**: None
+   - **Response**:
+     - For `:courseId = all`:
+       ```json
+       [
+         {
+           "_id": "courseId1",
+           "title": "Introduction to Python",
+           "price": 2999,
+           "category": "6650be0ca5f777b66e243a08",
+           "instructor": "userId",
+           "whatWillLearn": [
+             "Learn Python basics",
+             "Understand data types and structures",
+             "Write basic programs in Python",
+             "Implement functions and loops"
+           ],
+           "description": "This course covers the basics of Python programming...",
+           "thumbnailUrl": "http://example.com/thumbnail.jpg",
+           "modules": [],
+           "reviews": [],
+           "studentsEnrolled": [],
+           "createdAt": "2024-05-24T12:00:00.000Z",
+           "updatedAt": "2024-05-24T12:00:00.000Z"
+         },
+         {
+           "_id": "courseId2",
+           "title": "Advanced Python",
+           "price": 3999,
+           "category": "6650be0ca5f777b66e243a08",
+           "instructor": "userId",
+           "whatWillLearn": [
+             "Master advanced Python concepts",
+             "Implement complex data structures",
+             "Work with libraries and frameworks"
+           ],
+           "description": "This course covers advanced Python programming...",
+           "thumbnailUrl": "http://example.com/thumbnail.jpg",
+           "modules": [],
+           "reviews": [],
+           "studentsEnrolled": [],
+           "createdAt": "2024-05-24T12:00:00.000Z",
+           "updatedAt": "2024-05-24T12:00:00.000Z"
+         }
+       ]
+       ```
+     - For a specific `:courseId`:
+       ```json
+       {
+         "_id": "courseId",
+         "title": "Introduction to Python",
+         "price": 2999,
+         "category": "6650be0ca5f777b66e243a08",
+         "instructor": "userId",
+         "whatWillLearn": [
+           "Learn Python basics",
+           "Understand data types and structures",
+           "Write basic programs in Python",
+           "Implement functions and loops"
+         ],
+         "description": "This course covers the basics of Python programming...",
+         "thumbnailUrl": "http://example.com/thumbnail.jpg",
+         "modules": [],
+         "reviews": [],
+         "studentsEnrolled": [],
+         "createdAt": "2024-05-24T12:00:00.000Z",
+         "updatedAt": "2024-05-24T12:00:00.000Z"
+       }
+       ```
+
+4. **Update a Course**
+
+   - **Endpoint**: `PUT /courses/:courseId`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Body**:
+     ```json
+     {
+       "title": "Updated Course Title",
+       "price": 3500,
+       "category": "6650be0ca5f777b66e243a08",
+       "whatWillLearn": ["Updated learning outcomes"],
+       "description": "Updated course description...",
+       "thumbnailUrl": "http://example.com/updated-thumbnail.jpg"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "_id": "courseId",
+       "title": "Updated Course Title",
+       "price": 3500,
+       "category": "6650be0ca5f777b66e243a08",
+       "instructor": "userId",
+       "whatWillLearn": ["Updated learning outcomes"],
+       "description": "Updated course description...",
+       "thumbnailUrl": "http://example.com/updated-thumbnail.jpg",
+       "modules": [],
+       "reviews": [],
+       "studentsEnrolled": [],
+       "createdAt": "2024-05-24T12:00:00.000Z",
+       "updatedAt": "2024-05-24T12:00:00.000Z"
+     }
+     ```
+
+5. **Delete a Course**
+   - **Endpoint**: `DELETE /courses/:courseId`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Response**:
+     ```json
+     {
+       "message": "Course deleted successfully"
+     }
+     ```
+
+### Module Routes
+
+1. **Create a Module**
+
+   - **Endpoint**: `POST /modules/create/:courseId`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Body**:
+     ```json
+     {
+       "title": "Introduction to Programming",
+       "order": 1,
+       "about": "This module introduces the basics of programming.",
+       "timeToComplete": 120
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "_id": "moduleId",
+       "title": "Introduction to Programming",
+       "course": "courseId",
+       "order": 1,
+       "about": "This module introduces the basics of programming.",
+       "timeToComplete": 120,
+       "topics": [],
+       "createdAt": "2024-05-24T12:00:00.000Z",
+       "updatedAt": "2024-05-24T12:00:00.000Z"
+     }
+     ```
+
+2. **Get Module(s)**
+
+   - **Endpoint**: `GET /modules/:courseId/:moduleId`
+   - **Headers**: None
+   - **Responses**:
+     - For `:moduleId = all`:
+       ```json
+       [
+         {
+           "_id": "moduleId1",
+           "title": "Introduction to Programming",
+           "course": "courseId",
+           "order": 1,
+           "about": "This module introduces the basics of programming.",
+           "timeToComplete": 120,
+           "topics": []
+         },
+         {
+           "_id": "moduleId2",
+           "title": "Advanced Programming",
+           "course": "courseId",
+           "order": 2,
+           "about": "This module covers advanced programming concepts.",
+           "timeToComplete": 150,
+           "topics": []
+         }
+       ]
+       ```
+     - For a specific `:moduleId`:
+       ```json
+       {
+         "_id": "moduleId",
+         "title": "Introduction to Programming",
+         "course": "courseId",
+         "order": 1,
+         "about": "This module introduces the basics of programming.",
+         "timeToComplete": 120,
+         "topics": []
+       }
+       ```
+
+3. **Update a Module**
+   - **Endpoint**: `PUT /modules/:moduleId`
+   - **Headers**: `{ "Authorization": "Bearer <token>" }`
+   - **Body**:
+     ```json
+     {
+       "title": "Updated Module Title",
+       "order": 2,
+       "about": "Updated module description.",
+       "timeToComplete": 130
+     }
+     ```

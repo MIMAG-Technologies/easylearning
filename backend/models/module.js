@@ -6,7 +6,7 @@ const ModuleSchema = new Schema({
   course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
   order: { type: Number, required: true },
   about: { type: String, required: true },
-  timeToComplete: { type: Number, required: true }, // in hours
+  timeToComplete: { type: Number, required: true },
   topics: [{ type: Schema.Types.ObjectId, ref: "Topic" }],
 });
 
