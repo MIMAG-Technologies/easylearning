@@ -1,0 +1,95 @@
+#AuthContainer * {
+  margin: 0%;
+  padding: 0%;
+  font-family: OpenSans, Arial, sans-serif;
+}
+#AuthContainer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#AuthContainer .x-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+#Auth {
+  width: 400px;
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px;
+}
+
+#Auth form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#password-container svg {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+#password-container .info-text {
+  text-align: start;
+  font-size: 14px;
+  color: gray;
+  margin: 3px 0px;
+}
+#password-container {
+  width: 100%;
+  position: relative;
+}
+#Auth form input {
+  height: unset;
+  width: calc(100% - 32px);
+  padding: 12px 16px;
+  line-height: 22px;
+  font-size: 16px;
+  outline: none;
+  border-radius: 2px;
+  border: 1px solid black;
+}
+#Auth p {
+  text-wrap: balance;
+  text-align: center;
+}
+#Auth label {
+  font-weight: bold;
+  font-size: 14px;
+}
+.line {
+  width: 100%;
+  border: 0.5px solid rgb(184, 182, 182);
+  margin: 10px 0px !important;
+}
+#Auth form button {
+  background: rgb(0, 86, 210);
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
+  text-align: center;
+  transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s,
+    color 250ms ease-out 0s;
+  color: rgb(255, 255, 255);
+  padding: 12px 32px;
+  cursor: pointer;
+}
