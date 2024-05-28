@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
