@@ -2,8 +2,10 @@ const multer = require("multer");
 const path = require("path");
 const sharp = require("sharp");
 
+// Set up memory storage for multer
 const storage = multer.memoryStorage();
 
+// Configure multer
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1024 * 1024 }, // 1MB file size limit
@@ -46,6 +48,7 @@ const uploadImage = (req, res, next) => {
       req.file.filename = filename;
       next();
     } catch (error) {
+      console.error("Error processing the image:", error); // Log the actual error
       res.status(500).send("Error processing the image.");
     }
   });

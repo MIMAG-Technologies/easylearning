@@ -358,14 +358,34 @@ All routes except `GET /categories/:categoryId` (when requesting a specific cate
 ```json
 [
   {
-    "_id": "60b7c2b5f1d2b10c8c8d2b10",
+    "_id": "6650bdb5a5f777b66e243a05",
     "name": "Psychology",
-    "__v": 0
+    "numCourses": 0
   },
   {
-    "_id": "60b7c2b6f1d2b10c8c8d2b11",
+    "_id": "6650be0ca5f777b66e243a08",
     "name": "Sociology",
-    "__v": 0
+    "numCourses": 2
+  },
+  {
+    "_id": "6650be15a5f777b66e243a0b",
+    "name": "Cognitive Science",
+    "numCourses": 0
+  },
+  {
+    "_id": "6650be25a5f777b66e243a0e",
+    "name": "Neuroscience",
+    "numCourses": 0
+  },
+  {
+    "_id": "6650be2ea5f777b66e243a11",
+    "name": "Behavioral Economics",
+    "numCourses": 0
+  },
+  {
+    "_id": "6650be38a5f777b66e243a15",
+    "name": "Clinical Psychology",
+    "numCourses": 0
   }
 ]
 ```

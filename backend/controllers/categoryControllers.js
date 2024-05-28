@@ -27,13 +27,30 @@ const createCategory = async (req, res) => {
 };
 
 // Function to get category by ID or get all categories
+// Function to get category by ID or get all categories with number of courses
 const getCategoryById = async (req, res) => {
   try {
     const { categoryId } = req.params;
 
     if (categoryId === "all") {
-      // Return all categories
-      const categories = await Category.find();
+      // Return all categories with number of courses
+      const categories = await Category.aggregate([
+        {
+          $lookup: {
+            from: "courses",
+            localField: "_id",
+            foreignField: "category",
+            as: "courses",
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            numCourses: { $size: "$courses" },
+          },
+        },
+      ]);
       return res.status(200).json(categories);
     }
 
