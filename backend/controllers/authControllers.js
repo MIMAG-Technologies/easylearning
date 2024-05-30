@@ -80,6 +80,7 @@ const createStudent = async (req, res) => {
     const user = new User({
       name,
       email,
+      profilePhotoUrl: "",
       password: hashedPassword,
       role: "student",
     });
@@ -140,6 +141,7 @@ const createTeacher = async (req, res) => {
     const user = new User({
       name,
       email,
+      profilePhotoUrl: "",
       password: hashedPassword,
       role: "teacher",
     });

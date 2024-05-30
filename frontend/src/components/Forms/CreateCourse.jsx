@@ -28,6 +28,7 @@ function CreateCourse(props) {
       .get("http://localhost:5000/api/v1/fetch/users/teacher/all")
       .then((response) => {
         setInstructors(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching instructors:", error);

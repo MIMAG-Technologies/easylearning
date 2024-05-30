@@ -62,7 +62,14 @@ function SignIn() {
   return (
     <div id="AuthContainer">
       <div id="Auth">
-        <X className="x-btn" />
+        <X
+          className="x-btn"
+          onClick={() => {
+            if (who === "teacher") {
+              navigate("/admin/teacher-management"); // Redirect to appropriate page for
+            }
+          }}
+        />
         <h2>{who === "user" ? "Sign up" : "Create Teacher"}</h2>
         <p>
           {who === "user"
