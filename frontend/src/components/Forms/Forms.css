@@ -1,0 +1,73 @@
+.FormContainer {
+  background-color: rgba(128, 128, 128, 0.553);
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.Forms {
+  padding: 15px;
+  padding-top: 40px;
+  background-color: white;
+  border-radius: 10px;
+  margin: auto 10px;
+  width: 60%;
+  position: relative;
+}
+
+.Forms form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.Forms form button {
+  background: rgb(0, 86, 210);
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+  transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s,
+    color 250ms ease-out 0s;
+  color: rgb(255, 255, 255);
+  padding: 12px 32px;
+  cursor: pointer;
+}
+.Forms form textarea {
+  resize: none;
+  height: 70px !important;
+}
+.Forms form input:not(input[type="file"]),
+.Forms form select {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #555;
+  outline: none;
+}
+.Forms form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.Forms form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 49%;
+  height: 100%;
+  justify-content: space-between;
+}
+.Forms form > div .imagecontainer img {
+  width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+}

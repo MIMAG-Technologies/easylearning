@@ -1,8 +1,17 @@
-import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./Admin.css";
+import { AuthContext } from "../../context/AuthContext";
 
 function AdminNav() {
+  const navigate = useNavigate();
+  const { user } = React.useContext(AuthContext);
+  useEffect(() => {
+    if (user.role !== "admin" && user.name !== "") {
+      navigate("/");
+    }
+  }, [user]);
+
   return (
     <>
       <div id="AdminNavTop">

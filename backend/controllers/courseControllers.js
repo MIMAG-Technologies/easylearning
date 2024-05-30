@@ -1,6 +1,6 @@
 const Course = require("../models/course");
 const User = require("../models/user");
-const Category = require("../models/catagory");
+const Category = require("../models/category");
 
 // Create a new course
 const createCourse = async (req, res) => {
@@ -18,6 +18,9 @@ const createCourse = async (req, res) => {
       description,
       thumbnailUrl,
       modules,
+      providingInstitution,
+      level,
+      expectedDuration,
     } = req.body;
 
     // Check if the course title already exists
@@ -36,6 +39,9 @@ const createCourse = async (req, res) => {
       description,
       thumbnailUrl,
       modules,
+      providingInstitution,
+      level,
+      expectedDuration,
     });
 
     await newCourse.save();

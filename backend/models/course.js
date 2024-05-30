@@ -12,6 +12,13 @@ const CourseSchema = new Schema({
   modules: [{ type: Schema.Types.ObjectId, ref: "Module" }],
   reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   studentsEnrolled: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  providingInstitution: { type: String, required: true },
+  level: {
+    type: String,
+    enum: ["Beginner", "Intermediate", "Advance"],
+    required: true,
+  },
+  expectedDuration: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
