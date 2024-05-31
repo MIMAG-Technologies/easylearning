@@ -13,6 +13,7 @@ import CategoryManagement from "./components/Admin/Sections/CategoryManagement";
 import CourseManagement from "./components/Admin/Sections/CourseManagement";
 import StudentMangement from "./components/Admin/Sections/StudentMangement";
 import TeacherManagement from "./components/Admin/Sections/TeacherManagement";
+import CreateCourse from "./components/Forms/CreateCourse";
 import Home from "./components/Home/Home";
 import { useContext } from "react";
 
@@ -27,7 +28,10 @@ function App() {
         <Route path="/auth/login/:who" element={<Login />} />
         <Route path="/admin" element={<AdminNav />}>
           <Route path="category-management" element={<CategoryManagement />} />
-          <Route path="course-management" element={<CourseManagement />} />
+          <Route path="course-management" element={<CourseManagement />}>
+            <Route path="create-course" element={<CreateCourse />} />
+            <Route path="edit-course/:id" element={<CreateCourse />} />
+          </Route>
           <Route path="student-management" element={<StudentMangement />} />
           <Route path="teacher-management" element={<TeacherManagement />} />
         </Route>

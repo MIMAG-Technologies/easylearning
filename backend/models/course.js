@@ -18,6 +18,16 @@ const CourseSchema = new Schema({
     enum: ["Beginner", "Intermediate", "Advance"],
     required: true,
   },
+  belongTo: {
+    type: String,
+    enum: [
+      "For Individuals",
+      "For Corporates",
+      "For Universities",
+      "For Governments",
+    ],
+    required: true,
+  },
   expectedDuration: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

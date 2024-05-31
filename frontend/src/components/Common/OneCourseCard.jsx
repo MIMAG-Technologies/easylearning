@@ -1,31 +1,61 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "./CourseCard.css";
+import { Pencil, Star } from "lucide-react";
+import instituteimg from "../../assets/Images/instituteimg.png";
+import noImg from "../../assets/Images/no-thumbnail.jpg";
 
-function OneCourseCard() {
-  const course = {
-    _id: "courseId1",
-    title: "Introduction to Python",
-    price: 2999,
-    category: "6650be0ca5f777b66e243a08",
-    instructor: "userId",
-    whatWillLearn: [
-      "Learn Python basics",
-      "Understand data types and structures",
-      "Write basic programs in Python",
-      "Implement functions and loops",
-    ],
-    description: "This course covers the basics of Python programming...",
-    thumbnailUrl:
-      "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/14/b2d530f1ad11e7ab380fc0c6c817a8/Search-Thumbnail.jpg?auto=format%2Ccompress%2C%20enhance&dpr=1&w=265&h=204&fit=crop&q=50",
-    modules: [],
-    reviews: [],
-    studentsEnrolled: [],
-    createdAt: "2024-05-24T12:00:00.000Z",
-    updatedAt: "2024-05-24T12:00:00.000Z",
+function OneCourseCard(props) {
+  function truncateTitle(title) {
+    if (title.length > 50) {
+      return title.slice(0, 47) + "...";
+    } else {
+      return title;
+    }
+  }
+
+  const loc = useLocation();
+  const navigate = useNavigate();
+  const { course } = props;
+
+  const handleEditClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/admin/course-management/edit-course/${course._id}`);
   };
+
   return (
     <Link to={"#"} className="OneCourseCard">
-      <img src={course.thumbnailUrl} alt="" />
+      <img
+        src={course.thumbnailUrl === "" ? noImg : course.thumbnailUrl}
+        alt=""
+      />
+      <span>
+        <img src={instituteimg} alt="" />
+        <p>{course.providingInstitution}</p>
+      </span>
+      <h3 className="course_title">{truncateTitle(course.title)}</h3>
+
+      <span>
+        <Star
+          size={20}
+          className="star"
+          color="#F2D049"
+          strokeWidth={1.75}
+          absoluteStrokeWidth
+        />
+        0.0 (0 reviews)
+      </span>
+      <span>
+        {course.level} ● Course ● {course.expectedDuration}
+        {loc.pathname === "/admin/course-management" && (
+          <Pencil
+            size={16}
+            className="editCoursebtn"
+            onClick={handleEditClick}
+          />
+        )}
+      </span>
     </Link>
   );
 }

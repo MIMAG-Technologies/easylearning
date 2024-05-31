@@ -1,19 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import {
+  fetchInstructors,
+  fetchCategories,
+  uploadFile,
+  createCourse,
+  fetchCourse,
+  updateCourse, // Add the updateCourse function
+} from "../utils/courseUtils";
 import noImg from "../../assets/Images/no-thumbnail.jpg";
 import { X } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function CreateCourse(props) {
-  const { action, setisCourseEditorOpen } = props;
+function CreateCourse() {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+  const loc = useLocation();
   const [instructors, setInstructors] = useState([]);
   const [categories, setCategories] = useState([]);
+  const belongsTo = [
+    "For Individuals",
+    "For Corporates",
+    "For Universities",
+    "For Governments",
+  ];
   const [formData, setFormData] = useState({
     title: "",
     price: "",
     instructor: "",
     category: "",
+    belongTo: "",
     whatWillLearn: "",
     thumbnailUrl: "",
     description: "",
@@ -22,28 +38,41 @@ function CreateCourse(props) {
     expectedDuration: "",
   });
 
-  useEffect(() => {
-    // Fetch instructors
-    axios
-      .get("http://localhost:5000/api/v1/fetch/users/teacher/all")
-      .then((response) => {
-        setInstructors(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching instructors:", error);
-      });
+  const isEditMode = loc.pathname.includes("edit-course");
+  const courseId = isEditMode ? loc.pathname.split("/")[4] : null;
 
-    // Fetch categories
-    axios
-      .get("http://localhost:5000/api/v1/categories/all")
-      .then((response) => {
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const instructorsData = await fetchInstructors();
+        setInstructors(instructorsData);
+
+        const categoriesData = await fetchCategories();
+        setCategories(categoriesData);
+
+        if (isEditMode) {
+          const courseData = await fetchCourse(courseId);
+          setFormData({
+            title: courseData.title,
+            price: courseData.price,
+            instructor: courseData.instructor._id,
+            category: courseData.category._id,
+            belongTo: courseData.belongTo,
+            whatWillLearn: courseData.whatWillLearn.join("\n"),
+            thumbnailUrl: courseData.thumbnailUrl,
+            description: courseData.description,
+            providingInstitution: courseData.providingInstitution,
+            level: courseData.level,
+            expectedDuration: courseData.expectedDuration,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [isEditMode, courseId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,57 +85,66 @@ function CreateCourse(props) {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size > 1024 * 1024) {
-      // 1MB limit
       window.alert("File size should be less than 1MB");
       setFile(null);
-      fileInputRef.current.value = null; // Clear the file input
+      fileInputRef.current.value = null;
     } else {
       setFile(selectedFile);
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleFileUpload = async (e) => {
     e.preventDefault();
     if (!file) {
       window.alert("Please select a file first.");
       return;
     }
 
-    const uploadData = new FormData();
-    uploadData.append("image", file);
-
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/upload`,
-        uploadData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("File uploaded successfully:", response.data);
-      window.alert("File uploaded successfully.");
+      const uploadResult = await uploadFile(file);
       setFormData((prevData) => ({
         ...prevData,
-        thumbnailUrl: response.data.imageUrl,
+        thumbnailUrl: uploadResult.imageUrl,
       }));
-      // Clear the file input after successful upload
+      window.alert("File uploaded successfully.");
       setFile(null);
       fileInputRef.current.value = null;
     } catch (error) {
-      console.error("There was an error uploading the file!", error);
       window.alert("Error uploading the file.");
-      // Clear the file input on error
       setFile(null);
       fileInputRef.current.value = null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const courseData = {
+      ...formData,
+      whatWillLearn: formData.whatWillLearn.split("\n"),
+    };
+
+    try {
+      if (isEditMode) {
+        await updateCourse(courseId, courseData); // Call the update function
+        window.alert("Course updated successfully.");
+      } else {
+        await createCourse(courseData); // Call the create function
+        window.alert("Course created successfully.");
+      }
+      navigate("/admin/course-management");
+    } catch (error) {
+      window.alert(`Error ${isEditMode ? "updating" : "creating"} course.`);
     }
   };
 
   return (
     <div className="FormContainer">
       <div className="Forms">
-        <X className="x-btn" onClick={() => setisCourseEditorOpen(false)} />
+        <X
+          className="x-btn"
+          onClick={() => navigate("/admin/course-management")}
+        />
         <form onSubmit={handleSubmit}>
           <div className="LeftForm">
             <label htmlFor="title">Enter Title of Course</label>
@@ -116,6 +154,7 @@ function CreateCourse(props) {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
+              placeholder="Enter the course title"
               required
             />
 
@@ -126,6 +165,7 @@ function CreateCourse(props) {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
+              placeholder="Enter the course price"
               required
             />
 
@@ -136,6 +176,7 @@ function CreateCourse(props) {
               name="expectedDuration"
               value={formData.expectedDuration}
               onChange={handleInputChange}
+              placeholder="Enter the expected duration (e.g., 10 weeks)"
               required
             />
 
@@ -146,6 +187,7 @@ function CreateCourse(props) {
               name="providingInstitution"
               value={formData.providingInstitution}
               onChange={handleInputChange}
+              placeholder="Enter the providing institution"
               required
             />
 
@@ -155,6 +197,7 @@ function CreateCourse(props) {
               name="whatWillLearn"
               value={formData.whatWillLearn}
               onChange={handleInputChange}
+              placeholder="Enter the key learning outcomes, separated by new lines"
               required
               rows="5"
             ></textarea>
@@ -165,14 +208,16 @@ function CreateCourse(props) {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              placeholder="Enter the course description"
               required
               rows="5"
             ></textarea>
+            <button type="submit">{isEditMode ? "Edit" : "Submit"}</button>
           </div>
           <div className="RightForm">
             <img
               src={formData.thumbnailUrl === "" ? noImg : formData.thumbnailUrl}
-              alt=""
+              alt="Course Thumbnail"
             />
             <label htmlFor="thumbnail">Upload Thumbnail</label>
             <span>
@@ -181,6 +226,7 @@ function CreateCourse(props) {
                 onChange={handleFileChange}
                 ref={fileInputRef}
               />
+              <button onClick={handleFileUpload}>Upload</button>
             </span>
             <label htmlFor="level">Level</label>
             <select
@@ -203,13 +249,29 @@ function CreateCourse(props) {
               onChange={handleInputChange}
               required
             >
-              <option value="" selected disabled>
+              <option value="" disabled>
                 Select Instructor
               </option>
-
               {instructors.map((instructor) => (
                 <option key={instructor._id} value={instructor._id}>
                   {instructor.name}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="belongTo">Belongs To</label>
+            <select
+              id="belongTo"
+              name="belongTo"
+              value={formData.belongTo}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled>
+                Select Sector
+              </option>
+              {belongsTo.map((belong) => (
+                <option key={belong} value={belong}>
+                  {belong}
                 </option>
               ))}
             </select>
@@ -222,7 +284,7 @@ function CreateCourse(props) {
               onChange={handleInputChange}
               required
             >
-              <option value="" selected disabled>
+              <option value="" disabled>
                 Select Category
               </option>
               {categories.map((category) => (
@@ -231,7 +293,6 @@ function CreateCourse(props) {
                 </option>
               ))}
             </select>
-            <button type="submit">Submit</button>
           </div>
         </form>
       </div>

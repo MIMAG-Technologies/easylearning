@@ -5,6 +5,7 @@
   left: 0%;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,8 +67,10 @@
   height: 100%;
   justify-content: space-between;
 }
-.Forms form > div .imagecontainer img {
-  width: 100%;
+.Forms form > div img {
+  align-self: center;
+  width: 250px !important;
+  height: 150px !important;
   overflow: hidden;
   object-fit: cover;
 }

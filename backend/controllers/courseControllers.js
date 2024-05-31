@@ -11,6 +11,7 @@ const createCourse = async (req, res) => {
   try {
     const {
       title,
+      belongTo,
       price,
       instructor,
       category,
@@ -33,6 +34,7 @@ const createCourse = async (req, res) => {
     const newCourse = new Course({
       title,
       price,
+      belongTo,
       instructor,
       category,
       whatWillLearn,
@@ -94,7 +96,9 @@ const getCourseById = async (req, res) => {
 
     if (courseId === "all") {
       const courses = await Course.find()
-        .populate("instructor")
+        .select(
+          "title price thumbnailUrl reviews providingInstitution level belongTo expectedDuration "
+        )
         .populate("category");
       return res.status(200).json(courses);
     }
