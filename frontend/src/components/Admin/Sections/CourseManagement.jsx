@@ -5,9 +5,9 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { fetchCourses } from "../../utils/courseUtils";
 
 function CourseManagement() {
-  const [coursesList, setCoursesList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const loc = useLocation();
+  const [coursesList, setCoursesList] = useState([]);
 
   useEffect(() => {
     const fetchCoursesData = async () => {
@@ -18,7 +18,6 @@ function CourseManagement() {
         console.error("Error fetching courses:", error);
       }
     };
-
     fetchCoursesData();
   }, [loc.pathname]);
 
@@ -32,7 +31,7 @@ function CourseManagement() {
     const lowercasedQuery = searchQuery.toLowerCase();
     return (
       course.title.toLowerCase().includes(lowercasedQuery) ||
-      course.category.name.toLowerCase().includes(lowercasedQuery) ||
+      course.category?.name.toLowerCase().includes(lowercasedQuery) ||
       course.providingInstitution.toLowerCase().includes(lowercasedQuery) ||
       course.level.toLowerCase().includes(lowercasedQuery) ||
       course.belongTo.toLowerCase().includes(lowercasedQuery)
@@ -60,9 +59,13 @@ function CourseManagement() {
         </button>
       </div>
       <div className="courses-container">
-        {filteredCourses.map((course) => (
-          <OneCourseCard key={course._id} course={course} />
-        ))}
+        {filteredCourses.length === 0 ? (
+          <h1 style={{ textAlign: "center" }}>No Courses to Display</h1>
+        ) : (
+          filteredCourses.map((course) => (
+            <OneCourseCard key={course._id} course={course} />
+          ))
+        )}
       </div>
     </>
   );

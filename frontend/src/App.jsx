@@ -16,16 +16,25 @@ import TeacherManagement from "./components/Admin/Sections/TeacherManagement";
 import CreateCourse from "./components/Forms/CreateCourse";
 import Home from "./components/Home/Home";
 import { useContext } from "react";
+import NavFooter from "./components/Common/NavFooter";
 
 function App() {
   const { isLoading } = useContext(AuthContext);
   return (
     <>
       {isLoading && <Loader />}
+
+      {/* Same For All Users Route */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<NavFooter />}>
+          <Route path="" element={<Home />} />
+        </Route>
+
+        {/* Auth Routes */}
         <Route path="/auth/signin/:who" element={<SignIn />} />
         <Route path="/auth/login/:who" element={<Login />} />
+
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminNav />}>
           <Route path="category-management" element={<CategoryManagement />} />
           <Route path="course-management" element={<CourseManagement />}>

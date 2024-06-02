@@ -77,7 +77,11 @@ function TeacherManagement() {
         </button>
       </div>
       <div className="teachersContainer">
-        {filteredTeachers.map((teacher) => oneTeacher(teacher))}
+        {filteredTeachers.length === 0 ? (
+          <h1 style={{ textAlign: "center" }}>No Teacher to Display</h1>
+        ) : (
+          filteredTeachers.map((teacher) => oneTeacher(teacher))
+        )}
       </div>
     </>
   );

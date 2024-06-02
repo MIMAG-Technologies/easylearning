@@ -28,7 +28,11 @@ const CourseSchema = new Schema({
     ],
     required: true,
   },
-  expectedDuration: { type: String, required: true },
+  expectedDuration: {
+    type: String,
+    enum: ["1-4 weeks", "1-4 months", "4-8 months", "8-12 months", "1-2 years"],
+    required: true,
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

@@ -170,15 +170,22 @@ function CreateCourse() {
             />
 
             <label htmlFor="expectedDuration">Expected Duration</label>
-            <input
-              type="text"
+            <select
               id="expectedDuration"
               name="expectedDuration"
               value={formData.expectedDuration}
               onChange={handleInputChange}
-              placeholder="Enter the expected duration (e.g., 10 weeks)"
               required
-            />
+            >
+              <option value="" disabled>
+                Select Duration
+              </option>{" "}
+              <option value="1-4 weeks">1-4 weeks</option>
+              <option value="1-4 months">1-4 months</option>
+              <option value="4-8 months">4-8 months</option>
+              <option value="8-12 months">8-12 months</option>
+              <option value="1-2 years">1-2 years</option>
+            </select>
 
             <label htmlFor="providingInstitution">Providing Institution</label>
             <input

@@ -5,11 +5,11 @@ import axios from "axios";
 
 function CategoryManagement() {
   const [categoriesList, setCategoriesList] = useState([]);
+  const { setisLoading } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingName, setEditingName] = useState("");
   const token = localStorage.getItem("token");
-  const { setisLoading } = useContext(AuthContext);
 
   useEffect(() => {
     fetchCategories();
@@ -175,7 +175,11 @@ function CategoryManagement() {
         </button>
       </div>
       <div className="categoryList">
-        {filteredCategories.map((category) => oneCategory(category))}
+        {filteredCategories.length === 0 ? (
+          <h1 style={{ textAlign: "center" }}>No Categories to Display</h1>
+        ) : (
+          filteredCategories.map((category) => oneCategory(category))
+        )}
       </div>
     </>
   );
