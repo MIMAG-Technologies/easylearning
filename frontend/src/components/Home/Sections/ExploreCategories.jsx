@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ResoursesContext } from "../../../context/ResoursesContext";
 
 function ExploreCategories(props) {
-  const { categoriesList } = props;
+  const { categoriesList } = useContext(ResoursesContext);
   return (
     <div className="ExploreCategories">
       <h1>Explore Easy Learning</h1>

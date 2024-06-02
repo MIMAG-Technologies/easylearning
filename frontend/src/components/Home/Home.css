@@ -81,11 +81,10 @@
 }
 .NewCourses div {
   transition: all 300ms ease-in-out;
-  display: flex;
   margin-top: 20px;
-  justify-content: space-between;
+  display: grid;
   gap: 20px;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 .NewCourses span button {

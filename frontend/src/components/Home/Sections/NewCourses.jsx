@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import OneCourseCard from "../../Common/OneCourseCard";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ResoursesContext } from "../../../context/ResoursesContext";
 
 function NewCourses(props) {
-  const { coursesList } = props;
+  const { coursesList } = useContext(ResoursesContext);
   const [displayedCourses, setDisplayedCourses] = useState(4);
   const [showAll, setShowAll] = useState(false);
   const toggleShowAll = () => {
