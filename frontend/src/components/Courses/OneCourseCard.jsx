@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./CourseCard.css";
+import "./OneCourse.css";
 import { Pencil, Star } from "lucide-react";
 import instituteimg from "../../assets/Images/instituteimg.png";
 import noImg from "../../assets/Images/no-thumbnail.jpg";
@@ -25,7 +25,14 @@ function OneCourseCard(props) {
   };
 
   return (
-    <Link to={"#"} className="OneCourseCard">
+    <Link
+      to={
+        loc.pathname === "/admin/course-management"
+          ? `view-course/${btoa(course._id)}`
+          : `/course/${btoa(course._id)}`
+      }
+      className="OneCourseCard"
+    >
       <img
         src={course.thumbnailUrl === "" ? noImg : course.thumbnailUrl}
         alt=""

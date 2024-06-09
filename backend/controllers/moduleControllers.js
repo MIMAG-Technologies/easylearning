@@ -3,7 +3,7 @@ const Course = require("../models/course");
 
 // Create a new module
 const createModule = async (req, res) => {
-  const { title, order, about, timeToComplete } = req.body;
+  const { title, order, about, timeToComplete, isCommon, userid } = req.body;
   const { courseId } = req.params;
   const { user } = req;
 
@@ -42,6 +42,8 @@ const createModule = async (req, res) => {
       order,
       about,
       timeToComplete,
+      isCommon,
+      userid,
     });
     await newModule.save();
 
@@ -64,7 +66,7 @@ const getModuleById = async (req, res) => {
       return res.status(200).json(modules);
     }
 
-    const module = await Module.findById(moduleId).populate("topics");
+    const module = await Module.findById(moduleId);
     if (!module) {
       return res.status(404).json({ message: "Module not found" });
     }

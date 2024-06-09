@@ -74,3 +74,8 @@
   overflow: hidden;
   object-fit: cover;
 }
+
+.create_module {
+  display: flex;
+  flex-direction: column;
+}

@@ -157,4 +157,81 @@
   flex-direction: column;
   padding-top: 10px;
   gap: 10px;
+  padding-top: 10vh;
+}
+.courses-display > p,
+.courses-display > h1 {
+  margin: 0px 10%;
+  font-size: 20px;
+}
+.courses-display > p {
+  padding: 5px 0px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(98, 98, 98);
+}
+
+.onenavbarcourse {
+  display: flex;
+  width: 80%;
+  margin: 0px auto;
+  text-decoration: none;
+  gap: 10px;
+}
+.onenavbarcourse img {
+  width: 70px;
+  height: 50px;
+  padding: 2px;
+  border: 0.5px solid gray;
+  border-radius: 3px;
+}
+.onenavbarcourse span * {
+  margin: 1px 0px;
+  color: black;
+}
+
+.onenavbarcourse span p {
+  color: rgb(98, 98, 98);
+}
+
+footer a {
+  text-decoration: none;
+  color: black;
+}
+footer {
+  padding: 20px 5vw;
+  border: 0.5px solid #e5e7e8;
+  margin-top: 20px;
+}
+.linksSection {
+  display: flex;
+  gap: 10%;
+  border-bottom: 0.5px solid #e5e7e8;
+  padding-bottom: 20px;
+}
+
+.linksSection > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.socialLinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socialLinks span {
+  display: flex;
+  gap: 10px;
+}
+.socialLinks span a {
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  background-color: black;
+  border-radius: 50%;
 }

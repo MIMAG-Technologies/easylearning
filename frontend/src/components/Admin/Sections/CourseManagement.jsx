@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CirclePlus } from "lucide-react";
-import OneCourseCard from "../../Common/OneCourseCard";
+import OneCourseCard from "../../Courses/OneCourseCard";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { fetchCourses } from "../../utils/courseUtils";
 

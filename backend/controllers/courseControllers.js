@@ -114,7 +114,8 @@ const getCourseById = async (req, res) => {
     if (courseId.match(/^[0-9a-fA-F]{24}$/)) {
       const course = await Course.findById(courseId)
         .populate("instructor")
-        .populate("category");
+        .populate("category")
+        .populate("modules");
       if (!course) {
         return res.status(404).json({ message: "Course not found" });
       }

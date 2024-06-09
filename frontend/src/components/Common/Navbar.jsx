@@ -1,7 +1,9 @@
 import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import React, { useEffect, useState, useContext, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
+
+const MAX_COURSE = 2;
 
 function Navbar() {
   const [translated, setTranslated] = useState(false);
@@ -10,7 +12,6 @@ function Navbar() {
   const [currentActiveCategory, setCurrentActiveCategory] = useState("");
   const [isCourseListSectionActive, setIsCourseListSectionActive] =
     useState(false);
-  const [delayHandler, setDelayHandler] = useState(null);
 
   const handleScroll = useCallback(() => {
     if (!translated && window.scrollY >= window.innerHeight * 0.06) {
@@ -19,6 +20,11 @@ function Navbar() {
       setTranslated(false);
     }
   }, [translated]);
+  const loc = useLocation();
+  useEffect(() => {
+    setIsDropdownOpen(false);
+    setIsCourseListSectionActive(false);
+  }, [loc.pathname]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -97,7 +103,7 @@ function Navbar() {
         <nav
           className="dropdown"
           style={{
-            top: !translated ? "14.8vh" : "8.8vh",
+            top: !translated ? "12.5vh" : "7.4vh",
           }}
         >
           <div
@@ -123,6 +129,7 @@ function Navbar() {
               Goals
             </h3>
             <Link
+              to={"/courses"}
               onMouseEnter={() => {
                 setCurrentActiveCategory("");
               }}
@@ -156,12 +163,30 @@ function Navbar() {
               }}
             >
               <h1>{currentActiveCategory}</h1>
-              {groupedCourses[currentActiveCategory]?.map((course) => (
-                <Link key={course._id}>
-                  <p> {course.providingInstitution}</p>
-                  <p> {course.title}</p>
+              <p>Courses</p>
+              {groupedCourses[currentActiveCategory]
+                ?.slice(0, MAX_COURSE)
+                .map((course) => (
+                  <Link
+                    to={`/course/${btoa(course._id)}`}
+                    key={course._id}
+                    className="onenavbarcourse"
+                  >
+                    <img src={course.thumbnailUrl} alt="" />
+                    <span>
+                      <p>{course.providingInstitution}</p>
+                      <h4>{course.title}</h4>
+                    </span>
+                  </Link>
+                ))}
+              {groupedCourses[currentActiveCategory]?.length > MAX_COURSE && (
+                <Link
+                  to={`/courses?category=${currentActiveCategory}`}
+                  className="view-more"
+                >
+                  View More
                 </Link>
-              ))}
+              )}
             </div>
           )}
           <div

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import OneCourseCard from "../../Common/OneCourseCard";
+import OneCourseCard from "../../Courses/OneCourseCard";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ResoursesContext } from "../../../context/ResoursesContext";
 
-function NewCourses(props) {
+function NewCourses() {
   const { coursesList } = useContext(ResoursesContext);
   const [displayedCourses, setDisplayedCourses] = useState(4);
   const [showAll, setShowAll] = useState(false);
@@ -33,7 +33,7 @@ function NewCourses(props) {
         <button onClick={toggleShowAll}>
           {showAll ? "Show less" : `Show all ${coursesList.length - 4}`}
         </button>
-        <Link>
+        <Link to={"/courses"}>
           View all <ArrowRight />
         </Link>
       </span>
