@@ -5,6 +5,10 @@ import { ResoursesContext } from "../../../context/ResoursesContext";
 function ExploreCategories() {
   const { categoriesList } = useContext(ResoursesContext);
 
+  if (!Array.isArray(categoriesList)) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="ExploreCategories">
       <h1>Explore Easy Learning</h1>

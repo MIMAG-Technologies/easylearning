@@ -32,6 +32,12 @@ function Navbar() {
   }, [handleScroll]);
 
   const { categoriesList, coursesList } = useContext(ResoursesContext);
+  if (!Array.isArray(categoriesList)) {
+    return <div>Loading...</div>; // Or some other fallback UI
+  }
+  if (!Array.isArray(coursesList)) {
+    return <div>Loading...</div>; // Or some other fallback UI
+  }
 
   useEffect(() => {
     if (isDropdownOpen) {

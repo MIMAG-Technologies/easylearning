@@ -16,6 +16,9 @@ function NewCourses() {
       setDisplayedCourses(4);
     }
   };
+  if (!Array.isArray(coursesList)) {
+    return <div>Loading...</div>; // Or some other fallback UI
+  }
 
   return (
     <div className="NewCourses">

@@ -13,6 +13,12 @@ function MobileNavbar() {
       document.body.style.overflow = "auto";
     }
   }, [isLevel1Open]);
+  if (!Array.isArray(categoriesList)) {
+    return <div>Loading...</div>; // Or some other fallback UI
+  }
+  if (!Array.isArray(coursesList)) {
+    return <div>Loading...</div>; // Or some other fallback UI
+  }
   return (
     <>
       <nav className="MobileNavbar">
