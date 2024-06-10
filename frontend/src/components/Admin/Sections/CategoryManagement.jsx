@@ -1,6 +1,7 @@
 import { CirclePlus, Pencil, Save, Trash2 } from "lucide-react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
+
 import axios from "axios";
 
 function CategoryManagement() {
@@ -19,7 +20,7 @@ function CategoryManagement() {
     setisLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/categories/all"
+        `${import.meta.env.VITE_API_BASE_URL}/categories/all`
       );
       setCategoriesList(response.data);
     } catch (error) {
@@ -33,7 +34,7 @@ function CategoryManagement() {
     setisLoading(true);
     try {
       await axios.put(
-        `http://localhost:5000/api/v1/categories/${category._id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/categories/${category._id}`,
         { name: editingName },
         {
           headers: {
@@ -63,7 +64,7 @@ function CategoryManagement() {
       setisLoading(true);
       try {
         await axios.delete(
-          `http://localhost:5000/api/v1/categories/${category._id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/categories/${category._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -86,7 +87,7 @@ function CategoryManagement() {
     setisLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/categories/create",
+        `${import.meta.env.VITE_API_BASE_URL}/categories/create`,
         { name: newCategoryName },
         {
           headers: {
