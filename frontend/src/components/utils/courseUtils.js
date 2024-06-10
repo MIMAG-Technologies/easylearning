@@ -71,7 +71,7 @@ export const uploadFile = async (file) => {
 
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/upload`,
+      `${import.meta.env.VITE_API_BASE_URL}/upload/coursethumbnail`,
       uploadData,
       {
         headers: {

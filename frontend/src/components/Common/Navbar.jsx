@@ -64,7 +64,7 @@ function Navbar() {
       >
         <div className="upperNav">
           <Link className="sector-active">For Individuals</Link>
-          <Link>For Businesses</Link>
+          <Link>For Corporates</Link>
           <Link>For Universities</Link>
           <Link>For Governments</Link>
         </div>

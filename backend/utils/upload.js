@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const sharp = require("sharp");
+const fs = require("fs");
 
 // Set up memory storage for multer
 const storage = multer.memoryStorage();
@@ -24,7 +25,7 @@ const upload = multer({
   },
 });
 
-const uploadImage = (req, res, next) => {
+const uploadImage = (uploadType) => (req, res, next) => {
   const uploadSingle = upload.single("image");
   uploadSingle(req, res, async (err) => {
     if (err) {
@@ -36,8 +37,17 @@ const uploadImage = (req, res, next) => {
     }
 
     try {
+      const subfolder =
+        uploadType === "coursethumbnail" ? "coursethumbnail" : "userprofile";
+      const uploadsFolderPath = path.join(__dirname, "../uploads", subfolder);
+
+      // Ensure the subfolder exists
+      if (!fs.existsSync(uploadsFolderPath)) {
+        fs.mkdirSync(uploadsFolderPath, { recursive: true });
+      }
+
       const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg`;
-      const filepath = path.join(__dirname, "../uploads", filename);
+      const filepath = path.join(uploadsFolderPath, filename);
 
       await sharp(req.file.buffer)
         .resize({ width: 1280, height: 720, fit: "cover" }) // 16:9 aspect ratio
@@ -46,6 +56,7 @@ const uploadImage = (req, res, next) => {
         .toFile(filepath);
 
       req.file.filename = filename;
+      req.file.filepath = `/uploads/${subfolder}/${filename}`;
       next();
     } catch (error) {
       console.error("Error processing the image:", error); // Log the actual error

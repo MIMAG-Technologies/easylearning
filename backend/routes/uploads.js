@@ -1,14 +1,21 @@
 const express = require("express");
-const path = require("path");
 const uploadImage = require("../utils/upload");
 
 const router = express.Router();
 
-// Endpoint for uploading images
-router.post("/upload", uploadImage, (req, res) => {
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${
-    req.file.filename
-  }`;
+// Endpoint for uploading course thumbnails
+router.post(
+  "/upload/coursethumbnail",
+  uploadImage("coursethumbnail"),
+  (req, res) => {
+    const imageUrl = `${req.protocol}://${req.get("host")}${req.file.filepath}`;
+    res.send({ imageUrl });
+  }
+);
+
+// Endpoint for uploading user profile images
+router.post("/upload/userprofile", uploadImage("userprofile"), (req, res) => {
+  const imageUrl = `${req.protocol}://${req.get("host")}${req.file.filepath}`;
   res.send({ imageUrl });
 });
 

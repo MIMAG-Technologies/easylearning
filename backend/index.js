@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const fs = require("fs"); // Import fs module for file system operations
+const fs = require("fs");
 const uploadRoute = require("./routes/uploads");
 const connectDB = require("./config/connection");
 const notFoundHandler = require("./middlewares/notFoundHandler");
@@ -11,10 +11,13 @@ const courseRouter = require("./routes/course");
 const materialRouter = require("./routes/material");
 const moduleRouter = require("./routes/module");
 const topicRouter = require("./routes/topic");
+const { createAdminUser } = require("./controllers/authControllers");
 
 const app = express();
 
-connectDB();
+connectDB().then(() => {
+  createAdminUser();
+});
 
 // Middleware
 app.use(cors());

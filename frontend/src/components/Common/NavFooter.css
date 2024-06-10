@@ -235,3 +235,111 @@ footer {
   background-color: black;
   border-radius: 50%;
 }
+
+/* MOBILE NAVBAR */
+
+.MobileNavbar {
+  z-index: 10;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: calc(100% - 20px);
+  padding: 10px;
+  height: 6vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(209, 208, 208);
+}
+
+.MobileNavbar .logo {
+  font-size: 26px;
+}
+.MobileNavbar svg {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.MobileNavbar a {
+  text-decoration: none;
+}
+.level1 {
+  width: 100%;
+  position: relative;
+  height: 94vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: fixed;
+  top: calc(6vh + 21px);
+  transition: all 300ms ease-in-out;
+  background-color: white;
+}
+
+.level1 .sectors {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid rgb(209, 208, 208);
+}
+
+.level1 .sectors a,
+.level1 .categories a,
+.level1 .categories p {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.level1 .categories p {
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+}
+.level1 .categories * {
+  margin: 0%;
+}
+.level1 .categories {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  padding: 20px;
+  border-bottom: 1px solid rgb(209, 208, 208);
+}
+.login-signin-box {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: white;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.501);
+}
+.login-signin-box .joininbtn {
+  text-decoration: none;
+  width: calc(90% - 60px);
+  text-align: center;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 10px 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+}
+.login-signin-box .loginbtn {
+  text-decoration: none;
+  width: calc(90% - 60px);
+  background-color: white;
+  color: var(--primary-color);
+  padding: 9px 29px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  text-align: center;
+}

@@ -215,9 +215,39 @@ const adminLogin = async (req, res) => {
   }
 };
 
+const createAdminUser = async () => {
+  try {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    // Check if the admin user already exists
+    const existingAdmin = await User.findOne({ email: adminEmail });
+
+    if (!existingAdmin) {
+      // Hash the password
+      const hashedPassword = await hashPassword(adminPassword);
+
+      // Create the admin user
+      const adminUser = new User({
+        name: "Admin",
+        email: adminEmail,
+        password: hashedPassword,
+        role: "admin",
+      });
+
+      await adminUser.save();
+      console.log("Admin user created successfully");
+    } else {
+      console.log("Admin user already exists");
+    }
+  } catch (error) {
+    console.error("Error creating admin user:", error);
+  }
+};
 module.exports = {
   sendOTP,
   checkOTP,
+  createAdminUser,
   createStudent,
   studentLogin,
   createTeacher,
