@@ -204,6 +204,7 @@ footer {
 }
 .linksSection {
   display: flex;
+  flex-wrap: wrap;
   gap: 10%;
   border-bottom: 0.5px solid #e5e7e8;
   padding-bottom: 20px;
@@ -234,6 +235,12 @@ footer {
   color: white;
   background-color: black;
   border-radius: 50%;
+}
+@media screen and (max-width: 300px) {
+  .socialLinks {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 /* MOBILE NAVBAR */

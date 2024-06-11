@@ -45,7 +45,12 @@ function Login() {
   return (
     <div id="AuthContainer">
       <div id="Auth">
-        <X className="x-btn" />
+        <X
+          className="x-btn"
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <h2>Welcome Back</h2>
         <p>Login as a {user}</p>
         <form onSubmit={handleSubmit}>

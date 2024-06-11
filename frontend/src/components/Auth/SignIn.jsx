@@ -14,8 +14,12 @@ function SignIn() {
   const { who } = useParams();
   const navigate = useNavigate();
   const { user, signin } = React.useContext(AuthContext);
+  const validUsers = ["student", "teacher", "admin"];
 
   useEffect(() => {
+    if (!validUsers.includes(who)) {
+      navigate("/pagenotexists");
+    }
     if (who === "teacher") {
       setFormData({
         ...formData,
@@ -48,12 +52,7 @@ function SignIn() {
         formData.password,
         formData.role
       );
-      // Redirect based on user type
-      if (who === "user") {
-        navigate("/");
-      } else if (who === "teacher") {
-        navigate("/admin/teacher-management"); // Redirect to appropriate page for admin
-      }
+      navigate(-1);
     } catch (error) {
       console.error("Failed to sign in", error);
     }
@@ -65,9 +64,7 @@ function SignIn() {
         <X
           className="x-btn"
           onClick={() => {
-            if (who === "teacher") {
-              navigate("/admin/teacher-management"); // Redirect to appropriate page for
-            }
+            navigate(-1);
           }}
         />
         <h2>{who === "user" ? "Sign up" : "Create Teacher"}</h2>

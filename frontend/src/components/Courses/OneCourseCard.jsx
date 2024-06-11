@@ -24,6 +24,10 @@ function OneCourseCard(props) {
     navigate(`/admin/course-management/edit-course/${course._id}`);
   };
 
+  const handleImageError = (e) => {
+    e.target.src = noImg; // Set the source to the alternative image in case of error
+  };
+
   return (
     <Link
       to={
@@ -33,10 +37,7 @@ function OneCourseCard(props) {
       }
       className="OneCourseCard"
     >
-      <img
-        src={course.thumbnailUrl === "" ? noImg : course.thumbnailUrl}
-        alt=""
-      />
+      <img src={course.thumbnailUrl} onError={handleImageError} alt="" />
       <span>
         <img src={instituteimg} alt="" />
         <p>{course.providingInstitution}</p>

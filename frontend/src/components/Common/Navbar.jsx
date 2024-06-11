@@ -98,10 +98,10 @@ function Navbar() {
             </Link>
           </div>
           <p>
-            <Link>Login</Link>
+            <Link to={"/auth/login/student"}>Login</Link>
           </p>
           <button>
-            <Link>Join For Free</Link>
+            <Link to={"/auth/signin/student"}>Join For Free</Link>
           </button>
         </div>
       </nav>

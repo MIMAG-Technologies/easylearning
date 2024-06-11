@@ -34,6 +34,23 @@
   font-size: 20px;
   border-radius: 5px;
 }
+@media screen and (max-width: 900px) {
+  .LandingPage {
+    flex-direction: column-reverse;
+  }
+  .LandingPage img {
+    width: 70%;
+  }
+  .LandingPage > div {
+    width: 90%;
+    text-align: center;
+    margin-bottom: 5vh;
+  }
+  .LandingPage h1 {
+    font-size: 50px;
+    margin: 0px;
+  }
+}
 
 /* <===========>  Collaborations <==========> */
 
@@ -117,6 +134,22 @@
   border-radius: 5px;
   border: 2px solid var(--primary-color);
 }
+@media screen and (max-width: 650px) {
+  .NewCourses span button {
+    width: 100%;
+  }
+  .NewCourses span a {
+    width: calc(100% - 60px);
+    align-items: center;
+  }
+  .NewCourses div {
+    align-items: center;
+    grid-template-columns: 1fr !important; /* Change to one column when screen width is less than 280px */
+  }
+  .NewCourses span {
+    flex-direction: column;
+  }
+}
 
 /* <===========>  Categories <==========> */
 
@@ -138,9 +171,9 @@
 }
 
 .ExploreCategories div .category-item {
+  width: 280px;
   transition: all 0.5s ease;
   height: 80px;
-  width: 280px;
   border-radius: 5px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.292);
   display: flex;
@@ -163,6 +196,16 @@
   margin: 0%;
   font-weight: 600;
   color: black;
+}
+
+@media screen and (max-width: 650px) {
+  .ExploreCategories div .category-item {
+    width: 90%;
+  }
+  .ExploreCategories div {
+    align-items: center;
+    grid-template-columns: 1fr !important; /* Change to one column when screen width is less than 280px */
+  }
 }
 
 /* <===========>  OutCome <==========> */

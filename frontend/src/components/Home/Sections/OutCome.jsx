@@ -11,7 +11,7 @@ function OutCome() {
           77% of learners report career benefits, such as new skills, increased
           pay, and new job opportunities.
         </p>
-        <Link>Join for free</Link>
+        <Link to={"/auth/signin/student"}>Join for free</Link>
       </div>
     </div>
   );

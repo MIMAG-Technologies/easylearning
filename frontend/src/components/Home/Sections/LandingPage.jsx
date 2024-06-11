@@ -12,7 +12,7 @@ function LandingPage() {
           and companies
         </p>
 
-        <Link>Join for Free</Link>
+        <Link to={"/auth/signin/student"}>Join for Free</Link>
       </div>
       <img src={LandingPageImg} alt="" />
     </div>

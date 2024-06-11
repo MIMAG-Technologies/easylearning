@@ -61,7 +61,14 @@ function MobileNavbar() {
         </div>
         <div className="categories">
           <h3>Goals</h3>
-          <Link to={"/courses"}>Explore all courses</Link>
+          <Link
+            to={"/courses"}
+            onClick={() => {
+              setisLevel1Open(!isLevel1Open);
+            }}
+          >
+            Explore all courses
+          </Link>
           <h3>Categories</h3>
           {categoriesList.map((category) => (
             <p key={category._id}>
@@ -70,8 +77,12 @@ function MobileNavbar() {
           ))}
         </div>
         <div className="login-signin-box">
-          <Link className="joininbtn">Join for Free</Link>
-          <Link className="loginbtn">Log In</Link>
+          <Link className="joininbtn" to={"/auth/signin/student"}>
+            Join for Free
+          </Link>
+          <Link className="loginbtn" to={"/auth/login/student"}>
+            Log In
+          </Link>
         </div>
       </nav>
     </>
