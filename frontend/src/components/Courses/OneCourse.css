@@ -26,6 +26,7 @@
   max-width: 260px;
   min-height: 300px;
   padding: 10px;
+  background-color: white;
   border-radius: 5px;
   height: fit-content;
   display: flex;
@@ -56,6 +57,13 @@
   border-radius: 5px;
   margin-left: auto;
   transform: translateX(10px);
+}
+
+@media screen and (max-width: 600px) {
+  .OneCourseCard {
+    max-width: none;
+    width: calc(100% - 20px);
+  }
 }
 
 /* =========================================ONE COURSE PAGE============================================= */
@@ -276,6 +284,7 @@ section#modules .mkd {
   display: flex;
   padding: 20vh 5vw;
   background-color: #f5f7f8;
+  position: relative;
 }
 
 .BrowseCourse .filtersSection {
@@ -297,4 +306,39 @@ section#modules .mkd {
   height: fit-content;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+@media screen and (max-width: 600px) {
+  .BrowseCourse {
+    padding: 13vh 5vw;
+  }
+  .BrowseCourse .filtersSection {
+    width: calc(100% - 10vw);
+    padding: 0px 5vw;
+    height: 100vh;
+    transition: all 200ms ease-in-out;
+    background-color: white;
+    position: fixed;
+    top: 7vh;
+    left: -100%;
+  }
+  .BrowseCourse .filtersSection h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .BrowseCourse .courseList > div {
+    width: 90vw;
+  }
+  .BrowseCourse .courseList > button {
+    border: 1px solid var(--primary-color);
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 18px;
+    color: var(--primary-color);
+  }
 }

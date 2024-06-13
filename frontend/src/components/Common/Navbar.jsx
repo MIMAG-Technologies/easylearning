@@ -2,16 +2,22 @@ import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
+import { AuthContext } from "../../context/AuthContext";
+import noProfilePhoto from "../../assets/Images/profile-pic.png";
 
 const MAX_COURSE = 2;
 
 function Navbar() {
   const [translated, setTranslated] = useState(false);
+  const [sectorActive, setsectorActive] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [groupedCourses, setGroupedCourses] = useState({});
   const [currentActiveCategory, setCurrentActiveCategory] = useState("");
   const [isCourseListSectionActive, setIsCourseListSectionActive] =
     useState(false);
+  const handleImageError = (e) => {
+    e.target.src = noProfilePhoto; // Set the source to the alternative image in case of error
+  };
 
   const handleScroll = useCallback(() => {
     if (!translated && window.scrollY >= window.innerHeight * 0.06) {
@@ -32,6 +38,7 @@ function Navbar() {
   }, [handleScroll]);
 
   const { categoriesList, coursesList } = useContext(ResoursesContext);
+  const { user } = useContext(AuthContext);
   if (!Array.isArray(categoriesList)) {
     return <div>Loading...</div>; // Or some other fallback UI
   }
@@ -69,10 +76,38 @@ function Navbar() {
         style={{ transform: `translateY(${translated ? "-6vh" : "0"})` }}
       >
         <div className="upperNav">
-          <Link className="sector-active">For Individuals</Link>
-          <Link>For Corporates</Link>
-          <Link>For Universities</Link>
-          <Link>For Governments</Link>
+          <Link
+            onClick={() => {
+              setsectorActive(1);
+            }}
+            className={sectorActive === 1 ? "sector-active" : ""}
+          >
+            For Individuals
+          </Link>
+          <Link
+            onClick={() => {
+              setsectorActive(2);
+            }}
+            className={sectorActive === 2 ? "sector-active" : ""}
+          >
+            For Corporates
+          </Link>
+          <Link
+            onClick={() => {
+              setsectorActive(3);
+            }}
+            className={sectorActive === 3 ? "sector-active" : ""}
+          >
+            For Universities
+          </Link>
+          <Link
+            onClick={() => {
+              setsectorActive(4);
+            }}
+            className={sectorActive === 4 ? "sector-active" : ""}
+          >
+            For Governments
+          </Link>
         </div>
         <div
           className="lowerNav"
@@ -97,12 +132,31 @@ function Navbar() {
               <Search size={20} strokeWidth={1.5} />{" "}
             </Link>
           </div>
-          <p>
-            <Link to={"/auth/login/student"}>Login</Link>
-          </p>
-          <button>
-            <Link to={"/auth/signin/student"}>Join For Free</Link>
-          </button>
+          {user.isLoggedIn ? (
+            <>
+              <p className="user-info-tab">
+                <img
+                  src={
+                    user.profilePhoto === ""
+                      ? noProfilePhoto
+                      : user.profilePhoto
+                  }
+                  onError={handleImageError}
+                  alt=""
+                />
+                <Link>{user.name}</Link>
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                <Link to={"/auth/login/student"}>Login</Link>
+              </p>
+              <button>
+                <Link to={"/auth/signin/student"}>Join For Free</Link>
+              </button>
+            </>
+          )}
         </div>
       </nav>
       {isDropdownOpen && (

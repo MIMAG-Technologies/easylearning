@@ -79,7 +79,15 @@ function Login() {
           <button type="submit">Login</button>
           <div className="line"></div>
           <p className="have_an_account">
-            Already have an account? <Link to="/">Log in</Link>
+            Don't have an account? <Link to="/auth/signin/student">Log in</Link>
+          </p>
+          <p className="have_an_account">
+            Are you a {who === "student" ? "teacher" : "student"}?
+            <Link
+              to={`/auth/login/${who === "student" ? "teacher" : "student"}`}
+            >
+              Log in
+            </Link>
           </p>
         </form>
       </div>

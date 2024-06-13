@@ -8,14 +8,18 @@ function NewCourses() {
   const { coursesList } = useContext(ResoursesContext);
   const [displayedCourses, setDisplayedCourses] = useState(4);
   const [showAll, setShowAll] = useState(false);
+
+  const maxCoursesToShow = 12;
+
   const toggleShowAll = () => {
     setShowAll(!showAll);
     if (!showAll) {
-      setDisplayedCourses(coursesList.length);
+      setDisplayedCourses(Math.min(coursesList.length, maxCoursesToShow));
     } else {
       setDisplayedCourses(4);
     }
   };
+
   if (!Array.isArray(coursesList)) {
     return <div>Loading...</div>; // Or some other fallback UI
   }
@@ -34,7 +38,12 @@ function NewCourses() {
       </div>
       <span>
         <button onClick={toggleShowAll}>
-          {showAll ? "Show less" : `Show all ${coursesList.length - 4}`}
+          {showAll
+            ? "Show less"
+            : `Show all ${Math.min(
+                coursesList.length - 4,
+                maxCoursesToShow - 4
+              )}`}
         </button>
         <Link to={"/courses"}>
           View all <ArrowRight />

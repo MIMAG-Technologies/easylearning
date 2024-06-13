@@ -2,9 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { ChevronRight, Menu, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
+import noProfilePhoto from "../../assets/Images/profile-pic.png";
+import { AuthContext } from "../../context/AuthContext";
 
 function MobileNavbar() {
   const { categoriesList, coursesList } = useContext(ResoursesContext);
+  const { user } = useContext(AuthContext);
+
   const [isLevel1Open, setisLevel1Open] = useState(false);
   useEffect(() => {
     if (isLevel1Open) {
@@ -19,6 +23,9 @@ function MobileNavbar() {
   if (!Array.isArray(coursesList)) {
     return <div>Loading...</div>; // Or some other fallback UI
   }
+  const handleImageError = (e) => {
+    e.target.src = noProfilePhoto; // Set the source to the alternative image in case of error
+  };
   return (
     <>
       <nav className="MobileNavbar">
@@ -50,9 +57,31 @@ function MobileNavbar() {
       <nav
         style={{
           left: isLevel1Open ? "0px" : "-100%",
+          gridTemplateRows: user.isLoggedIn ? "1fr 2fr 6fr" : "2fr 6fr 2.5fr",
         }}
         className="level1"
       >
+        {user.isLoggedIn && (
+          <>
+            <p
+              className="user-info-tab"
+              style={{
+                borderBottom: "1px solid rgb(209, 208, 208)",
+                padding: "20px",
+              }}
+            >
+              <img
+                src={
+                  user.profilePhoto === "" ? noProfilePhoto : user.profilePhoto
+                }
+                onError={handleImageError}
+                alt=""
+              />
+              <Link>{user.name}</Link>
+            </p>
+          </>
+        )}
+
         <div className="sectors">
           <Link>For Individuals</Link>
           <Link>For Corporates</Link>
@@ -72,18 +101,27 @@ function MobileNavbar() {
           <h3>Categories</h3>
           {categoriesList.map((category) => (
             <p key={category._id}>
-              {category.name} <ChevronRight />
+              <Link
+                onClick={() => {
+                  setisLevel1Open(!isLevel1Open);
+                }}
+                to={`/courses?category=${encodeURIComponent(category.name)}`}
+              >
+                {category.name} <ChevronRight />
+              </Link>
             </p>
           ))}
         </div>
-        <div className="login-signin-box">
-          <Link className="joininbtn" to={"/auth/signin/student"}>
-            Join for Free
-          </Link>
-          <Link className="loginbtn" to={"/auth/login/student"}>
-            Log In
-          </Link>
-        </div>
+        {!user.isLoggedIn && (
+          <div className="login-signin-box">
+            <Link className="joininbtn" to={"/auth/signin/student"}>
+              Join for Free
+            </Link>
+            <Link className="loginbtn" to={"/auth/login/student"}>
+              Log In
+            </Link>
+          </div>
+        )}
       </nav>
     </>
   );

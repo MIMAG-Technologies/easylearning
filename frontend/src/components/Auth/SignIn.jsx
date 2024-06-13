@@ -67,9 +67,9 @@ function SignIn() {
             navigate(-1);
           }}
         />
-        <h2>{who === "user" ? "Sign up" : "Create Teacher"}</h2>
+        <h2>{who === "student" ? "Sign up" : "Create Teacher"}</h2>
         <p>
-          {who === "user"
+          {who === "student"
             ? "Learn on your own time from top universities and businesses."
             : "Create a teacher account and start teaching."}
         </p>
@@ -108,15 +108,15 @@ function SignIn() {
             <p className="info-text">Between 8 and 72 characters</p>
           </span>
           <button type="submit">
-            {who === "user" ? "Join for Free" : "Create Teacher"}
+            {who === "student" ? "Join for Free" : "Create Teacher"}
           </button>
 
-          {who === "user" && (
+          {who === "student" && (
             <>
               <div className="line"></div>
               <p className="have_an_account">
                 Already have an account?
-                <Link to="/">Log in</Link>
+                <Link to="/auth/login/student">Log in</Link>
               </p>
             </>
           )}

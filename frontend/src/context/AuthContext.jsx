@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     name: "",
     email: "",
     role: "",
+    profilePhoto: "",
   });
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         name: response.data.name,
         email: response.data.email,
         role: response.data.role,
+        profilePhoto: response.data.profilePhotoUrl,
       });
     } catch (error) {
       console.error("Failed to fetch user data", error);
@@ -90,6 +92,7 @@ export const AuthProvider = ({ children }) => {
       name: "",
       email: "",
       role: "",
+      profilePhoto: "",
     });
   };
 

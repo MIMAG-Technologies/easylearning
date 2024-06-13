@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
 import OneCourseCard from "./OneCourseCard";
+import { SlidersHorizontal, X } from "lucide-react";
 
 function BrowseCourse() {
   const { categoriesList, coursesList } = useContext(ResoursesContext);
@@ -10,8 +11,16 @@ function BrowseCourse() {
   const [selectedDurations, setSelectedDurations] = useState([]);
   const [selectedBelongsTo, setSelectedBelongsTo] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [mobileFiltetMode, setmobileFiltetMode] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const updateURL = useCallback(() => {
     const params = new URLSearchParams();
@@ -97,8 +106,18 @@ function BrowseCourse() {
 
   return (
     <div className="BrowseCourse">
-      <div className="filtersSection">
-        <h3>Filter</h3>
+      <div
+        className="filtersSection"
+        style={{
+          left: mobileFiltetMode ? "0px" : "-100%",
+        }}
+      >
+        <h3>
+          <span>Filter</span>
+          {width < 600 && (
+            <X onClick={() => setmobileFiltetMode(!mobileFiltetMode)} />
+          )}
+        </h3>
         <p>Categories</p>
         <div className="optionsdiv">
           {categoriesList.map((category) => (
@@ -191,6 +210,16 @@ function BrowseCourse() {
         </div>
       </div>
       <div className="courseList">
+        {width < 600 && (
+          <button
+            onClick={() => {
+              setmobileFiltetMode(!mobileFiltetMode);
+            }}
+          >
+            <SlidersHorizontal size={18} />
+            Filter
+          </button>
+        )}
         <h3>{filteredCourses.length} Results</h3>
         <div>
           {displayedCourses.length > 0 ? (
