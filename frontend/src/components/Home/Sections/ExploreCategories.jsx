@@ -11,7 +11,7 @@ function ExploreCategories() {
 
   return (
     <div className="ExploreCategories">
-      <h1>Explore Easy Learning</h1>
+      <h1>Explore Psycortex Online Education</h1>
       <div>
         {categoriesList.map((category) => {
           return (

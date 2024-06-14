@@ -10,6 +10,7 @@ function BrowseCourse() {
   const [selectedLevels, setSelectedLevels] = useState([]);
   const [selectedDurations, setSelectedDurations] = useState([]);
   const [selectedBelongsTo, setSelectedBelongsTo] = useState([]);
+  const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileFiltetMode, setmobileFiltetMode] = useState(false);
   const location = useLocation();
@@ -25,6 +26,7 @@ function BrowseCourse() {
   const updateURL = useCallback(() => {
     const params = new URLSearchParams();
 
+    if (query) params.append("query", query);
     selectedCategories.forEach((category) =>
       params.append("category", category)
     );
@@ -38,6 +40,7 @@ function BrowseCourse() {
 
     navigate({ search: params.toString() });
   }, [
+    query,
     selectedCategories,
     selectedLevels,
     selectedDurations,
@@ -51,11 +54,13 @@ function BrowseCourse() {
     const levelParams = queryParams.getAll("level");
     const durationParams = queryParams.getAll("duration");
     const belongToParams = queryParams.getAll("belongTo");
+    const queryParam = queryParams.get("query");
 
     if (categoryParams.length) setSelectedCategories(categoryParams);
     if (levelParams.length) setSelectedLevels(levelParams);
     if (durationParams.length) setSelectedDurations(durationParams);
     if (belongToParams.length) setSelectedBelongsTo(belongToParams);
+    if (queryParam) setQuery(queryParam);
   }, [location.search]);
 
   const handleFilterChange = (setFilter, filterList, value) => {
@@ -72,6 +77,7 @@ function BrowseCourse() {
   useEffect(() => {
     updateURL();
   }, [
+    query,
     selectedCategories,
     selectedLevels,
     selectedDurations,
@@ -81,7 +87,7 @@ function BrowseCourse() {
 
   const filteredCourses = coursesList.filter((course) => {
     const categoryMatch = selectedCategories.length
-      ? selectedCategories.includes(course.category.name)
+      ? selectedCategories.includes(course.category?.name)
       : true;
     const levelMatch = selectedLevels.length
       ? selectedLevels.includes(course.level)
@@ -93,16 +99,36 @@ function BrowseCourse() {
       ? selectedBelongsTo.includes(course.belongTo)
       : true;
 
-    return categoryMatch && levelMatch && durationMatch && belongToMatch;
+    const queryMatch = query
+      ? course.title?.toLowerCase().includes(query.toLowerCase()) ||
+        course.institution?.toLowerCase().includes(query.toLowerCase()) ||
+        course.expectedDuration?.toLowerCase().includes(query.toLowerCase()) ||
+        course.category?.name.toLowerCase().includes(query.toLowerCase()) ||
+        course.description?.toLowerCase().includes(query.toLowerCase())
+      : true;
+
+    return (
+      categoryMatch &&
+      levelMatch &&
+      durationMatch &&
+      belongToMatch &&
+      queryMatch
+    );
   });
 
-  const coursesPerPage = 20;
+  const coursesPerPage = 10;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
 
   const displayedCourses = filteredCourses.slice(
     (currentPage - 1) * coursesPerPage,
     currentPage * coursesPerPage
   );
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [currentPage]);
 
   return (
     <div className="BrowseCourse">
@@ -233,13 +259,17 @@ function BrowseCourse() {
         {filteredCourses.length > coursesPerPage && (
           <div className="pagination">
             <button
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={() => {
+                setCurrentPage(currentPage - 1);
+              }}
               disabled={currentPage === 1}
             >
               Previous Page
             </button>
             <button
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => {
+                setCurrentPage(currentPage + 1);
+              }}
               disabled={currentPage === totalPages}
             >
               Next Page

@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import React, { useEffect, useState, useContext, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
 import { AuthContext } from "../../context/AuthContext";
 import noProfilePhoto from "../../assets/Images/profile-pic.png";
@@ -15,6 +15,8 @@ function Navbar() {
   const [currentActiveCategory, setCurrentActiveCategory] = useState("");
   const [isCourseListSectionActive, setIsCourseListSectionActive] =
     useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+
   const handleImageError = (e) => {
     e.target.src = noProfilePhoto; // Set the source to the alternative image in case of error
   };
@@ -26,10 +28,14 @@ function Navbar() {
       setTranslated(false);
     }
   }, [translated]);
+
   const loc = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setIsDropdownOpen(false);
     setIsCourseListSectionActive(false);
+    setSearchQuery(""); // Clear search input on route change
   }, [loc.pathname]);
 
   useEffect(() => {
@@ -69,11 +75,27 @@ function Navbar() {
     }, {});
   }
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim() !== "") {
+      navigate(`/courses?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
   return (
     <>
       <nav
         id="CommonNavbar"
-        style={{ transform: `translateY(${translated ? "-6vh" : "0"})` }}
+        style={{ transform: `translateY(${translated ? "-5.5vh" : "0"})` }}
       >
         <div className="upperNav">
           <Link
@@ -117,7 +139,7 @@ function Navbar() {
           }}
         >
           <Link to={"/"} className="logo">
-            Easy Learning
+            <img src="assets\logo\PsycortexLogo.png" alt="" />
           </Link>
           <button
             onMouseEnter={() => {
@@ -127,10 +149,16 @@ function Navbar() {
             Explore <ChevronDown strokeWidth={1.5} />
           </button>
           <div className="searchbox">
-            <input type="text" placeholder="What do you want to learn?" />
-            <Link>
-              <Search size={20} strokeWidth={1.5} />{" "}
-            </Link>
+            <input
+              type="text"
+              placeholder="What do you want to learn?"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
+            />
+            <button onClick={handleSearchSubmit}>
+              <Search size={20} strokeWidth={1.5} />
+            </button>
           </div>
           {user.isLoggedIn ? (
             <>

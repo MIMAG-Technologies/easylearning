@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+
 function Footer() {
   const footerLinks = [
     [
-      { title: "Easy Learning", ref: "heading" },
+      { title: "Psycortex Online Education", ref: "heading" },
       { title: "About", ref: "#" },
       { title: "What We Offer", ref: "#" },
       { title: "Leadership", ref: "#" },
       { title: "Careers", ref: "#" },
       { title: "Catalog", ref: "#" },
-      { title: "Easy Learning Plus", ref: "#" },
+      { title: "Psycortex Online Education Plus", ref: "#" },
       { title: "Professional Certificates", ref: "#" },
       { title: "MasterTrack® Certificates", ref: "#" },
       { title: "Degrees", ref: "#" },
@@ -26,7 +27,7 @@ function Footer() {
       { title: "Partners", ref: "#" },
       { title: "Beta Testers", ref: "#" },
       { title: "Blog", ref: "#" },
-      { title: "The Easy Learning Podcast", ref: "#" },
+      { title: "The Psycortex Online Education Podcast", ref: "#" },
       { title: "Tech Blog", ref: "#" },
       { title: "Teaching Center", ref: "#" },
     ],
@@ -53,6 +54,9 @@ function Footer() {
     youtube: "https://www.youtube.com/",
     instagram: "https://www.instagram.com/",
   };
+
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer>
       <div className="linksSection">
@@ -68,7 +72,9 @@ function Footer() {
         ))}
       </div>
       <div className="socialLinks">
-        <p>© 2024 Easy Learning Inc. All rights reserved.</p>
+        <p>
+          © {currentYear} Psycortex Online Education Inc. All rights reserved.
+        </p>
         <span>
           <Link to={socialLinks.facebook} target="_blank">
             <Facebook />

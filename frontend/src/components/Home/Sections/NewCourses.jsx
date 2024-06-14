@@ -27,7 +27,7 @@ function NewCourses() {
   return (
     <div className="NewCourses">
       <p style={{ color: "var(--primary-color)" }}> Courses and Certificates</p>
-      <h1>New on Easy Learning</h1>
+      <h1>New on Psycortex Online Education</h1>
       <p>
         Explore our newest programs, focused on delivering in-demand skills.
       </p>
