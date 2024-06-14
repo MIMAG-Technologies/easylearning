@@ -117,6 +117,7 @@
   top: 20vh;
   box-shadow: 1px 1px 15px #c3c4c4cf;
 }
+
 section#overview > * {
   margin: 0%;
 }
@@ -151,6 +152,11 @@ section#overview button {
   font-size: 18px;
   border-radius: 5px;
   border: none;
+}
+.enrollprice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 section#overview h1 {
@@ -211,9 +217,9 @@ section#about #whatwillyoulearn p {
 }
 #earncertificate img {
   margin-right: 70px;
+  transform: scale(1.5);
   height: 130px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.279);
-  transform: scale(1.5);
 }
 
 /* SECTION MODULES */
@@ -277,6 +283,66 @@ section#modules .mkd {
   cursor: pointer;
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
+}
+
+@media screen and (max-width: 800px) {
+  .OneCoursePage {
+    padding-top: 10vh;
+  }
+  .OneCoursePage > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .onecourserhs {
+    width: auto;
+  }
+  .coursedescard {
+    width: calc(100% - 40px);
+  }
+  .coursedescard * {
+    margin: 0%;
+  }
+  .coursedescard a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  .coursedescard .ccardstar {
+    fill: var(--primary-color);
+  }
+  .coursedescard span {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  section#about #whatwillyoulearn {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr;
+  }
+  #earncertificate {
+    flex-direction: column;
+  }
+  #earncertificate img {
+    margin-right: 0px;
+    width: 100%;
+    height: fit-content;
+    transform: scale(1);
+  }
+  .module_details {
+    gap: 3px;
+  }
+  .module_details h3 {
+    color: var(--primary-color) !important;
+    margin: 0%;
+    font-size: 18px;
+  }
+  .module_text p {
+    font-size: 14px;
+    text-wrap: balance;
+  }
 }
 /* BROWSE COURSES */
 

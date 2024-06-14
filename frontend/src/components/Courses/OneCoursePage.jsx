@@ -66,7 +66,10 @@ function OneCoursePage() {
                   Instructors:
                   <Link>{course.instructor.name}</Link>
                 </p>
-                <button>Enroll now</button>
+                <span className="enrollprice">
+                  <button>Enroll now</button>
+                  <p>{"Price: Rs " + course.price}</p>
+                </span>
                 <p>
                   <b>{course.studentsEnrolled.length}</b> already enrolled
                 </p>
@@ -145,7 +148,7 @@ function OneCoursePage() {
                       className="module_details"
                       onClick={() => toggleModuleDetails(index)}
                     >
-                      <h3>Module Details</h3>
+                      {window.innerWidth > 600 && <h3>Module Details</h3>}
                       <ChevronDown />
                       {loc.pathname.includes("/admin/course-management") && (
                         <Link to={`edit-module/${module._id}`}>

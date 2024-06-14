@@ -3,7 +3,7 @@
   color: var(--primary-color);
 }
 .logo {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: var(--primary-color);
   display: flex;
@@ -291,7 +291,7 @@ footer {
 }
 
 .MobileNavbar .logo {
-  font-size: 26px;
+  font-size: 20px;
 }
 .MobileNavbar svg {
   font-size: 18px;
