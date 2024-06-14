@@ -59,7 +59,7 @@ function MobileNavbar() {
           </div>
         ) : (
           <Link to={"/"} className="logo">
-            Easy Learning
+            Psycortex Online Education{" "}
           </Link>
         )}
 
