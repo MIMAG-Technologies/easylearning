@@ -5,13 +5,18 @@ import NewCourses from "./Sections/NewCourses";
 import OutCome from "./Sections/OutCome";
 import Testimonials from "./Sections/Testimonials";
 import "./Home.css";
+import AboutUs from "./Sections/AboutUs";
+import Stats from "./Sections/Stats";
 function Home() {
+  const isCollaboration = false;
   return (
     <>
       <LandingPage />
-      <Collaborations />
+      {isCollaboration && <Collaborations />}
+      <AboutUs />
       <NewCourses />
       <ExploreCategories />
+      <Stats />
       <OutCome />
       <Testimonials />
     </>

@@ -10,34 +10,6 @@ import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function Testimonials() {
-  const observedElements = useRef([]);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.transform = "scale(1)";
-            entry.target.style.opacity = "1";
-          } else {
-            entry.target.style.transform = "scale(0.95)";
-            entry.target.style.opacity = "0";
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    observedElements.current.forEach((el) => {
-      if (el) {
-        // Ensure element is valid before observing
-        observer.observe(el);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
   const testimonialData = [
     {
       name: "Anamika Debnath",
@@ -107,7 +79,7 @@ function Testimonials() {
         <div
           className="one-testimonial"
           key={index}
-          ref={(el) => el && observedElements.current.push(el)}
+          // ref={(el) => el && observedElements.current.push(el)}
         >
           <i
             className="fa-solid fa-quote-right"

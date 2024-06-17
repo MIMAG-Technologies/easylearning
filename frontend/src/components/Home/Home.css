@@ -1,11 +1,66 @@
 /* <===========> LANDING PAGE <==========> */
-
 .LandingPage {
-  margin-top: 15vh;
-  min-height: 85vh;
+  background-color: white;
+  width: 100%;
+  position: relative;
+}
+.curve {
+  width: 75%;
+  height: 88%;
+  position: absolute;
+  margin-top: 12%;
+  border: 1px solid black;
+  /* border-radius: 0px 30vw 30vw 0px; */
+
+  border-radius: 0 400px 400px 0;
+  background: linear-gradient(
+    252deg,
+    rgba(112, 43, 136, 0.1) 0%,
+    rgba(112, 43, 136, 0.1) 25%,
+    rgba(182, 213, 84, 0.1) 75%,
+    rgba(182, 213, 84, 0.1) 100%
+  );
+}
+.landinginfo,
+.landingimg {
+  transform: translate(-50%, -50%);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20vh;
+  position: sticky;
+  top: 60%;
+}
+
+.landinginfo * {
+  margin: 0px;
+}
+.landinginfo h1 {
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1;
+}
+.landinginfo {
+  left: 25%;
+  width: 400px;
+  gap: 20px;
+}
+.landinginfo a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.landingimg {
+  left: 75%;
+  width: 400px;
+  height: 50vh;
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
   --color: #e1e1e1;
   background-color: #f3f3f3;
   background-image: linear-gradient(
@@ -34,49 +89,289 @@
     );
   background-size: 55px 55px;
 }
-.LandingPage > div {
-  width: 40%;
-}
-.LandingPage img {
-  width: 25%;
-}
 
-.LandingPage h1 {
-  font-size: 80px;
-  margin: 0px;
+.landingimg .contentdiv .progressbar {
+  width: 100%;
+  margin: 10px 0px;
 }
-
-.LandingPage p {
-  font-size: 20px;
-  margin: 0px;
-  margin-bottom: 30px;
-}
-
-.LandingPage a {
-  text-decoration: none;
-  width: fit-content;
-  color: white;
-  background-color: var(--primary-color);
-  padding: 15px 50px;
-  font-size: 20px;
+.slider {
+  appearance: none;
+  width: 100%;
+  height: 10px;
   border-radius: 5px;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #ed6750 0%,
+    #ef64f2 33%,
+    #e2b102 66%,
+    #6059ff 100%
+  );
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
 }
-@media screen and (max-width: 900px) {
-  .LandingPage {
-    flex-direction: column-reverse;
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #4c00ff;
+  background-image: linear-gradient(160deg, #4900f5 0%, #80d0c7 100%);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+  cursor: pointer;
+}
+
+.keyword-transition {
+  transition: opacity 0.3s;
+}
+
+.keyword-transition.visible {
+  opacity: 1;
+}
+
+.keyword-transition:not(.visible) {
+  opacity: 0;
+}
+
+.landingimg .contentdiv {
+  padding: 10px;
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landingimg .contentdiv .landingimgcontainer {
+  flex-grow: 1; /* To take up available space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0px;
+}
+
+.landingimgcontainer img {
+  max-width: 70%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.landingimgcontainer.enter img {
+  transform: translateY(20px);
+  opacity: 1;
+}
+
+.landingimgcontainer.exit img {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+@media screen and (max-width: 1072px) and (min-width: 860px) {
+  .landingimg {
+    transform: translate(-7%, -50%);
   }
-  .LandingPage img {
-    width: 70%;
+}
+@media screen and (max-width: 859px) {
+  .landinginfo h1 {
+    font-size: 42px;
+    display: inline;
+    margin-right: 10px;
+    font-weight: 400;
+    line-height: 1;
   }
-  .LandingPage > div {
+  .landinginfo a {
+    font-size: 16px;
+    font-weight: 400;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 12px;
+    z-index: -10;
+    border-radius: 5px;
+    width: fit-content;
+  }
+  .landinginfo p {
+    font-size: 16px;
+  }
+  .curve {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+  }
+  .landinginfo,
+  .landingimg {
+    transform: translate(0%, 0%);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+  }
+  .landinginfo {
+    left: 5%;
+    width: calc(100% - 60px);
+    gap: 7px;
+    top: 12%;
+  }
+
+  .landingimg {
+    top: 40%;
+    left: 5%;
+    width: calc(90% - 27.5px);
+    margin: 0% auto;
+    height: 45vh;
+    margin-bottom: 10vh;
+  }
+}
+/* <===========>  ABOUT US <==========> */
+.AboutUs {
+  padding: 5vw;
+  padding-top: 0%;
+}
+
+.AboutUs h1 {
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+}
+.AboutUs > p {
+  max-width: 900px;
+  margin: 0% auto;
+  margin-bottom: 5vh;
+  font-size: 17px;
+  color: #757575;
+}
+.msv-item:hover img {
+  transform: scale(1.2);
+}
+.msv-item:hover {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.129);
+}
+
+.msv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.msv-item h3 {
+  margin: 0%;
+}
+.msv-item p {
+  color: #757575;
+  text-align: center;
+}
+.msv-item {
+  width: 27%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 20px;
+}
+.msv-item img {
+  width: 80%;
+  transition: all 0.3s ease;
+  height: 150px;
+  object-fit: contain;
+}
+@media screen and (max-width: 720px) {
+  .msv {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .msv-item {
     width: 90%;
-    text-align: center;
-    margin-bottom: 5vh;
   }
-  .LandingPage h1 {
-    font-size: 50px;
-    margin: 0px;
-  }
+}
+/* <===========>  STATS <==========> */
+.Stats {
+  padding: 5vw;
+  padding-top: 0%;
+}
+
+.Stats h1 {
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+}
+.Stats > p {
+  max-width: 900px;
+  margin: 0% auto;
+  margin-bottom: 5vh;
+  font-size: 17px;
+  color: #757575;
+}
+.statsdiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.stat * {
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.stat {
+  border: 1px solid black;
+  width: 258px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  align-items: center;
+  height: 258px;
+  border-radius: 10px;
+}
+
+.stat img {
+  opacity: 0;
+  width: 60%;
+  object-fit: contain;
+  transform: translateY(100%);
+}
+.stat p {
+  font-size: 17px;
+  color: #3f3f3f;
+  transform: translateY(30px);
+}
+.stat h3 {
+  font-size: 36px;
+  line-height: 1;
+  font-weight: bolder;
+  transform: translateY(30px);
+}
+
+.stat:hover img {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stat:hover h3,
+.stat:hover p {
+  transform: translateY(-30px);
 }
 
 /* <===========>  Collaborations <==========> */
@@ -187,55 +482,123 @@
 /* <===========>  Categories <==========> */
 
 .ExploreCategories {
-  padding: 5vh 5vw;
+  height: 75vh;
+  background-color: #3f3f3f7f;
+  display: flex;
+  margin-bottom: 10vh;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.ExploreCategories video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  object-fit: cover;
+  z-index: -1;
 }
 .ExploreCategories h1 {
   font-weight: 400;
   font-size: 40px;
+  color: white;
 }
 
-.ExploreCategories div .category-item:hover {
-  transform: scale(1.05);
+.ExploreCategories > div {
+  height: 50vh;
+  width: 60%;
+  margin: 0px auto;
+  background-color: white;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.452);
+  padding: 25px;
+  border-radius: 10px;
+  transform: translateY(5vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.ExploreCategories div {
+.ExploreCategories > div > h3 {
+  margin: 0px;
+  font-size: 24px;
+}
+.ExploreCategories > div > span > p {
+  color: gray;
+  font-size: 18px;
+  font-weight: bold;
+}
+.ExploreCategories > div > span > p > span {
+  color: var(--primary-color);
+  font-size: 20px;
+}
+.ExploreCategories > div > span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ExploreCategories > div > span > hr {
+  width: 50px;
+}
+
+.ExploreCategories .categories-div {
   display: grid;
+  width: 100%;
   gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
-.ExploreCategories div .category-item {
+.ExploreCategories .categories-div .category-item {
   width: 280px;
   transition: all 0.5s ease;
-  height: 80px;
+  height: 60px;
   border-radius: 5px;
+  padding: 5px;
+  border: 1px solid rgb(168, 168, 168);
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.292);
   display: flex;
   overflow: hidden;
   text-decoration: none;
   gap: 3px;
 }
-.ExploreCategories div .category-item img {
+.ExploreCategories .categories-div .category-item:hover {
+  transform: scale(1.05);
+  border: 1px solid rgb(111, 111, 111);
+}
+.ExploreCategories .categories-div .category-item img {
   height: 100%;
   object-fit: cover;
 }
-.ExploreCategories div .category-item span {
+.ExploreCategories .categories-div .category-item span {
   display: flex;
   flex-direction: column;
   padding-left: 5px;
   justify-content: center;
 }
 
-.ExploreCategories div .category-item p {
+.ExploreCategories .categories-div .category-item p {
   margin: 0%;
   font-weight: 600;
   color: black;
 }
 
 @media screen and (max-width: 650px) {
-  .ExploreCategories div .category-item {
+  .ExploreCategories {
+    height: fit-content;
+  }
+  .ExploreCategories > h1 {
+    margin: 0vh 10px;
+    margin-top: 5vh;
+    text-align: center;
+  }
+  .ExploreCategories > div {
+    height: fit-content;
+    width: 80%;
+  }
+
+  .ExploreCategories .categories-div .category-item {
     width: auto;
   }
-  .ExploreCategories div {
+  .ExploreCategories .categories-div {
     align-items: center;
     grid-template-columns: 1fr !important; /* Change to one column when screen width is less than 280px */
   }

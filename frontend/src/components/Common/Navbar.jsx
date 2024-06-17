@@ -8,7 +8,6 @@ import noProfilePhoto from "../../assets/Images/profile-pic.png";
 const MAX_COURSE = 2;
 
 function Navbar() {
-  const [translated, setTranslated] = useState(false);
   const [sectorActive, setsectorActive] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [groupedCourses, setGroupedCourses] = useState({});
@@ -21,14 +20,6 @@ function Navbar() {
     e.target.src = noProfilePhoto; // Set the source to the alternative image in case of error
   };
 
-  const handleScroll = useCallback(() => {
-    if (!translated && window.scrollY >= window.innerHeight * 0.06) {
-      setTranslated(true);
-    } else if (translated && window.scrollY < window.innerHeight * 0.06) {
-      setTranslated(false);
-    }
-  }, [translated]);
-
   const loc = useLocation();
   const navigate = useNavigate();
 
@@ -37,11 +28,6 @@ function Navbar() {
     setIsCourseListSectionActive(false);
     setSearchQuery(""); // Clear search input on route change
   }, [loc.pathname]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
 
   const { categoriesList, coursesList } = useContext(ResoursesContext);
   const { user } = useContext(AuthContext);
@@ -93,10 +79,7 @@ function Navbar() {
 
   return (
     <>
-      <nav
-        id="CommonNavbar"
-        style={{ transform: `translateY(${translated ? "-5.5vh" : "0"})` }}
-      >
+      <nav id="CommonNavbar">
         <div className="upperNav">
           <Link
             onClick={() => {
@@ -191,7 +174,7 @@ function Navbar() {
         <nav
           className="dropdown"
           style={{
-            top: !translated ? "12.5vh" : "7.4vh",
+            top: "12.5vh",
           }}
         >
           <div
@@ -205,7 +188,7 @@ function Navbar() {
               setIsDropdownOpen(true);
             }}
             style={{
-              height: !translated ? "85.2vh" : "91.2vh",
+              height: "91.2vh",
             }}
             className="optionmenu"
           >
@@ -247,7 +230,7 @@ function Navbar() {
             <div
               className="courses-display"
               style={{
-                height: !translated ? "85.2vh" : "91.2vh",
+                height: "91.2vh",
               }}
             >
               <h1>{currentActiveCategory}</h1>
