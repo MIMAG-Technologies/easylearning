@@ -6,6 +6,7 @@ function LandingPage() {
   const [currentKW, setCurrentKW] = useState(0);
   const [scrollRange, setScrollRange] = useState(0); // New state for smooth scroll
   const [isVisible, setIsVisible] = useState(true);
+  const [isPreloaded, setIsPreloaded] = useState(false); // State to track image preloading
   const CONTAINER_HEIGHT = 350; // Height of the container in vh
   const keywords = [
     {
@@ -21,6 +22,25 @@ function LandingPage() {
       imgSrc: "/assets/intelligence.png",
     },
   ];
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = keywords.map((keyword) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = keyword.imgSrc;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      await Promise.all(imagePromises);
+      setIsPreloaded(true);
+    };
+
+    preloadImages();
+  }, [keywords]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,6 +93,10 @@ function LandingPage() {
       }, 300); // Timeout duration should match the CSS transition duration
     }
   };
+
+  if (!isPreloaded) {
+    return <div>Loading...</div>; // Or a loader spinner
+  }
 
   return (
     <div className="LandingPage" style={{ height: `${CONTAINER_HEIGHT}vh` }}>
