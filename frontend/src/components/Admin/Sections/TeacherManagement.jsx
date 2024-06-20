@@ -14,7 +14,7 @@ function TeacherManagement() {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/fetch/users/teacher/all"
+          `${import.meta.env.VITE_API_BASE_URL}/fetch/users/teacher/all`
         );
         setTeachers(response.data);
       } catch (error) {

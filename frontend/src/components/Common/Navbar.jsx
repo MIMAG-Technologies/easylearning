@@ -155,7 +155,13 @@ function Navbar() {
                   onError={handleImageError}
                   alt=""
                 />
-                <Link>{user.name}</Link>
+                <Link
+                  to={
+                    user.name === "Admin" ? "/admin/category-management" : "/"
+                  }
+                >
+                  {user.name}
+                </Link>
               </p>
             </>
           ) : (

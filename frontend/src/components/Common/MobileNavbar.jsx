@@ -59,6 +59,14 @@ function MobileNavbar() {
           </div>
         ) : (
           <Link to={"/"} className="logo">
+            <img
+              style={{
+                height: "6vh",
+                marginRight: "5px",
+              }}
+              src="assets\logo\PsycortexLogo.png"
+              alt=""
+            />
             Psycortex Online Education{" "}
           </Link>
         )}
@@ -89,19 +97,57 @@ function MobileNavbar() {
         )}
 
         <div className="sectors">
-          <Link>For Individuals</Link>
-          <Link>For Corporates</Link>
-          <Link>For Universities</Link>
-          <Link>For Governments</Link>
+          <Link
+            onClick={() => {
+              setIsLevel1Open(false);
+            }}
+            to={"/"}
+          >
+            For Individuals
+          </Link>
+          <Link
+            onClick={() => {
+              setIsLevel1Open(false);
+            }}
+            to={"/"}
+          >
+            For Corporates
+          </Link>
+          <Link
+            onClick={() => {
+              setIsLevel1Open(false);
+            }}
+            to={"/"}
+          >
+            For Universities
+          </Link>
+          <Link
+            onClick={() => {
+              setIsLevel1Open(false);
+            }}
+            to={"/"}
+          >
+            For Governments
+          </Link>
         </div>
 
         <div className="categories">
           <h3>Goals</h3>
-          <Link to={"/courses"}>Explore all courses</Link>
+          <Link
+            onClick={() => {
+              setIsLevel1Open(false);
+            }}
+            to={"/courses"}
+          >
+            Explore all courses
+          </Link>
           <h3>Categories</h3>
           {categoriesList.map((category) => (
             <p key={category._id}>
               <Link
+                onClick={() => {
+                  setIsLevel1Open(false);
+                }}
                 to={`/courses?category=${encodeURIComponent(category.name)}`}
               >
                 {category.name} <ChevronRight />
