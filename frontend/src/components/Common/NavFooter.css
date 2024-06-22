@@ -229,6 +229,7 @@ footer a {
   color: black;
 }
 footer {
+  background-color: #f1f1f1;
   padding: 20px 5vw;
   border: 0.5px solid #e5e7e8;
   margin-top: 20px;
@@ -241,22 +242,42 @@ footer {
   padding-bottom: 20px;
 }
 
+.linksSection > div h3 {
+  margin-top: 0%;
+}
 .linksSection > div {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding-top: 20px;
+}
+.socialLinks p {
+  font-weight: 600;
 }
 .socialLinks {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .socialLinks span {
   display: flex;
   gap: 10px;
 }
-.socialLinks span a {
+.footer-right {
+  margin-left: auto;
+}
+
+.linksSection > div img {
+  max-width: 100px;
+  object-fit: contain;
+  margin-top: 10px;
+  align-self: center;
+}
+.linksSection > div span {
+  display: flex;
+  gap: 10px;
+}
+.linksSection > div span a {
   height: 35px;
   width: 35px;
   display: flex;
@@ -267,10 +288,13 @@ footer {
   background-color: black;
   border-radius: 50%;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 882px) {
   .socialLinks {
     flex-direction: column;
     text-align: center;
+  }
+  .footer-right {
+    margin: auto;
   }
 }
 

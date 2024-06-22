@@ -21,6 +21,8 @@ import { useContext } from "react";
 import NavFooter from "./components/Common/NavFooter";
 import OneCoursePage from "./components/Courses/OneCoursePage";
 import BrowseCourse from "./components/Courses/BrowseCourse";
+import Blogs from "./components/Blogs/Blogs";
+import Blog from "./components/Blogs/Blog";
 
 function App() {
   const { pathname } = useLocation();
@@ -41,6 +43,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="courses" element={<BrowseCourse />} />
           <Route path="course/:id" element={<OneCoursePage />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blog/:section" element={<Blog />} />
         </Route>
 
         {/* Auth Routes */}

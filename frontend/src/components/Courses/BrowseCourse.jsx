@@ -116,7 +116,7 @@ function BrowseCourse() {
     );
   });
 
-  const coursesPerPage = 10;
+  const coursesPerPage = 20;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
 
   const displayedCourses = filteredCourses.slice(

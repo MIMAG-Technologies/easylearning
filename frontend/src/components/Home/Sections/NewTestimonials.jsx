@@ -86,7 +86,7 @@ function NewTestimonials() {
 
   return (
     <div className="NewTestimonials">
-      <h1>See What Our Students Say</h1>
+      <h1>See What Our Community Say</h1>
       <div className={`alltestmonials ${isHovered ? "hovered" : ""}`}>
         <div className="one-row">
           {testimonialData.slice(0, 4).map((person, index) => {

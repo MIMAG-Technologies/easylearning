@@ -230,7 +230,7 @@
   }
 
   .landingimg {
-    top: 40%;
+    top: 47%;
     left: 5%;
     width: calc(90% - 27.5px);
     margin: 0% auto;
@@ -314,6 +314,7 @@
 }
 .Stats > p {
   max-width: 900px;
+  text-align: center;
   margin: 0% auto;
   margin-bottom: 5vh;
   font-size: 17px;
@@ -827,7 +828,6 @@
 .alltestmonials {
   overflow: hidden;
   position: relative;
-  box-shadow: inset 0 0 400px 100px rgb(255, 255, 255);
 }
 
 .one-row {

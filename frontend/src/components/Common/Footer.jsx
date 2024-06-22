@@ -7,44 +7,17 @@ function Footer() {
     [
       { title: "Psycortex Online Education", ref: "heading" },
       { title: "About", ref: "#" },
-      { title: "What We Offer", ref: "#" },
-      { title: "Leadership", ref: "#" },
+      { title: "Mission, Vision & Values", ref: "#" },
+      { title: "Offices", ref: "#" },
       { title: "Careers", ref: "#" },
-      { title: "Catalog", ref: "#" },
-      { title: "Psycortex Online Education Plus", ref: "#" },
-      { title: "Professional Certificates", ref: "#" },
-      { title: "MasterTrack® Certificates", ref: "#" },
-      { title: "Degrees", ref: "#" },
-      { title: "For Enterprise", ref: "#" },
-      { title: "For Government", ref: "#" },
-      { title: "For Campus", ref: "#" },
-      { title: "Become a Partner", ref: "#" },
-      { title: "Social Impact", ref: "#" },
     ],
     [
       { title: "Community", ref: "heading" },
-      { title: "Learners", ref: "#" },
-      { title: "Partners", ref: "#" },
-      { title: "Beta Testers", ref: "#" },
-      { title: "Blog", ref: "#" },
-      { title: "The Psycortex Online Education Podcast", ref: "#" },
-      { title: "Tech Blog", ref: "#" },
-      { title: "Teaching Center", ref: "#" },
-    ],
-    [
-      { title: "More", ref: "heading" },
-      { title: "Press", ref: "#" },
-      { title: "Investors", ref: "#" },
-      { title: "Terms", ref: "#" },
-      { title: "Privacy", ref: "#" },
-      { title: "Help", ref: "#" },
-      { title: "Accessibility", ref: "#" },
-      { title: "Contact", ref: "#" },
-      { title: "Articles", ref: "#" },
-      { title: "Directory", ref: "#" },
-      { title: "Affiliates", ref: "#" },
-      { title: "Modern Slavery Statement", ref: "#" },
-      { title: "Manage Cookie Preferences", ref: "#" },
+      { title: "Blogs", ref: "#" },
+      { title: "For Individuals", ref: "#" },
+      { title: "For Corporates", ref: "#" },
+      { title: "For Universities", ref: "#" },
+      { title: "For Governments", ref: "#" },
     ],
   ];
   const socialLinks = {
@@ -70,26 +43,40 @@ function Footer() {
             ))}
           </div>
         ))}
+        <div className="footer-right">
+          <span>
+            <Link to={socialLinks.facebook} target="_blank">
+              <Facebook />
+            </Link>
+            <Link to={socialLinks.linkedin} target="_blank">
+              <Linkedin />
+            </Link>
+            <Link to={socialLinks.twitter} target="_blank">
+              <Twitter />
+            </Link>
+            <Link to={socialLinks.youtube} target="_blank">
+              <Youtube />
+            </Link>
+            <Link to={socialLinks.instagram} target="_blank">
+              <Instagram />
+            </Link>
+          </span>
+          <img src="/assets/logo/PsycortexLogo.png" alt="" />
+        </div>
       </div>
       <div className="socialLinks">
         <p>
           © {currentYear} Psycortex Online Education Inc. All rights reserved.
         </p>
         <span>
-          <Link to={socialLinks.facebook} target="_blank">
-            <Facebook />
+          <Link to={"#"} target="_blank">
+            Privacy Policy
           </Link>
-          <Link to={socialLinks.linkedin} target="_blank">
-            <Linkedin />
+          <Link to={"#"} target="_blank">
+            Terms & Conditions
           </Link>
-          <Link to={socialLinks.twitter} target="_blank">
-            <Twitter />
-          </Link>
-          <Link to={socialLinks.youtube} target="_blank">
-            <Youtube />
-          </Link>
-          <Link to={socialLinks.instagram} target="_blank">
-            <Instagram />
+          <Link to={"#"} target="_blank">
+            Refund Policy
           </Link>
         </span>
       </div>

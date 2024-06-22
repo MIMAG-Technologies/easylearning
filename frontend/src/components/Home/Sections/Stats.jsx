@@ -89,10 +89,16 @@ function Stats() {
     <div className="Stats" ref={statsRef}>
       <h1>A Platform Trusted by Students Worldwide</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-        aliquid quisquam cupiditate, similique aspernatur qui, dolore nihil ab
-        non, facilis quasi. Ullam quisquam optio, necessitatibus tempora eum
-        iure adipisci provident!
+        Our platform has earned the trust of students worldwide by consistently
+        delivering exceptional educational experiences in mental health,
+        well-being, and psychology. With a commitment to excellence and
+        innovation, we provide a diverse range of courses designed to meet the
+        evolving needs of our global community. Through rigorous adherence to
+        evidence-based practices and expert-led instruction, we empower
+        individuals to navigate life's challenges and cultivate resilience. Our
+        dedication to inclusivity ensures that everyone, regardless of
+        background or location, can access transformative learning opportunities
+        that promote personal growth and happiness.
       </p>
       <div className="statsdiv">
         {animatedStats.map((stat) => (

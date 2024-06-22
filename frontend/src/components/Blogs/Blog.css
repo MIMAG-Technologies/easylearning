@@ -1,0 +1,148 @@
+#Blogs {
+  animation: componrntrenser 1.5s ease;
+  transition: all 500ms ease;
+}
+#Blogs {
+  margin-top: 18vh;
+}
+
+.blog-container {
+  width: 100%;
+  display: flex;
+  /* align-items: center; */
+  padding: 2em 0px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.oneblog img {
+  width: 100%;
+}
+.oneblog * {
+  font-family: RelFont;
+}
+.oneblog {
+  width: 25em;
+  margin: 2em 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.oneblog > a {
+  text-decoration: none;
+  color: #501a77;
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 30px;
+}
+.lineP {
+  border-right: 2px solid grey;
+  padding-right: 10px;
+}
+.oneblog > div p {
+  margin: 0%;
+}
+.oneblog > div {
+  border-bottom: 1px solid gray;
+  padding: 10px 0px;
+  display: flex;
+  font-size: 20px;
+  gap: 10px;
+  font-weight: bold;
+  flex-wrap: wrap;
+}
+
+.oneblog > span a {
+  color: #501a77;
+  text-decoration: none;
+}
+.oneblog > span {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.One-Blog {
+  margin-top: 18vh;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  position: relative;
+}
+.One-Blog > * {
+  z-index: 2;
+  width: 800px;
+  animation: componrntrenser 1.5s ease;
+  transition: all 500ms ease;
+  margin: 0%;
+  word-wrap: break-word;
+}
+.One-Blog > h1 {
+  font-size: 4em;
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+.One-Blog > p {
+  font-size: 1.5em;
+}
+.One-Blog li {
+  font-size: 1.4em;
+  margin-left: 10px;
+}
+.One-Blog > h2 {
+  font-weight: bold;
+  font-size: 1.9em;
+  font-family: "Playfair Display", serif;
+}
+
+.One-Blog > h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: "Playfair Display", serif;
+}
+
+.One-Blog > div {
+  border-bottom: 1px solid gray;
+  padding: 10px 0px;
+  display: flex;
+  font-size: 1.3em;
+  gap: 10px;
+  font-weight: bold;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 800px) {
+  .One-Blog > * {
+    width: 90%;
+  }
+  #Blogs,
+  .One-Blog {
+    margin-top: 12vh;
+  }
+  .One-Blog > h1 {
+    font-size: 3em;
+    word-wrap: break-word;
+  }
+}
+
+.frachisebg {
+  width: 100%;
+  height: 90vh;
+  border: none !important;
+  z-index: -1;
+  position: fixed;
+  top: 18vh;
+}
+.franchiseeheading {
+  font-size: 3em !important;
+  color: #916cad;
+  font-family: "Oswald", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 600 !important;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+}
