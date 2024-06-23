@@ -12,28 +12,28 @@ function LandingPage() {
     {
       word: "Grow",
       description:
-        "Unlock your potential and embark on a journey of personal transformation with our expertly designed courses in mental health and happiness. Our platform offers a unique blend of science-backed strategies and personalized learning experiences, tailored to meet your individual needs and goals.",
+        "Unlock your potential with our mental health and happiness courses, designed to transform you with science-backed strategies and personalized learning experiences tailored to your needs and goals.",
       color: "#ed6750",
       imgSrc: "/assets/nurture.png",
     },
     {
       word: "Achieve",
       description:
-        "Unlock your potential with our expertly crafted mental health and happiness courses designed to help you achieve your personal and professional goals. Our comprehensive curriculum, developed by seasoned mental health professionals, provides you with the tools and techniques to manage stress, build resilience, and cultivate a positive mindset.",
+        "Unlock your potential with our mental health and happiness courses designed to help you achieve your goals. Our curriculum provides tools to manage stress, build resilience, and positivity.",
       color: "#ef64f2",
       imgSrc: "/assets/goal.png",
     },
     {
       word: "Prosper",
       description:
-        "Our comprehensive curriculum, grounded in the latest scientific research, offers practical strategies and personalized learning experiences to help you overcome challenges, boost your emotional well-being, and cultivate lasting happiness. By integrating mindfulness practices, stress management techniques, and positive psychology, our courses provide a holistic approach to personal growth.",
+        "Our curriculum, grounded in scientific research, offers practical strategies to boost your well-being . Integrating mindfulness and stress management, our courses offer a holistic approach.",
       color: "#e2b102",
       imgSrc: "/assets/peace.png",
     },
     {
       word: "Thrive",
       description:
-        "Empower yourself with the tools and knowledge to thrive in all areas of your life through our comprehensive mental health and happiness courses. Our expertly crafted programs are designed to help you build resilience, enhance your emotional intelligence, and achieve a balanced state of well-being.",
+        "Empower yourself with tools and knowledge to thrive in all areas of life through our mental health and happiness courses. Our programs enhance emotional intelligence, and balance well-being.",
       color: "#6059ff",
       imgSrc: "/assets/intelligence.png",
     },

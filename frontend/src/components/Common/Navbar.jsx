@@ -122,7 +122,7 @@ function Navbar() {
           }}
         >
           <Link to={"/"} className="logo">
-            <img src="assets\logo\PsycortexLogo.png" alt="" />
+            <img src="\assets\logo\apple-touch-icon.png" alt="" />
           </Link>
           <button
             onMouseEnter={() => {

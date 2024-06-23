@@ -251,9 +251,9 @@ footer {
   gap: 5px;
   padding-top: 20px;
 }
-.socialLinks p {
+/* .socialLinks p {
   font-weight: 600;
-}
+} */
 .socialLinks {
   display: flex;
   justify-content: space-between;

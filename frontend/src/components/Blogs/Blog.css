@@ -3,7 +3,7 @@
   transition: all 500ms ease;
 }
 #Blogs {
-  margin-top: 18vh;
+  margin-top: 10vh;
 }
 
 .blog-container {
@@ -30,7 +30,7 @@
 .oneblog > a {
   text-decoration: none;
   color: #501a77;
-  font-family: "Playfair Display", serif;
+
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
@@ -64,7 +64,7 @@
 }
 
 .One-Blog {
-  margin-top: 18vh;
+  margin-top: 15vh;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -81,7 +81,7 @@
 }
 .One-Blog > h1 {
   font-size: 4em;
-  font-family: "Playfair Display", serif;
+
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
@@ -96,13 +96,11 @@
 .One-Blog > h2 {
   font-weight: bold;
   font-size: 1.9em;
-  font-family: "Playfair Display", serif;
 }
 
 .One-Blog > h3 {
   font-size: 1.5em;
   font-weight: bold;
-  font-family: "Playfair Display", serif;
 }
 
 .One-Blog > div {
@@ -127,22 +125,4 @@
     font-size: 3em;
     word-wrap: break-word;
   }
-}
-
-.frachisebg {
-  width: 100%;
-  height: 90vh;
-  border: none !important;
-  z-index: -1;
-  position: fixed;
-  top: 18vh;
-}
-.franchiseeheading {
-  font-size: 3em !important;
-  color: #916cad;
-  font-family: "Oswald", sans-serif !important;
-  font-optical-sizing: auto;
-  font-weight: 600 !important;
-  font-style: normal;
-  font-variation-settings: "slnt" 0;
 }

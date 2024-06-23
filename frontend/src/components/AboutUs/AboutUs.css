@@ -1,0 +1,334 @@
+/* MAIN ABOUT US */
+
+.Main-AboutUs {
+  padding-top: 10vh;
+}
+
+.Main-AboutUs .sec1 {
+  padding: 5% 0px 5% 10%;
+  background-color: var(--primary-color);
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.Main-AboutUs .sec1 .slantLine {
+  position: absolute;
+  top: -2px;
+  left: 6vw;
+  transform: rotate(10deg);
+  height: 60%;
+  width: 7px;
+  background-color: white;
+}
+.Main-AboutUs .sec1 h4 {
+  margin: 0%;
+}
+.Main-AboutUs .sec1 h1 {
+  font-size: 60px;
+  margin: 0%;
+  max-width: 50%;
+}
+
+.Main-AboutUs .sec2 {
+  background-color: rgb(221, 220, 220);
+  padding: 5% 0px;
+}
+.Main-AboutUs .sec2 p {
+  font-size: 20px;
+  max-width: 1000px;
+  padding: 0px 10px;
+  margin: 10px auto;
+}
+
+.Main-AboutUs .sec3 {
+  margin: 10vh 0px;
+  display: flex;
+  gap: 5vw;
+  align-items: center;
+  justify-content: center;
+}
+.Main-AboutUs .sec3 div p,
+.Main-AboutUs .sec3 div li {
+  font-size: 20px;
+}
+.Main-AboutUs .sec3 div h4 {
+  font-size: 28px;
+  margin: 0%;
+}
+.Main-AboutUs .sec3 div {
+  width: calc(70% - 300px);
+}
+.Main-AboutUs .sec3 img {
+  width: 300px;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 800px) {
+  .Main-AboutUs .sec1 {
+    padding: 5% 0px 5% 12%;
+  }
+  .Main-AboutUs .sec1 .slantLine {
+    left: 5vw;
+  }
+  .Main-AboutUs .sec1 h1 {
+    font-size: 45px;
+  }
+  .Main-AboutUs .sec3 {
+    flex-direction: column;
+  }
+  .Main-AboutUs .sec3:last-child {
+    flex-direction: column-reverse;
+  }
+  .Main-AboutUs .sec3 div {
+    width: 95%;
+  }
+  .Main-AboutUs .sec3 img {
+    width: 90%;
+    object-fit: contain;
+  }
+}
+
+/* CARRER */
+
+.Carrer {
+  padding-top: 10vh;
+  background-color: rgb(221, 220, 220);
+}
+
+.Carrer .sec2 {
+  padding: 2% 10px;
+  margin: 10px auto;
+  max-width: 1000px;
+}
+.Carrer .sec2 h4 {
+  font-size: 28px;
+}
+.Carrer .sec2 p {
+  font-size: 20px;
+}
+.Carrer .sec2 a {
+  text-decoration: none;
+  width: fit-content;
+  display: flex;
+
+  gap: 5px;
+  align-items: center;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 9px 29px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+/* CONTACT US */
+
+/* CONACTPAGE STYLING */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Contact * {
+  margin: 0px;
+  transition: all 500ms ease;
+  animation: componrntrenser 1.5s ease;
+}
+.Contact {
+  width: 100%;
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+}
+.Contact > div {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.Contact > div > div:not(.map) {
+  width: 40%;
+}
+.adress h2 {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+.adress h2.cityname {
+  font-size: 1.4em;
+  font-weight: 500;
+}
+.adress {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.adress p {
+  margin: 10px 0px;
+  padding-right: 15px;
+  font-size: 1.1em;
+  text-wrap: balance;
+}
+.adress h3 {
+  margin-top: 1em;
+  color: #7464d1;
+}
+.adress span {
+  color: #7464d1;
+}
+.map {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 5em;
+  display: flex;
+  justify-content: center;
+}
+.map iframe {
+  width: 85%;
+}
+.Contact > h1 {
+  height: 30%;
+  display: flex;
+  align-items: flex-end;
+  word-break: keep-all;
+  padding-left: 10%;
+  margin: 1em 0px;
+  font-size: 3em;
+  color: #501a77;
+}
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.form > div {
+  width: 45%;
+  display: flex;
+
+  flex-direction: column;
+}
+.form > div > input {
+  padding: 7px;
+  height: 3em;
+  border-radius: 3px;
+  outline: none;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+}
+.form button {
+  padding: 12px 24px;
+  background-color: #501a77;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  margin-top: 3em;
+}
+#message div * {
+  margin: 0%;
+}
+#message input[type="checkbox"] {
+  margin-right: 5px;
+}
+#message div {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#message {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#message textarea {
+  height: 8em;
+  resize: none;
+  padding: 7px;
+  border-radius: 3px;
+  outline: none;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+}
+
+#messageBox span {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  cursor: pointer;
+}
+#messageBox div {
+  width: 400px;
+  height: 200px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px black;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: messageboxani 500ms ease-in-out;
+}
+
+@keyframes messageboxani {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+#messageBox {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 100;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media only screen and (max-width: 750px) {
+  .Contact {
+    margin-top: 15vh !important;
+  }
+  .Contact > div {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 4em;
+    justify-content: center;
+  }
+  .Contact > div > div {
+    width: 85% !important;
+  }
+  .Contact > h1 {
+    width: 100%;
+    align-items: center !important;
+    justify-content: center;
+    padding-left: 0% !important;
+    margin: 0.5em 0px !important;
+  }
+  .form button {
+    padding: 12px 24px;
+    color: white;
+    border: none;
+    width: 95%;
+    border-radius: 7px;
+    margin-top: 1.5em !important;
+  }
+  .map iframe {
+    width: 100%;
+  }
+}

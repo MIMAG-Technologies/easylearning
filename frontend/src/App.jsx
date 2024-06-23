@@ -23,6 +23,13 @@ import OneCoursePage from "./components/Courses/OneCoursePage";
 import BrowseCourse from "./components/Courses/BrowseCourse";
 import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blogs/Blog";
+import AboutUs from "./components/AboutUs/AboutUs";
+import MSV from "./components/AboutUs/MSV";
+import Offices from "./components/AboutUs/Offices";
+import Carrer from "./components/AboutUs/Carrer";
+import ApplyAsInstructor from "./components/Forms/AppyAsInstructor";
+import Contact from "./components/AboutUs/Contact";
+import PolicyTemplate from "./components/Policy/PolicyTemplate";
 
 function App() {
   const { pathname } = useLocation();
@@ -43,8 +50,18 @@ function App() {
           <Route index element={<Home />} />
           <Route path="courses" element={<BrowseCourse />} />
           <Route path="course/:id" element={<OneCoursePage />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/blog/:section" element={<Blog />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="blog/:section" element={<Blog />} />
+          {/* ABOUT US SECTIONS */}
+          <Route path="aboutus" element={<AboutUs />} />
+          <Route path="mission-vision-and-values" element={<MSV />} />
+          <Route path="offices" element={<Contact />} />
+          <Route path="carrer" element={<Carrer />} />
+          <Route path="apply-as-instructor" element={<ApplyAsInstructor />} />
+          <Route
+            path="psycortex-online-education/:section"
+            element={<PolicyTemplate />}
+          />
         </Route>
 
         {/* Auth Routes */}
@@ -55,7 +72,11 @@ function App() {
 
         {/* Admin Routes */}
         <Route path="admin" element={<AdminNav />}>
-          <Route path="category-management" element={<CategoryManagement />} />
+          <Route
+            path="category-management"
+            index
+            element={<CategoryManagement />}
+          />
           <Route path="course-management">
             <Route index element={<CourseManagement />} />
             <Route path="create-course" element={<CreateCourse />} />

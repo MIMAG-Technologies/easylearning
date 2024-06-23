@@ -225,7 +225,7 @@
   .landinginfo {
     left: 5%;
     width: calc(100% - 60px);
-    gap: 7px;
+    gap: 10px;
     top: 12%;
   }
 
@@ -250,11 +250,12 @@
   font-weight: 600;
 }
 .AboutUs > p {
-  max-width: 900px;
+  max-width: 1010px;
   margin: 0% auto;
   margin-bottom: 5vh;
   font-size: 17px;
   color: #757575;
+  text-align: center;
 }
 .msv-item:hover img {
   transform: scale(1.2);
@@ -484,7 +485,7 @@
   height: 75vh;
   background-color: #3f3f3f7f;
   display: flex;
-  margin-bottom: 10vh;
+  margin-bottom: 150px;
   position: relative;
   flex-direction: column;
   align-items: center;
@@ -505,7 +506,7 @@
 }
 
 .ExploreCategories > div {
-  height: 50vh;
+  height: fit-content;
   width: 60%;
   margin: 0px auto;
   background-color: white;
@@ -608,18 +609,18 @@
 .OutCome {
   display: flex;
   align-items: center;
-
   margin: 7vh 0px;
   justify-content: space-around;
-  height: 70vh;
   z-index: 0 !important;
-  padding: 0px 5vw;
+  padding: 5vh 5vw;
   background-color: #f5f5f5;
 }
 
 .OutCome img {
-  height: 100%;
-  transform: scale(1.075);
+  width: 300px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.336);
 }
 .OutCome div {
   width: 45%;
@@ -637,7 +638,7 @@
 
 .OutCome div p {
   margin: 0%;
-  font-weight: 600;
+  /* font-weight: 600; */
   color: black;
 }
 

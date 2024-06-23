@@ -6,14 +6,14 @@ function Footer() {
   const footerLinks = [
     [
       { title: "Psycortex Online Education", ref: "heading" },
-      { title: "About", ref: "#" },
-      { title: "Mission, Vision & Values", ref: "#" },
-      { title: "Offices", ref: "#" },
-      { title: "Careers", ref: "#" },
+      { title: "About", ref: "/aboutus" },
+      { title: "Mission, Vision & Values", ref: "/mission-vision-and-values" },
+      { title: "Offices", ref: "/offices" },
+      { title: "Careers", ref: "/carrer" },
     ],
     [
       { title: "Community", ref: "heading" },
-      { title: "Blogs", ref: "#" },
+      { title: "Blogs", ref: "/blogs" },
       { title: "For Individuals", ref: "#" },
       { title: "For Corporates", ref: "#" },
       { title: "For Universities", ref: "#" },
@@ -66,16 +66,16 @@ function Footer() {
       </div>
       <div className="socialLinks">
         <p>
-          © {currentYear} Psycortex Online Education Inc. All rights reserved.
+          © {currentYear} Psycortex Online Education Inc. All Rights Reserved.
         </p>
         <span>
-          <Link to={"#"} target="_blank">
+          <Link to={"/psycortex-online-education/privacypolicy"}>
             Privacy Policy
           </Link>
-          <Link to={"#"} target="_blank">
+          <Link to={"/psycortex-online-education/termsandcondition"}>
             Terms & Conditions
           </Link>
-          <Link to={"#"} target="_blank">
+          <Link to={"/psycortex-online-education/returnpolicy"}>
             Refund Policy
           </Link>
         </span>

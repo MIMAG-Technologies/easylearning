@@ -64,7 +64,7 @@ function MobileNavbar() {
                 height: "6vh",
                 marginRight: "5px",
               }}
-              src="assets\logo\PsycortexLogo.png"
+              src="\assets\logo\apple-touch-icon.png"
               alt=""
             />
             Psycortex Online Education{" "}

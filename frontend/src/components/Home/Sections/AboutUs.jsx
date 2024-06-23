@@ -18,7 +18,7 @@ function AboutUs() {
     },
     {
       title: "Values",
-      p: "At the heart of our organization lies a steadfast commitment to excellence, inclusivity, integrity, community, personalization, and growth. We are dedicated to providing the highest quality courses, meticulously grounded in the latest scientific research and delivered by seasoned professionals. We believe in making mental health and well-being education accessible to all, breaking down barriers regardless of background, location, or financial situation.",
+      p: "At the heart of our organization lies a steadfast commitment to excellence, inclusivity, integrity, community, personalization, and growth. We are dedicated to providing the highest quality courses, meticulously grounded in the latest scientific research and delivered by seasoned professionals.",
       img: "/assets/values.png",
       primaryColor: "rgb(232,255,246)",
       hoverColor: "rgb(211,255,238)",

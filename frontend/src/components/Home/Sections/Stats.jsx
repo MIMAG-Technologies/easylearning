@@ -4,25 +4,25 @@ function Stats() {
   const stats = [
     {
       title: "Number of Students",
-      value: 10000,
+      value: 500,
       bgColor: "#ffccc3",
       imgSrc: "/assets/stat1.png",
     },
     {
       title: "Number of Teacher",
-      value: 30,
+      value: 10,
       bgColor: "#f8cef9",
       imgSrc: "/assets/stat1.png",
     },
     {
       title: "Number of Courses",
-      value: 500,
+      value: 50,
       bgColor: "#f9ecbe",
       imgSrc: "/assets/stat1.png",
     },
     {
-      title: "Year of Experience",
-      value: 9,
+      title: "Number of Categories",
+      value: 10,
       bgColor: "#d5d4ea",
       imgSrc: "/assets/stat1.png",
     },
