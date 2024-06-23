@@ -47,8 +47,8 @@ function Stats() {
           }
         });
       },
-      { threshold: 0.5 }
-    ); // Trigger animation when at least 50% of the component is visible
+      { threshold: 0.75 } // Increased threshold to 0.75
+    );
 
     if (statsRef.current) {
       observer.observe(statsRef.current);
@@ -60,7 +60,7 @@ function Stats() {
   }, []);
 
   const animateStats = () => {
-    const duration = 5000; // 7 seconds in milliseconds
+    const duration = 5000; // 5 seconds in milliseconds
     const startTime = performance.now();
 
     const updateStats = () => {
@@ -109,7 +109,7 @@ function Stats() {
               backgroundColor: stat.bgColor,
             }}
           >
-            <h3>{stat.animatedValue}+</h3>
+            <h3>{Math.floor(stat.animatedValue)}+</h3>
             <p>{stat.title}</p>
             <img src={stat.imgSrc} alt={stat.title} />
           </div>

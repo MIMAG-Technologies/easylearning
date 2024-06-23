@@ -302,10 +302,13 @@
     width: 90%;
   }
 }
+
 /* <===========>  STATS <==========> */
 .Stats {
   padding: 5vw;
   padding-top: 0%;
+  min-height: 100vh; /* Ensure it has enough height */
+  overflow: hidden; /* Prevent overflow issues */
 }
 
 .Stats h1 {
@@ -325,7 +328,6 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -669,113 +671,6 @@
     margin: 5vh 0px;
     text-align: center;
     width: 100%;
-  }
-}
-
-/* TESTIMONIALS */
-
-.Testimonials {
-  transition: all 500ms ease;
-  max-width: 124rem;
-  margin: 0 auto;
-  padding: 2em 0px;
-}
-.Testimonials > h1 {
-  text-align: center;
-  font-size: 50px;
-  margin: 0%;
-  font-weight: 500;
-}
-.Testimonials > p {
-  text-align: center;
-  max-width: 500px;
-  font-size: 28px;
-  margin: auto auto;
-  margin-bottom: 5vh;
-}
-
-.swiper_container {
-  min-height: 60vh;
-  padding: 2rem 0;
-  position: relative;
-}
-
-.swiper-slide {
-  width: 20em !important;
-  min-height: 57vh !important;
-  position: relative;
-  box-shadow: 0 15px 50px rgb(0, 0, 0, 0.2);
-  filter: blur(4px);
-  border-radius: 10px;
-}
-.swiper-slide-active {
-  filter: blur(0px);
-}
-.swiper-slide-shadow-left,
-.swiper-slide-shadow-right {
-  display: none;
-}
-
-.slider-controler {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30em;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.slider-controler .slider-arrow {
-  background: var(--primary-color);
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  color: white;
-  filter: drop-shadow(0px 8px 24px rgba(18, 28, 53, 0.1));
-}
-
-.slider-controler .slider-arrow::after {
-  content: "";
-}
-
-.one-testimonial {
-  width: 16em !important;
-  min-height: 500px !important;
-  display: flex;
-  flex-direction: column;
-  padding: 2vh 2em;
-  border-radius: 10px;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: white;
-}
-
-.one-testimonial p {
-  font-size: 1.2em;
-}
-.one-testimonial i {
-  font-size: 3em;
-  align-self: flex-end;
-  -webkit-text-stroke: 2px grey;
-}
-.whowrotethat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.whowrotethat h3 {
-  color: var(--primary-color);
-}
-.whowrotethat h3,
-.whowrotethat p {
-  margin: 0%;
-}
-@media screen and (max-width: 650px) {
-  .slider-controler {
-    display: none;
   }
 }
 
