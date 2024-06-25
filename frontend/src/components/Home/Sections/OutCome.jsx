@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function OutCome() {
   return (
     <div className="OutCome">
-      <img src="\assets\outcomes.jpg" alt="" />
+      <img src="\assets\outcomes.png" alt="" />
       <div>
         <h1>Learner Outcomes On Psycortex Online Education</h1>
         <p>

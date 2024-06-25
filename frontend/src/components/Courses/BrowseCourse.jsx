@@ -128,7 +128,13 @@ function BrowseCourse() {
       top: 0,
       behavior: "smooth",
     });
-  }, [currentPage]);
+  }, [
+    currentPage,
+    selectedCategories,
+    selectedLevels,
+    selectedDurations,
+    selectedBelongsTo,
+  ]);
 
   return (
     <div className="BrowseCourse">

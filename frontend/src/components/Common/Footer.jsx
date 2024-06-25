@@ -14,18 +14,18 @@ function Footer() {
     [
       { title: "Community", ref: "heading" },
       { title: "Blogs", ref: "/blogs" },
-      { title: "For Individuals", ref: "#" },
-      { title: "For Corporates", ref: "#" },
-      { title: "For Universities", ref: "#" },
-      { title: "For Governments", ref: "#" },
+      { title: "For Individuals", ref: "/courses?belongTo=For+Individuals" },
+      { title: "For Corporates", ref: "/courses?belongTo=For+Corporates" },
+      { title: "For Universities", ref: "/courses?belongTo=For+Universities" },
+      { title: "For Governments", ref: "/courses?belongTo=For+Governments" },
     ],
   ];
   const socialLinks = {
-    facebook: "https://www.facebook.com/",
-    twitter: "https://twitter.com/",
-    linkedin: "https://www.linkedin.com/",
-    youtube: "https://www.youtube.com/",
-    instagram: "https://www.instagram.com/",
+    facebook: "https://www.facebook.com/psycortex.bt?mibextid=rS40aB7S9Ucbxw6v",
+    twitter: "https://x.com/PPsycortex",
+    linkedin: "http://www.linkedin.com/in/psycortex-private-limited-720289301",
+    youtube: "https://www.youtube.com/@psycortex_private_limited",
+    instagram: "https://www.instagram.com/psycortex_pvt_ltd/",
   };
 
   const currentYear = new Date().getFullYear();

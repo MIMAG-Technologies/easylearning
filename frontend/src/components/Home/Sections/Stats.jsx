@@ -47,7 +47,9 @@ function Stats() {
           }
         });
       },
-      { threshold: 0.75 } // Increased threshold to 0.75
+      {
+        threshold: window.innerWidth < 768 ? 0.5 : 0.75, // Adjust threshold for smaller screens
+      }
     );
 
     if (statsRef.current) {

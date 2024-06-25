@@ -8,6 +8,7 @@ function LandingPage() {
   const [isVisible, setIsVisible] = useState(true);
   const [isPreloaded, setIsPreloaded] = useState(false); // State to track image preloading
   const CONTAINER_HEIGHT = 350; // Height of the container in vh
+
   const keywords = [
     {
       word: "Grow",

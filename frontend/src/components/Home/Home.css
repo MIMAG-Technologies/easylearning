@@ -26,7 +26,7 @@
   flex-direction: column;
   margin-bottom: 20vh;
   position: sticky;
-  top: 60%;
+  top: 55%;
 }
 
 .landinginfo * {
@@ -56,7 +56,7 @@
 .landingimg {
   left: 75%;
   width: 400px;
-  height: 50vh;
+  height: 400px;
   border-radius: 10px;
   border: 2px solid var(--primary-color);
   --color: #e1e1e1;
@@ -186,7 +186,11 @@
     transform: translate(-7%, -50%);
   }
 }
-@media screen and (max-width: 859px) {
+@media screen and (max-width: 859px) and (min-width: 420px) {
+  .landingimg {
+    width: 400px;
+    left: calc(50% - 200px);
+  }
   .landinginfo h1 {
     font-size: 42px;
     display: inline;
@@ -225,17 +229,59 @@
   .landinginfo {
     left: 5%;
     width: calc(100% - 60px);
-    gap: 10px;
+    gap: 15px;
     top: 12%;
   }
-
+}
+@media screen and (max-width: 420px) {
   .landingimg {
-    top: 47%;
-    left: 5%;
-    width: calc(90% - 27.5px);
-    margin: 0% auto;
+    width: auto;
+    top: calc(100% - 400px - 5vh);
+    left: 10%;
+    max-width: 80%;
     height: 45vh;
     margin-bottom: 10vh;
+  }
+  .landinginfo h1 {
+    font-size: 42px;
+    display: inline;
+    margin-right: 10px;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .landinginfo a {
+    font-size: 16px;
+    font-weight: 400;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 12px;
+    z-index: -10;
+    border-radius: 5px;
+    width: fit-content;
+  }
+  .landinginfo p {
+    font-size: 16px;
+  }
+  .curve {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+  }
+  .landinginfo,
+  .landingimg {
+    transform: translate(0%, 0%);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+  }
+  .landinginfo {
+    left: 5%;
+    width: calc(100% - 60px);
+    gap: 15px;
+    top: 12%;
   }
 }
 /* <===========>  ABOUT US <==========> */
@@ -337,15 +383,15 @@
 }
 
 .stat {
-  border: 1px solid black;
   width: 258px;
+  height: 258px;
+  border: 1px solid black;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 2px;
   align-items: center;
-  height: 258px;
   border-radius: 10px;
 }
 
@@ -358,6 +404,7 @@
 .stat p {
   font-size: 17px;
   color: #3f3f3f;
+  text-align: center;
   transform: translateY(30px);
 }
 .stat h3 {
@@ -376,6 +423,16 @@
   transform: translateY(-30px);
 }
 
+@media screen and (max-width: 592px) {
+  .stat {
+    width: 165px;
+    height: 165px;
+  }
+  .stat:hover h3,
+  .stat:hover p {
+    transform: translateY(-10px);
+  }
+}
 /* <===========>  Collaborations <==========> */
 
 .Collaborations {
@@ -619,10 +676,8 @@
 }
 
 .OutCome img {
-  width: 300px;
+  max-width: 550px;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.336);
 }
 .OutCome div {
   width: 45%;
@@ -664,7 +719,7 @@
   }
   .OutCome img {
     height: auto;
-    width: 70%;
+    width: 100%;
   }
   .OutCome div {
     align-items: center;

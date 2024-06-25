@@ -231,14 +231,14 @@ footer a {
 footer {
   background-color: #f1f1f1;
   padding: 20px 5vw;
-  border: 0.5px solid #e5e7e8;
-  margin-top: 20px;
+  border: 0.5px solid #d3d4d4;
+  /* margin-top: 20px; */
 }
 .linksSection {
   display: flex;
   flex-wrap: wrap;
   gap: 10%;
-  border-bottom: 0.5px solid #e5e7e8;
+  border-bottom: 2px solid #e5e7e8;
   padding-bottom: 20px;
 }
 
@@ -329,7 +329,7 @@ footer {
   width: 100%;
   z-index: 10;
   position: relative;
-  height: 94vh;
+  height: calc(94vh - 20px);
   overflow-x: hidden;
   overflow-y: scroll;
   position: fixed;

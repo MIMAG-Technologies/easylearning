@@ -84,7 +84,13 @@ function MobileNavbar() {
         )}
       </nav>
 
-      <nav className="level1" style={{ left: isLevel1Open ? "0px" : "-100%" }}>
+      <nav
+        className="level1"
+        style={{
+          left: isLevel1Open ? "0px" : "-100%",
+          gridTemplateRows: user.isLoggedIn ? "1fr 3fr 8fr" : "1fr 3fr 1fr",
+        }}
+      >
         {user.isLoggedIn && (
           <p className="user-info-tab">
             <img
