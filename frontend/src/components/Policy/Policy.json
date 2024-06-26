@@ -1,7 +1,6 @@
 [
   {
     "searchkey": "termsandcondition",
-
     "content": [
       { "tag": "h2", "text": "Terms & Conditions" },
       {
@@ -10,11 +9,11 @@
       },
       {
         "tag": "p",
-        "text": "Customer hereby that no contractual or legal liability arises against Psycortex Pvt. Ltd. by ordering or making use of the consultations, the use of which is at the sole risk of the client."
+        "text": "Customer hereby that no contractual or legal liability arises against Psycortex Online Education by ordering or making use of the consultations, the use of which is at the sole risk of the client."
       },
       {
         "tag": "p",
-        "text": "Please read these Terms and Conditions carefully before using the psycortex.in website and the Services operated by Psycortex Pvt. Ltd."
+        "text": "Please read these Terms and Conditions carefully before using the edu.psycortex.in website and the Services operated by Psycortex Online Education."
       },
       {
         "tag": "p",
@@ -32,11 +31,11 @@
       { "tag": "h2", "text": "Links To Other Web Sites" },
       {
         "tag": "p",
-        "text": "Our Service may contain links to third-party websites or services that are not owned or controlled by psycortex.in"
+        "text": "Our Service may contain links to third-party websites or services that are not owned or controlled by edu.psycortex.in"
       },
       {
         "tag": "p",
-        "text": "psycortex.in has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that psycortex.in shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods, or services available on or through any such websites or services."
+        "text": "edu.psycortex.in has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that edu.psycortex.in shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods, or services available on or through any such websites or services."
       },
       { "tag": "h2", "text": "Changes" },
       {
@@ -52,45 +51,44 @@
   },
   {
     "searchkey": "privacypolicy",
-
     "content": [
       { "tag": "h2", "text": " Privacy Policy" },
       {
         "tag": "p",
-        "text": " At psycortex.in, accessible from psycortex.in, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by psycortex.in and how we use it."
+        "text": " At edu.psycortex.in, accessible from edu.psycortex.in, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by edu.psycortex.in and how we use it."
       },
       {
         "tag": "p",
-        "text": " If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at psycortex01@gmail.com "
+        "text": " If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at nbstngp@gmail.com "
       },
       { "tag": "h2", "text": " Log Files" },
       {
         "tag": "p",
-        "text": " psycortex.in follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and are a part of hosting services’ analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is to analyze trends, administer the site, track users’ movement on the website, and gather demographic information."
+        "text": " edu.psycortex.in follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and are a part of hosting services’ analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is to analyze trends, administer the site, track users’ movement on the website, and gather demographic information."
       },
       { "tag": "h2", "text": " Cookies And Web Beacons" },
       {
         "tag": "p",
-        "text": " Like any other website, psycortex.in uses cookies. These cookies are used to store information including visitors’ preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users’ experience by customizing our web page content based on visitors’ browser type and/or other information."
+        "text": " Like any other website, edu.psycortex.in uses cookies. These cookies are used to store information including visitors’ preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users’ experience by customizing our web page content based on visitors’ browser type and/or other information."
       },
       { "tag": "h2", "text": " Google DoubleClick DART Cookie" },
       {
         "tag": "p",
-        "text": " Google is one of the third-party Vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to psycortex.in and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – https://policies.google.com/technologies/ads"
+        "text": " Google is one of the third-party Vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to edu.psycortex.in and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – https://policies.google.com/technologies/ads"
       },
       { "tag": "h2", "text": " Privacy Policies" },
       {
         "tag": "p",
-        "text": " You may consult this list to find the Privacy Policy for each of the advertising partners of psycortex.in Third-party ad servers or ad networks, they use technologies like cookies, JavaScript, or Web Beacons used in their respective advertisements and links that appear on psycortex.in. These are sent directly to users’ browsers. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit."
+        "text": " You may consult this list to find the Privacy Policy for each of the advertising partners of edu.psycortex.in Third-party ad servers or ad networks, they use technologies like cookies, JavaScript, or Web Beacons used in their respective advertisements and links that appear on edu.psycortex.in. These are sent directly to users’ browsers. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit."
       },
       {
         "tag": "p",
-        "text": " Note that psycortex.in has no access to or control over these cookies used by third-party advertisers."
+        "text": " Note that edu.psycortex.in has no access to or control over these cookies used by third-party advertisers."
       },
       { "tag": "h2", "text": " Third-Party Privacy Policies" },
       {
         "tag": "p",
-        "text": " psycortex.in ‘s Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt out of certain options. You may find a complete list of these Privacy Policies and their links here: Privacy Policy Links."
+        "text": " edu.psycortex.in ‘s Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt out of certain options. You may find a complete list of these Privacy Policies and their links here: Privacy Policy Links."
       },
       {
         "tag": "p",
@@ -103,12 +101,12 @@
       },
       {
         "tag": "p",
-        "text": " psycortex.in does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records."
+        "text": " edu.psycortex.in does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records."
       },
       { "tag": "h2", "text": " Online Privacy Policy Only" },
       {
         "tag": "p",
-        "text": " This Privacy Policy (created with the GDPR Privacy Policy Generator) applies only to our online activities and is valid for visitors to our website with regards to the information that they shared or collect in psycortex.in. This policy is not applicable to any information collected offline or via channels other than this website."
+        "text": " This Privacy Policy (created with the GDPR Privacy Policy Generator) applies only to our online activities and is valid for visitors to our website with regards to the information that they shared or collect in edu.psycortex.in. This policy is not applicable to any information collected offline or via channels other than this website."
       },
       {
         "tag": "p",
@@ -161,20 +159,19 @@
   },
   {
     "searchkey": "returnpolicy",
-
     "content": [
       { "tag": "h2", "text": " Refund Policy" },
       {
         "tag": "p",
-        "text": "The refund policy of Psycortex Pvt. Ltd. is straightforward and adheres to specific conditions. Once a consultation fee is paid, refunds are generally not provided once the consultation has been conducted. However, in the event of an erroneous payment or any other exceptional circumstance, refunds can be processed within a specified timeframe of 3-4 business days. "
+        "text": "The refund policy of Psycortex Online Education is straightforward and adheres to specific conditions. Once a consultation fee is paid, refunds are generally not provided once the consultation has been conducted. However, in the event of an erroneous payment or any other exceptional circumstance, refunds can be processed within a specified timeframe of 3-4 business days. "
       },
       {
         "tag": "p",
-        "text": "Clients are required to promptly notify Psycortex Pvt. Ltd. within this window to initiate the refund process. Outside of these exceptional circumstances, refunds are not typically issued, and the clinic maintains a policy of not refunding any payments that result from chargebacks."
+        "text": "Clients are required to promptly notify Psycortex Online Education within this window to initiate the refund process. Outside of these exceptional circumstances, refunds are not typically issued, and the clinic maintains a policy of not refunding any payments that result from chargebacks."
       },
       {
         "tag": "p",
-        "text": "This policy underscores the importance of ensuring accuracy and intentionality in payments made to Psycortex Pvt. Ltd.. It also emphasizes the need for clients to promptly address any payment-related issues within the specified timeframe to facilitate a smooth refund process. By outlining clear guidelines regarding refunds, the clinic aims to provide transparency and clarity to its clients while also safeguarding its financial interests. "
+        "text": "This policy underscores the importance of ensuring accuracy and intentionality in payments made to Psycortex Online Education. It also emphasizes the need for clients to promptly address any payment-related issues within the specified timeframe to facilitate a smooth refund process. By outlining clear guidelines regarding refunds, the clinic aims to provide transparency and clarity to its clients while also safeguarding its financial interests."
       },
       {
         "tag": "p",
