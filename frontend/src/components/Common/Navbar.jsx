@@ -116,6 +116,11 @@ function Navbar() {
         </div>
         <div
           className="lowerNav"
+          style={{
+            borderBottom: loc.pathname.includes("dashboard")
+              ? "none"
+              : "1px solid gray",
+          }}
           onMouseEnter={() => {
             setCurrentActiveCategory("");
             setIsDropdownOpen(false);
@@ -155,11 +160,7 @@ function Navbar() {
                   onError={handleImageError}
                   alt=""
                 />
-                <Link
-                  to={
-                    user.name === "Admin" ? "/admin/category-management" : "/"
-                  }
-                >
+                <Link to={user.role === "admin" ? "/admin" : "/dashboard"}>
                   {user.name}
                 </Link>
               </p>

@@ -158,13 +158,27 @@
   overflow: hidden;
   border-radius: 50%;
 }
+.oneteachercard a {
+  margin-left: auto;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 2px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  outline: none;
+}
 .oneteachercard {
   height: 70px;
   padding: 10px;
   display: flex;
   text-decoration: none;
-  color: white;
-  background-color: var(--primary-color);
+  color: black;
+  background-color: rgb(222, 222, 222);
   align-items: center;
   gap: 10px;
   border-radius: 10px;

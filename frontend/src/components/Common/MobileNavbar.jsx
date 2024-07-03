@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ChevronRight, Menu, Search, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
 import noProfilePhoto from "../../assets/Images/profile-pic.png";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,7 +9,7 @@ function MobileNavbar() {
   const { categoriesList } = useContext(ResoursesContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const loc = useLocation();
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false);
   const [isLevel1Open, setIsLevel1Open] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,7 +43,14 @@ function MobileNavbar() {
 
   return (
     <>
-      <nav className="MobileNavbar">
+      <nav
+        className="MobileNavbar"
+        style={{
+          borderBottom: loc.pathname.includes("dashboard")
+            ? "none"
+            : "1px solid gray",
+        }}
+      >
         <Menu size={30} onClick={toggleLevel1} />
         {isSearchBoxOpen ? (
           <div className="searchbox">

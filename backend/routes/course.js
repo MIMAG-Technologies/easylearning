@@ -6,12 +6,14 @@ const router = Router();
 
 // COURSES
 router.post("/courses/create", auth, courseControllers.createCourse);
-router.post(
-  "/courses/assignTeacher/:action",
+router.get("/courses/user/:userId", auth, courseControllers.getUserCourses);
+router.get(
+  "/courses/userList/:courseId",
   auth,
-  courseControllers.assignTeacher
+  courseControllers.getEnrolledStudents
 );
 router.get("/courses/:courseId", courseControllers.getCourseById);
+router.put("/courses/user/enroll", auth, courseControllers.enrollCourse);
 router.put("/courses/:courseId", auth, courseControllers.updateCourse);
 router.delete("/courses/:courseId", auth, courseControllers.deleteCourse);
 

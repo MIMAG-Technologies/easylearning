@@ -1,0 +1,116 @@
+.DashBoard {
+  width: 100%;
+  margin-top: 15vh;
+}
+nav.secondarynavbar {
+  padding: 0px 5vw;
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  border-bottom: 1.5px solid rgb(195, 195, 195);
+}
+nav.secondarynavbar a {
+  color: rgb(97, 97, 97);
+  text-decoration: none;
+  padding: 15px 0px;
+}
+
+a.sec-active {
+  border-bottom: 4px solid var(--primary-color);
+  color: var(--primary-color) !important;
+  font-weight: 600;
+}
+
+.UserCourses {
+  padding-top: 5vh;
+}
+.UserCourses > h3 {
+  max-width: 1000px;
+  margin: 10px auto;
+}
+.UserCourses > h1 {
+  text-align: center;
+}
+.mycourses {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 5vh 0px;
+}
+
+.myonecourse {
+  width: 1000px;
+  display: flex;
+  margin: 0px 10px;
+  align-items: center;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 10px;
+  border: 2px solid rgb(177, 176, 176);
+}
+.myonecourse span * {
+  margin: 10px 0%;
+}
+.myonecourse span h4 {
+  font-size: 22px;
+  max-width: 500px;
+}
+.myonecourse img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+}
+.verticalLine {
+  width: 1.5px;
+  min-height: 100px;
+  background-color: rgb(158, 158, 158);
+  margin-left: auto;
+}
+
+.myonecourse a {
+  font-size: 14px;
+  margin: 0px 5vw;
+  text-decoration: none;
+  width: fit-content;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+  border: none;
+}
+@media screen and (max-width: 500px) {
+  .myonecourse img {
+    display: none;
+  }
+  .myonecourse span h4 {
+    font-size: 16px;
+    max-width: 500px;
+  }
+  .myonecourse span p {
+    font-size: 14px;
+    max-width: 500px;
+  }
+  .myonecourse a {
+    font-size: 12px;
+    margin: 0px 10px;
+    padding: 5px 10px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .DashBoard {
+    margin-top: 9vh;
+  }
+  .myonecourse {
+    width: 90%;
+  }
+  .UserCourses > h3 {
+    margin: 10px 5%;
+  }
+}

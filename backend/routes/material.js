@@ -1,13 +1,18 @@
-const { Router } = require("express");
-const materialControllers = require("../controllers/materialControllers");
+const express = require("express");
+const router = express.Router();
+const materialController = require("../controllers/materialController");
 const auth = require("../middlewares/auth");
 
-const router = Router();
+// Create a new material
+router.post("/material", auth, materialController.createMaterial);
 
-// MATERIALS
-router.post("/create/:topicId", auth, materialControllers.createMaterial);
-router.get("/:materialId/:topicId", materialControllers.getMaterialById);
-router.put("/:materialId", auth, materialControllers.updateMaterial);
-router.delete("/:materialId", auth, materialControllers.deleteMaterial);
+// Get material(s)
+router.get("/material/:id", materialController.getMaterial);
+
+// Update a material
+router.put("/material/:id", auth, materialController.updateMaterial);
+
+// Delete a material
+router.delete("/material/:id", auth, materialController.deleteMaterial);
 
 module.exports = router;

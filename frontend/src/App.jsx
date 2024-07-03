@@ -30,6 +30,16 @@ import Carrer from "./components/AboutUs/Carrer";
 import ApplyAsInstructor from "./components/Forms/AppyAsInstructor";
 import Contact from "./components/AboutUs/Contact";
 import PolicyTemplate from "./components/Policy/PolicyTemplate";
+import Payment from "./components/Payment/Payment";
+import DashBoard from "./components/DashBoards/DashBoard";
+import UserCourses from "./components/DashBoards/UserCourses";
+import MyProfil from "./components/DashBoards/MyProfil";
+import Mysettings from "./components/DashBoards/Mysettings";
+import LearningNav from "./components/MyLearning/LearningNav";
+import MyOneModule from "./components/MyLearning/MyOneModule";
+import StudentList from "./components/DashBoards/StudentList";
+import CreateMaterial from "./components/Forms/CreateMaterial";
+import ReadNotes from "./components/MyLearning/ReadNotes";
 
 function App() {
   const { pathname } = useLocation();
@@ -49,7 +59,8 @@ function App() {
         <Route path="/" element={<NavFooter />}>
           <Route index element={<Home />} />
           <Route path="courses" element={<BrowseCourse />} />
-          <Route path="course/:id" element={<OneCoursePage />} />
+          <Route path="course/:courseId" element={<OneCoursePage />} />
+          <Route path="payments/:id" element={<Payment />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="blog/:section" element={<Blog />} />
           {/* ABOUT US SECTIONS */}
@@ -62,6 +73,34 @@ function App() {
             path="psycortex-online-education/:section"
             element={<PolicyTemplate />}
           />
+          {/* DASHBOARDS Routes*/}
+          <Route path="dashboard" element={<DashBoard />}>
+            <Route index element={<UserCourses />} />
+            <Route path="mylearning" element={<UserCourses />} />
+            <Route
+              path="mylearning/:courseId/students"
+              element={<StudentList />}
+            />
+
+            <Route path="myprofile" element={<MyProfil />} />
+            <Route path="mysettings" element={<Mysettings />} />
+          </Route>
+          {/* One Course Learning  */}
+          <Route path="mylearning/:userId/:courseId" element={<LearningNav />}>
+            <Route
+              path="module/:moduleId/readNotes/:materialId"
+              element={<ReadNotes />}
+            />
+            <Route path="module/:moduleId" element={<MyOneModule />}>
+              <Route path="material/:mode/:kind" element={<CreateMaterial />} />
+              <Route
+                path="material/:mode/:kind/:materialId"
+                element={<CreateMaterial />}
+              />
+            </Route>
+            <Route path="create-module" element={<CreateModule />} />
+            <Route path="edit-module/:moduleId" element={<CreateModule />} />
+          </Route>
         </Route>
 
         {/* Auth Routes */}
@@ -81,15 +120,17 @@ function App() {
             <Route index element={<CourseManagement />} />
             <Route path="create-course" element={<CreateCourse />} />
             <Route path="edit-course/:id" element={<CreateCourse />} />
-            <Route path="view-course/:id">
+            <Route path="view-course/:courseId">
               <Route index element={<OneCoursePage />} />
               <Route path="create-module" element={<CreateModule />} />
-              <Route path="edit-module/:module_id" element={<CreateModule />} />
+              <Route path="edit-module/:moduleId" element={<CreateModule />} />
             </Route>
           </Route>
           <Route path="student-management" element={<StudentMangement />} />
           <Route path="teacher-management" element={<TeacherManagement />} />
         </Route>
+
+        <Route path="payments" element={<Payment />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

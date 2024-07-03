@@ -5,8 +5,8 @@ import { createModule, fetchModule, UpdateModule } from "../utils/moduleUtils";
 
 function CreateModule() {
   const history = useNavigate();
-  const { id, module_id } = useParams();
-  const courseId = atob(id);
+  const [decodedCourseId, setdecodedCourseId] = useState(null);
+  const { courseId, moduleId, userId } = useParams();
   const [editMode, setEditMode] = useState(false);
   const loc = useLocation();
 
@@ -15,7 +15,7 @@ function CreateModule() {
     order: 0,
     about: "",
     timeToComplete: 0,
-    isCommon: true,
+    isCommon: userId === undefined,
   });
 
   const handleChange = (e) => {
@@ -26,10 +26,11 @@ function CreateModule() {
     e.preventDefault();
     try {
       if (editMode) {
-        await UpdateModule(module, module_id);
+        await UpdateModule(module, moduleId);
         window.alert("Module updated successfully");
       } else {
-        await createModule(module, courseId);
+        const moduleToSubmit = { ...module, userid: userId };
+        await createModule(moduleToSubmit, decodedCourseId);
         window.alert("Module created successfully");
       }
       history(-1);
@@ -39,15 +40,21 @@ function CreateModule() {
   };
 
   useEffect(() => {
+    if (userId === undefined) {
+      setdecodedCourseId(atob(courseId));
+    } else {
+      setdecodedCourseId(courseId);
+    }
+
     if (loc.pathname.includes("edit-module")) {
       setEditMode(true);
-      fetchModule(courseId, module_id)
+      fetchModule(decodedCourseId, moduleId)
         .then((data) => setModule(data))
         .catch((error) => console.error("Error fetching module:", error));
     } else {
       setEditMode(false);
     }
-  }, [loc.pathname, courseId, module_id]);
+  }, [loc.pathname, decodedCourseId, moduleId, userId]);
 
   return (
     <div className="FormContainer">

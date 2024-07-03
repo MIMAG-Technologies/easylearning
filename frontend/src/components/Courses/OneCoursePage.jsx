@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import ProfilePhoto from "../../assets/Images/profile-pic.png";
 import { fetchCourse } from "../utils/courseUtils";
 import { Check, ChevronDown, CirclePlus, PenLine, Star } from "lucide-react";
 import Markdown from "react-markdown";
 
 function OneCoursePage() {
-  const { id } = useParams();
-  const courseId = atob(id);
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+  const decodedcourseId = atob(courseId);
   const [course, setCourse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [expandedModuleIndex, setExpandedModuleIndex] = useState(null);
@@ -15,7 +16,7 @@ function OneCoursePage() {
   const fetchCoursesData = async () => {
     setIsLoading(true);
     try {
-      const data = await fetchCourse(courseId);
+      const data = await fetchCourse(decodedcourseId);
       setCourse(data);
     } catch (error) {
       console.error("Error fetching courses:", error);
@@ -67,7 +68,13 @@ function OneCoursePage() {
                   <Link>{course.instructor.name}</Link>
                 </p>
                 <span className="enrollprice">
-                  <button>Enroll now</button>
+                  <button
+                    onClick={() => {
+                      navigate(`/payments/${courseId}`);
+                    }}
+                  >
+                    Enroll now
+                  </button>
                   <p>{"Price: Rs " + course.price}</p>
                 </span>
                 <p>

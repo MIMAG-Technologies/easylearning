@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Admin.css";
 import { AuthContext } from "../../context/AuthContext";
 
 function AdminNav() {
   const navigate = useNavigate();
   const { user } = React.useContext(AuthContext);
+  const loc = useLocation();
   useEffect(() => {
     if (user.role !== "admin" && user.name !== "") {
       navigate("/");
+    }
+    if (loc.pathname === "/admin") {
+      navigate("/admin/category-management");
     }
   }, [user]);
 

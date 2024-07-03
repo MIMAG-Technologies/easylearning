@@ -702,11 +702,343 @@ All routes except `GET /categories/:categoryId` (when requesting a specific cate
    - **Endpoint**: `PUT /modules/:moduleId`
    - **Headers**: `{ "Authorization": "Bearer <token>" }`
    - **Body**:
-     ```json
+     `json
      {
        "title": "Updated Module Title",
        "order": 2,
        "about": "Updated module description.",
        "timeToComplete": 130
      }
-     ```
+     `
+     Sure, I'll expand the documentation to cover different types of materials, including two types of quizzes (MCQs and long answers), online meet links, and notes.
+
+---
+
+# Material API Documentation
+
+## Create a Material
+
+### Endpoint
+
+```
+POST /api/material
+```
+
+### Headers
+
+```
+Authorization: Bearer <token>
+```
+
+### Request Body Examples
+
+#### 1. MCQ Quiz
+
+```json
+{
+  "title": "Sample MCQ Quiz",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "MCQ",
+  "isCompleted": false,
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5"],
+      "correctAnswer": "4"
+    }
+  ]
+}
+```
+
+#### 2. Long Answer Quiz
+
+```json
+{
+  "title": "Sample Long Answer Quiz",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "LongAnswer",
+  "isCompleted": false,
+  "questions": [
+    {
+      "question": "Explain the theory of relativity.",
+      "answer": ""
+    }
+  ]
+}
+```
+
+#### 3. Notes
+
+```json
+{
+  "title": "Sample Notes",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "Notes",
+  "isCompleted": false,
+  "content": "# Notes on Algebra\nAlgebra is a branch of mathematics..."
+}
+```
+
+#### 4. Online Meet Link
+
+```json
+{
+  "title": "Sample Online Meet",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "OnlineClassLink",
+  "isCompleted": false,
+  "link": "https://meet.example.com/meeting-id"
+}
+```
+
+### Response
+
+#### Success
+
+```json
+{
+  "_id": "60d21b4667d0d8992e610c86",
+  "title": "Sample Quiz",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "Quiz",
+  "isCompleted": false,
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5"],
+      "correctAnswer": "4"
+    }
+  ]
+}
+```
+
+#### Error
+
+```json
+{
+  "message": "Access denied"
+}
+```
+
+---
+
+## Get Material(s)
+
+### Endpoint
+
+```
+GET /api/material/:id
+```
+
+### Parameters
+
+- `id`: Material ID or Module ID
+
+### Response
+
+#### Success (Single Material)
+
+```json
+{
+  "_id": "60d21b4667d0d8992e610c86",
+  "title": "Sample Quiz",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "Quiz",
+  "isCompleted": false,
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5"],
+      "correctAnswer": "4"
+    }
+  ]
+}
+```
+
+#### Success (Module Materials)
+
+```json
+[
+  {
+    "_id": "60d21b4667d0d8992e610c86",
+    "title": "Sample MCQ Quiz",
+    "module": "60d21b4667d0d8992e610c85",
+    "kind": "MCQ",
+    "isCompleted": false,
+    "questions": [
+      {
+        "question": "What is 2 + 2?",
+        "options": ["3", "4", "5"],
+        "correctAnswer": "4"
+      }
+    ]
+  },
+  {
+    "_id": "60d21b4667d0d8992e610c87",
+    "title": "Sample Long Answer Quiz",
+    "module": "60d21b4667d0d8992e610c85",
+    "kind": "LongAnswer",
+    "isCompleted": false,
+    "questions": [
+      {
+        "question": "Explain the theory of relativity.",
+        "answer": ""
+      }
+    ]
+  },
+  {
+    "_id": "60d21b4667d0d8992e610c88",
+    "title": "Sample Notes",
+    "module": "60d21b4667d0d8992e610c85",
+    "kind": "Notes",
+    "isCompleted": false,
+    "content": "# Notes on Algebra\nAlgebra is a branch of mathematics..."
+  },
+  {
+    "_id": "60d21b4667d0d8992e610c89",
+    "title": "Sample Online Meet",
+    "module": "60d21b4667d0d8992e610c85",
+    "kind": "OnlineClassLink",
+    "isCompleted": false,
+    "link": "https://meet.example.com/meeting-id"
+  }
+]
+```
+
+#### Error
+
+```json
+{
+  "message": "Error fetching material"
+}
+```
+
+---
+
+## Update a Material
+
+### Endpoint
+
+```
+PUT /api/material/:id
+```
+
+### Headers
+
+```
+Authorization: Bearer <token>
+```
+
+### Request Body Examples
+
+#### 1. MCQ Quiz
+
+```json
+{
+  "title": "Updated Sample MCQ Quiz",
+  "isCompleted": true
+}
+```
+
+#### 2. Long Answer Quiz
+
+```json
+{
+  "title": "Updated Sample Long Answer Quiz",
+  "isCompleted": true
+}
+```
+
+#### 3. Notes
+
+```json
+{
+  "title": "Updated Sample Notes",
+  "content": "# Updated Notes on Algebra\nAlgebra is a branch of mathematics...",
+  "isCompleted": true
+}
+```
+
+#### 4. Online Meet Link
+
+```json
+{
+  "title": "Updated Sample Online Meet",
+  "link": "https://meet.example.com/updated-meeting-id",
+  "isCompleted": true
+}
+```
+
+### Response
+
+#### Success
+
+```json
+{
+  "_id": "60d21b4667d0d8992e610c86",
+  "title": "Updated Sample Quiz",
+  "module": "60d21b4667d0d8992e610c85",
+  "kind": "Quiz",
+  "isCompleted": true,
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5"],
+      "correctAnswer": "4"
+    }
+  ]
+}
+```
+
+#### Error
+
+```json
+{
+  "message": "Access denied"
+}
+```
+
+---
+
+## Delete a Material
+
+### Endpoint
+
+```
+DELETE /api/material/:id
+```
+
+### Headers
+
+```
+Authorization: Bearer <token>
+```
+
+### Response
+
+#### Success
+
+```json
+{
+  "message": "Material deleted successfully"
+}
+```
+
+#### Error
+
+```json
+{
+  "message": "Access denied"
+}
+```
+
+---
+
+## Notes
+
+- **Authorization**: For the `POST`, `PUT`, and `DELETE` routes, ensure to pass a valid JWT token in the Authorization header. Only users with `admin` or `teacher` roles are allowed to perform these actions.
+- **Kind Field**: The `kind` field in the material creation should be one of the following values: `MCQ`, `LongAnswer`, `Notes`, `OnlineClassLink`.
+- **Fetching Materials**: The GET route is versatile and can fetch a single material by its ID or all materials associated with a specific module by the module ID. Ensure the `id` parameter passed is valid.
+- **Material Structure**: The structure of the material response may vary based on the kind of material (MCQ, LongAnswer, Notes, OnlineClassLink). Each type has its specific fields.
+
+This comprehensive guide should provide all necessary details for using the Material API endpoints. If further customization or clarification is needed, feel free to ask!

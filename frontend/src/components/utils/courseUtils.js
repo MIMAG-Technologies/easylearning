@@ -22,6 +22,26 @@ export const fetchCourses = async () => {
     throw error;
   }
 };
+export const enrollCourse = async (email, courseId) => {
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_API_BASE_URL}/courses/user/enroll`,
+      {
+        email,
+        courseId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return true;
+  } catch (error) {
+    console.error("Error updating course:", error);
+    throw error;
+  }
+};
 
 export const fetchCategories = async () => {
   try {
@@ -57,6 +77,22 @@ export const fetchCourse = async (courseId) => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_API_BASE_URL}/courses/${courseId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Course:", error);
+    throw error;
+  }
+};
+export const getUserCourse = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/courses/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

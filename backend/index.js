@@ -8,9 +8,8 @@ const notFoundHandler = require("./middlewares/notFoundHandler");
 const authRouter = require("./routes/user");
 const categoryRouter = require("./routes/category");
 const courseRouter = require("./routes/course");
-const materialRouter = require("./routes/material");
 const moduleRouter = require("./routes/module");
-const topicRouter = require("./routes/topic");
+const materialRouter = require("./routes/material");
 const { createAdminUser } = require("./controllers/authControllers");
 
 const app = express();
@@ -39,10 +38,9 @@ app.get("/", (req, res) => res.send("API Running"));
 app.use(BASE_URL, authRouter);
 app.use(BASE_URL, categoryRouter);
 app.use(BASE_URL, courseRouter);
-app.use(BASE_URL, materialRouter);
 app.use(BASE_URL, moduleRouter);
-app.use(BASE_URL, topicRouter);
 app.use(BASE_URL, uploadRoute);
+app.use(BASE_URL, materialRouter);
 
 // Serve the uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

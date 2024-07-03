@@ -2,12 +2,33 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const MaterialSchema = new Schema({
-  type: {
+  // Common fields
+  title: { type: String, required: true },
+  module: { type: Schema.Types.ObjectId, ref: "Module", required: true },
+  kind: {
     type: String,
-    enum: ["reading", "video", "quiz", "online_class"],
     required: true,
+    enum: ["MCQ", "Notes", "OnlineClassLink"],
   },
-  content: { type: Schema.Types.Mixed, required: true },
+  isCompleted: { type: Boolean, required: true, default: false },
+
+  // Notes
+  content: { type: String },
+
+  // Meet
+  link: { type: String },
+  scheduledTime: { type: Date },
+
+  // MCQ specific fields
+  questions: [
+    {
+      question: String,
+      options: [String],
+      correctAnswer: String,
+      studentAnswer: String,
+      examined: { type: Boolean, default: false },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Material", MaterialSchema);

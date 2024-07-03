@@ -8,7 +8,7 @@ const ModuleSchema = new Schema({
   userid: { type: Schema.Types.ObjectId, ref: "User", default: null },
   about: { type: String, required: true },
   timeToComplete: { type: Number, required: true },
-  topics: [{ type: Schema.Types.ObjectId, ref: "Topic" }],
+  material: [{ type: Schema.Types.ObjectId, ref: "Material" }],
   isCommon: { type: Boolean, required: true, default: false },
 });
 
