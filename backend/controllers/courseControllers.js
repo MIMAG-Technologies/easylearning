@@ -266,10 +266,10 @@ const getUserCourses = async (req, res) => {
 const getEnrolledStudents = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const { user } = req;
-    if (user.role !== "admin" && user.role !== "teacher") {
-      return res.status(403).json({ message: "Access denied" });
-    }
+    // const { user } = req;
+    // if (user.role !== "admin" && user.role !== "teacher") {
+    //   return res.status(403).json({ message: "Access denied" });
+    // }
 
     // Find the course by courseId
     const course = await Course.findById(courseId);

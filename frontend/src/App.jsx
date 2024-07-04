@@ -76,11 +76,11 @@ function App() {
           {/* DASHBOARDS Routes*/}
           <Route path="dashboard" element={<DashBoard />}>
             <Route index element={<UserCourses />} />
-            <Route path="mylearning" element={<UserCourses />} />
             <Route
               path="mylearning/:courseId/students"
               element={<StudentList />}
             />
+            <Route path="mylearning" element={<UserCourses />} />
 
             <Route path="myprofile" element={<MyProfil />} />
             <Route path="mysettings" element={<Mysettings />} />

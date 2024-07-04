@@ -40,7 +40,7 @@ function UserCourses() {
                 to={
                   user.role === "student"
                     ? `/mylearning/me/${course._id}`
-                    : `/mylearning/${course._id}/students`
+                    : `/dashboard/mylearning/${course._id}/students`
                 }
               >
                 Go To Course <MoveRight />
