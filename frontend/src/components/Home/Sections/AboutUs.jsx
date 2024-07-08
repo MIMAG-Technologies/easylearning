@@ -41,17 +41,18 @@ function AboutUs() {
       <p>
         At our core, we are dedicated to empowering individuals to achieve their
         fullest potential through a diverse range of courses on well-being and
-        psychology. Our platform offers a comprehensive selection of expertly
+        mental health. Our platform offers a comprehensive selection of expertly
         crafted programs designed to enhance mental health, foster personal
         growth, and promote overall happiness. From foundational courses in
-        psychology and emotional intelligence to advanced strategies for stress
-        management and mindfulness, our curriculum is rooted in the latest
-        scientific research and tailored to meet the unique needs of every
-        learner. By providing a holistic approach to well-being, we ensure that
-        our users have access to the tools and knowledge necessary to navigate
-        life’s challenges and thrive in all aspects. Our supportive community,
-        engaging content, and personalized learning experiences create an
-        environment where you can not only learn but also grow and prosper.
+        mental health and emotional intelligence to advanced strategies for
+        stress management and mindfulness, our curriculum is rooted in the
+        latest scientific research and tailored to meet the unique needs of
+        every learner. By providing a holistic approach to well-being, we ensure
+        that our users have access to the tools and knowledge necessary to
+        navigate life’s challenges and thrive in all aspects. Our supportive
+        community, engaging content, and personalized learning experiences
+        create an environment where you can not only learn but also grow and
+        prosper.
       </p>
       <div className="msv">
         {msv.map((aspect, index) => (

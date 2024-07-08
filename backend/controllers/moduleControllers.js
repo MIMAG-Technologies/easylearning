@@ -23,12 +23,12 @@ const createModule = async (req, res) => {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    const moduleExists = await Module.findOne({ title, course: courseId });
-    if (moduleExists) {
-      return res
-        .status(400)
-        .json({ message: "Module title already exists in this course" });
-    }
+    // const moduleExists = await Module.findOne({ title , course: courseId });
+    // if (moduleExists) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Module title already exists in this course" });
+    // }
 
     // Adjust the order of existing modules if necessary
     await Module.updateMany(

@@ -101,7 +101,7 @@ function CreateCourse() {
     }
 
     try {
-      const uploadResult = await uploadFile(file);
+      const uploadResult = await uploadFile(file, "coursethumbnail");
       setFormData((prevData) => ({
         ...prevData,
         thumbnailUrl: uploadResult.imageUrl,

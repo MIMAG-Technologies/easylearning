@@ -33,9 +33,9 @@ const getUsers = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const fetchMe = async (req, res) => {
   try {
-    // Ensure req.user.id exists and is correctly formatted
     const id = req.user && req.user.id;
     if (!id) {
       return res
@@ -43,7 +43,6 @@ const fetchMe = async (req, res) => {
         .json({ message: "User ID is not provided or invalid" });
     }
 
-    // Query the database with the user ID, selecting only the desired fieldsc
     const user = await User.findOne({ _id: id }).select(
       "name email role profilePhotoUrl"
     );
@@ -52,11 +51,55 @@ const fetchMe = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Return the user details
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { getUsers, fetchMe };
+const GetMe = async (req, res) => {
+  try {
+    const id = req.user && req.user.id;
+    if (!id) {
+      return res.status(400).json({ message: "User ID is not provided" });
+    }
+
+    const user = await User.findById(id)
+      .select("-password") // Exclude password field
+      .populate("enrolledCourses")
+      .populate("assignedCourses");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const UpdateMe = async (req, res) => {
+  try {
+    const id = req.user && req.user.id;
+    const updatedUser = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "User ID is not provided" });
+    }
+
+    const user = await User.findByIdAndUpdate(id, updatedUser, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getUsers, fetchMe, GetMe, UpdateMe };

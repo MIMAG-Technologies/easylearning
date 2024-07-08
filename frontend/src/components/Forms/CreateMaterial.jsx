@@ -45,7 +45,7 @@ function CreateMaterial() {
     link: "",
     scheduledTime: "",
     content: "",
-    questions: "",
+    formIframe: "",
   });
 
   const [linkError, setLinkError] = useState("");
@@ -59,7 +59,7 @@ function CreateMaterial() {
         scheduledTime: material.scheduledTime
           ? material.scheduledTime.slice(0, 16)
           : "",
-        questions: material.questions ? material.questions.join(", ") : "",
+        formIframe: material.formIframe ? material.formIframe : "",
       }));
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ function CreateMaterial() {
       } else if (kind === "Notes") {
         updatedTemplate.content = "";
       } else if (kind === "MCQ") {
-        updatedTemplate.questions = "";
+        updatedTemplate.formIframe = "";
       }
 
       setTemplate((prevTemplate) => ({
@@ -114,9 +114,7 @@ function CreateMaterial() {
     }
     const finalTemplate = {
       ...template,
-      questions: template.questions
-        ? template.questions.split(",").map((q) => q.trim())
-        : [],
+      questions: template.formIframe ? template.formIframe : "",
     };
 
     try {
@@ -196,14 +194,14 @@ function CreateMaterial() {
           )}
           {kind === "MCQ" && (
             <>
-              <label htmlFor="questions">MCQ Questions</label>
+              <label htmlFor="formIframe">I Frame of Google Forms</label>
               <input
                 type="text"
-                id="questions"
-                name="questions"
-                value={template.questions}
+                id="formIframe"
+                name="formIframe"
+                value={template.formIframe}
                 onChange={handleChange}
-                placeholder="Enter each question followed by a comma (,)"
+                placeholder="Insert iFrame Embedded Form "
               />
             </>
           )}

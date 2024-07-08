@@ -13,6 +13,8 @@ router.post("/auth/teacher/register", authControllers.createTeacher);
 router.post("/auth/teacher/login", authControllers.teacherLogin);
 router.post("/auth/admin/login", authControllers.adminLogin);
 router.get("/fetch/users/:role/:indentifier", userControllers.getUsers);
-router.get("/fetch/user", auth, userControllers.fetchMe); //For Fetching users using token
+router.get("/fetch/user", auth, userControllers.fetchMe);
+router.get("/user", auth, userControllers.GetMe);
+router.put("/user", auth, userControllers.UpdateMe);
 
 module.exports = router;

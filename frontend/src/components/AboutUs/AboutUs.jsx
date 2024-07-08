@@ -11,11 +11,13 @@ function AboutUs() {
       </div>
       <div className="sec2">
         <p>
-          Online Psycortex Education empowers individuals globally with
-          meticulously curated mental health, well-being, and psychology
-          courses. Founded to make the best education accessible to all, our
-          platform offers personalized learning experiences to foster growth and
-          resilience.
+          <strong>
+            Psycortex Education - A Unit of Narayan Brahma Seva Trust{" "}
+          </strong>{" "}
+          empowers individuals globally with meticulously curated mental health,
+          well-being, and psychology courses. Founded to make the best education
+          accessible to all, our platform offers personalized learning
+          experiences to foster growth and resilience.
         </p>
         <p>
           Today, Online Psycortex connects millions worldwide with practical

@@ -20,15 +20,7 @@ const MaterialSchema = new Schema({
   scheduledTime: { type: Date },
 
   // MCQ specific fields
-  questions: [
-    {
-      question: String,
-      options: [String],
-      correctAnswer: String,
-      studentAnswer: String,
-      examined: { type: Boolean, default: false },
-    },
-  ],
+  formIframe: { type: String },
 });
 
 module.exports = mongoose.model("Material", MaterialSchema);

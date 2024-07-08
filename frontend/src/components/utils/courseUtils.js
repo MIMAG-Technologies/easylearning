@@ -101,13 +101,13 @@ export const getUserCourse = async (userId) => {
   }
 };
 
-export const uploadFile = async (file) => {
+export const uploadFile = async (file, folder) => {
   const uploadData = new FormData();
   uploadData.append("image", file);
 
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/upload/coursethumbnail`,
+      `${import.meta.env.VITE_API_BASE_URL}/upload/${folder}`,
       uploadData,
       {
         headers: {

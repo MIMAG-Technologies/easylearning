@@ -34,12 +34,12 @@ import Payment from "./components/Payment/Payment";
 import DashBoard from "./components/DashBoards/DashBoard";
 import UserCourses from "./components/DashBoards/UserCourses";
 import MyProfil from "./components/DashBoards/MyProfil";
-import Mysettings from "./components/DashBoards/Mysettings";
 import LearningNav from "./components/MyLearning/LearningNav";
 import MyOneModule from "./components/MyLearning/MyOneModule";
 import StudentList from "./components/DashBoards/StudentList";
 import CreateMaterial from "./components/Forms/CreateMaterial";
 import ReadNotes from "./components/MyLearning/ReadNotes";
+import DoQuiz from "./components/MyLearning/DoQuiz";
 
 function App() {
   const { pathname } = useLocation();
@@ -83,13 +83,16 @@ function App() {
             <Route path="mylearning" element={<UserCourses />} />
 
             <Route path="myprofile" element={<MyProfil />} />
-            <Route path="mysettings" element={<Mysettings />} />
           </Route>
           {/* One Course Learning  */}
           <Route path="mylearning/:userId/:courseId" element={<LearningNav />}>
             <Route
               path="module/:moduleId/readNotes/:materialId"
               element={<ReadNotes />}
+            />
+            <Route
+              path="module/:moduleId/doQuiz/:materialId"
+              element={<DoQuiz />}
             />
             <Route path="module/:moduleId" element={<MyOneModule />}>
               <Route path="material/:mode/:kind" element={<CreateMaterial />} />

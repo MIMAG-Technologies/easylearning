@@ -26,12 +26,6 @@ function DashBoard() {
         >
           My Profile
         </Link>
-        <Link
-          className={loc.pathname.includes("mysettings") ? "sec-active" : ""}
-          to="mysettings"
-        >
-          Settings
-        </Link>
       </nav>
       <Outlet />
     </div>

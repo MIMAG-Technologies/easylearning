@@ -23,6 +23,58 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const fetchMyData = async () => {
+    setisLoading(true);
+    try {
+      const response = await axios.get(`${apiBaseUrl}/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+    } finally {
+      setisLoading(false);
+    }
+  };
+  const UpdatehMyData = async (mydata) => {
+    setisLoading(true);
+    try {
+      await axios.put(`${apiBaseUrl}/user`, mydata, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return "success";
+    } catch (error) {
+      console.error("Failed to Update user data", error);
+      return "failed";
+    } finally {
+      setisLoading(false);
+    }
+  };
+
+  const SetProfilPhoto = async (file) => {
+    const uploadData = new FormData();
+    uploadData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/upload/userprofile`,
+        uploadData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("There was an error uploading the file!", error);
+      throw error;
+    }
+  };
   const fetchUserData = async (token) => {
     setisLoading(true);
     try {
@@ -98,7 +150,17 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, signin, logout, isLoading, setisLoading }}
+      value={{
+        user,
+        login,
+        signin,
+        logout,
+        isLoading,
+        setisLoading,
+        fetchMyData,
+        UpdatehMyData,
+        SetProfilPhoto,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -137,7 +137,7 @@ function MyOneModule() {
               <h4>{item.title}</h4>
               <p>
                 {item.kind === "MCQ"
-                  ? `Quiz ● ${item.questions.length} questions`
+                  ? `Quiz`
                   : item.kind === "OnlineClassLink"
                   ? `Online Session ● ${formatDateTime(item.scheduledTime)}`
                   : `Notes ● ${item.content.split(" ").length} words long`}
@@ -148,7 +148,7 @@ function MyOneModule() {
                 style={{
                   marginLeft: "auto",
                 }}
-                to={"#"}
+                to={`doQuiz/${item._id}`}
               >
                 Attempt Quiz
               </Link>
