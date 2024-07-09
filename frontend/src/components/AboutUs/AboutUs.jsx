@@ -12,7 +12,7 @@ function AboutUs() {
       <div className="sec2">
         <p>
           <strong>
-            Psycortex Education - A Unit of Narayan Brahma Seva Trust{" "}
+            Psycortex Education - A Unit of Narayana Brahma Seva Trust{" "}
           </strong>{" "}
           empowers individuals globally with meticulously curated mental health,
           well-being, and psychology courses. Founded to make the best education

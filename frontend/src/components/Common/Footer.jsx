@@ -66,7 +66,7 @@ function Footer() {
       </div>
       <div className="socialLinks">
         <p>
-          © {currentYear} Psycortex Education - A Unit of Narayan Brahma Seva
+          © {currentYear} Psycortex Education - A Unit of Narayana Brahma Seva
           Trust. All Rights Reserved.
         </p>
         <span>
