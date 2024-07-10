@@ -69,9 +69,10 @@ function OneCoursePage() {
                 </p>
                 <span className="enrollprice">
                   <button
-                    onClick={() => {
-                      navigate(`/payments/${courseId}`);
+                    style={{
+                      cursor: "pointer",
                     }}
+                    id="btnSubmit"
                   >
                     Enroll now
                   </button>
