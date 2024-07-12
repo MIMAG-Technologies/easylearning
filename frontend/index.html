@@ -59,10 +59,12 @@
             res.paymentMethod.paymentTransaction.statusCode == "0300"
           ) {
             alert("success");
+            console.log(res);
             return false;
             // success code
           } else {
             alert("Error");
+            console.log(res);
             return false;
             // error code
           }
@@ -88,11 +90,11 @@
                 enableExpressPay: true,
                 enableInstrumentDeRegistration: true,
                 enableMerTxnDetails: true,
+                enableNewWindowFlow: true,
               },
               consumerData: {
                 deviceId: "WEBSH2", //possible values 'WEBSH1', 'WEBSH2' and 'WEBMD5'
                 token: token,
-                returnUrl: "https://edu.psycortex.in/dashboard/mylearning",
                 responseHandler: handleResponse,
                 paymentMode: "all",
                 merchantLogoUrl:

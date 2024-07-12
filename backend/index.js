@@ -21,6 +21,7 @@ connectDB().then(() => {
 // Middleware
 app.use(cors());
 app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 const BASE_URL = "/api/v1";
 
@@ -35,6 +36,12 @@ const createUploadsFolder = (req, res, next) => {
 
 // Routes
 app.get("/", (req, res) => res.send("API Running"));
+app.post("/paymentresponce", (req, res) => {
+  console.log("API Hitted!");
+  const data = req;
+  console.log(data);
+  res.status(200).send("Payment Response Received!");
+});
 app.use(BASE_URL, authRouter);
 app.use(BASE_URL, categoryRouter);
 app.use(BASE_URL, courseRouter);
