@@ -54,13 +54,13 @@ export default defineConfig({
           {
             urlPattern: ({ url }) =>
               url.origin === self.location.origin &&
-              url.pathname.startsWith("/assets/"),
+              /\.(png|jpg|jpeg|gif|webp)$/.test(url.pathname),
             handler: "CacheFirst",
             options: {
-              cacheName: "assets-cache",
+              cacheName: "images-cache",
               expiration: {
                 maxEntries: 60,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                maxAgeSeconds: 10 * 24 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
