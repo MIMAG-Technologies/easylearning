@@ -10,6 +10,7 @@ const categoryRouter = require("./routes/category");
 const courseRouter = require("./routes/course");
 const moduleRouter = require("./routes/module");
 const materialRouter = require("./routes/material");
+const discussionRouter = require("./routes/discussions");
 const { createAdminUser } = require("./controllers/authControllers");
 
 const app = express();
@@ -18,8 +19,24 @@ connectDB().then(() => {
   createAdminUser();
 });
 
-// Middleware
-app.use(cors());
+let corsOptions;
+
+if (process.env.ALLOW_ALL_ORIGINS) {
+  corsOptions = {
+    origin: "*",
+  };
+} else {
+  corsOptions = {
+    origin: [
+      "http://edu.psycortex.in",
+      "https://edu.psycortex.in",
+      "http://psycortex.in",
+      "https://psycortex.in",
+    ],
+  };
+}
+
+app.use(cors(corsOptions));
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -48,6 +65,7 @@ app.use(BASE_URL, courseRouter);
 app.use(BASE_URL, moduleRouter);
 app.use(BASE_URL, uploadRoute);
 app.use(BASE_URL, materialRouter);
+app.use(BASE_URL, discussionRouter);
 
 // Serve the uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

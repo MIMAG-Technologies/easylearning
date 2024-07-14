@@ -5,7 +5,6 @@ import "./App.css";
 import "./components/Forms/Forms.css";
 import { AuthContext } from "./context/AuthContext";
 // COMPONENTS IMPORTS
-import SignIn from "./components/Auth/SignIn";
 import Login from "./components/Auth/Login";
 import NotFound from "./components/Common/NotFound";
 import Loader from "./components/Common/Loader";
@@ -25,7 +24,6 @@ import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blogs/Blog";
 import AboutUs from "./components/AboutUs/AboutUs";
 import MSV from "./components/AboutUs/MSV";
-import Offices from "./components/AboutUs/Offices";
 import Carrer from "./components/AboutUs/Carrer";
 import ApplyAsInstructor from "./components/Forms/AppyAsInstructor";
 import Contact from "./components/AboutUs/Contact";
@@ -40,6 +38,10 @@ import StudentList from "./components/DashBoards/StudentList";
 import CreateMaterial from "./components/Forms/CreateMaterial";
 import ReadNotes from "./components/MyLearning/ReadNotes";
 import DoQuiz from "./components/MyLearning/DoQuiz";
+import StudentSignIn from "./components/Auth/StudentSignIn";
+import TeacherSignIn from "./components/Auth/TeacherSignIn";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import Messages from "./components/MyLearning/Messages";
 
 function App() {
   const { pathname } = useLocation();
@@ -94,6 +96,7 @@ function App() {
               path="module/:moduleId/doQuiz/:materialId"
               element={<DoQuiz />}
             />
+            <Route path="discussion" element={<Messages />} />
             <Route path="module/:moduleId" element={<MyOneModule />}>
               <Route path="material/:mode/:kind" element={<CreateMaterial />} />
               <Route
@@ -108,7 +111,9 @@ function App() {
 
         {/* Auth Routes */}
         <Route path="auth">
-          <Route path="signin/:who" element={<SignIn />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="signin/student" element={<StudentSignIn />} />
+          <Route path="signin/teacher" element={<TeacherSignIn />} />
           <Route path="login/:who" element={<Login />} />
         </Route>
 

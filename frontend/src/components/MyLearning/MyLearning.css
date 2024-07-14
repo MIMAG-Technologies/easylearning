@@ -1,7 +1,11 @@
 .LearningNav {
   margin-top: 15vh;
+  position: relative;
   display: flex;
   justify-content: space-evenly;
+}
+.LN-icons {
+  display: none;
 }
 .module-nav span {
   margin-top: 5vh;
@@ -157,4 +161,148 @@
   background-color: var(--primary-color);
   border: none;
   outline: none;
+}
+
+.messageBox {
+  height: 80vh;
+  overflow-y: auto; /* Ensure vertical scrolling */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin: 5vh 0px;
+  padding-right: 2%;
+}
+
+.messageBox img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+.messageBox .onemessage * {
+  margin: 0%;
+}
+.messageBox .onemessage p {
+  color: gray;
+}
+.messageBox .onemessage h3 {
+  font-weight: normal;
+}
+.messageBox .onemessage {
+  max-width: 400px;
+  display: flex;
+  gap: 5px;
+  padding: 15px;
+  border-radius: 30px 30px 0px 30px;
+  align-self: flex-end;
+  background-color: #e0f7fa;
+}
+
+.userchat {
+  align-self: flex-start !important;
+  border-radius: 30px 30px 30px 0px !important;
+  background-color: #f1f1f1 !important;
+}
+
+.messageSendBox {
+  height: 40px;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f1f1 !important;
+  padding: 0 15px;
+  border-radius: 10px;
+  border: 1px solid rgb(63, 63, 63);
+}
+
+.messageSendBox:focus-within {
+  border: 1px solid rgb(110, 110, 110);
+}
+
+#messageInput {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding-left: 10px;
+  color: black;
+}
+
+#messageSendBox:focus ~ #sendButton svg path,
+#messageSendBox:valid ~ #sendButton svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+#sendButton {
+  width: fit-content;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#sendButton svg {
+  height: 18px;
+  transition: all 0.3s;
+}
+
+#sendButton svg path {
+  transition: all 0.3s;
+}
+
+#sendButton:hover svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+@media screen and (max-width: 900px) {
+  .LearningNav {
+    margin-top: 8vh;
+    padding-top: 5vh;
+  }
+  .module-nav {
+    position: absolute;
+    width: fit-content;
+    width: 95%;
+    z-index: 6;
+    transition: all 300ms ease-in-out;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.404);
+    top: 0;
+    left: 0%;
+    background-color: white;
+  }
+  .module-container {
+    width: 90%;
+    z-index: 5;
+    border: none;
+  }
+  .LN-icons {
+    display: inline-block;
+    position: absolute;
+    transition: all 200ms ease-in-out;
+    top: 20px;
+    z-index: 7;
+  }
+  .messageBox {
+    height: 65vh;
+  }
+  span.LN-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+  }
 }

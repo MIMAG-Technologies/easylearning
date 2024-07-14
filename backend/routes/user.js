@@ -5,8 +5,9 @@ const auth = require("../middlewares/auth");
 
 const router = Router();
 
-router.post("/auth/student/sendOTP", authControllers.sendOTP);
-router.post("/auth/student/checkOTP", authControllers.checkOTP);
+router.post("/auth/sendOTP", authControllers.sendOTP);
+router.post("/auth/checkOTP", authControllers.checkOTP);
+router.put("/auth/updatePassword", authControllers.resetPassword);
 router.post("/auth/student/register", authControllers.createStudent);
 router.post("/auth/student/login", authControllers.studentLogin);
 router.post("/auth/teacher/register", authControllers.createTeacher);

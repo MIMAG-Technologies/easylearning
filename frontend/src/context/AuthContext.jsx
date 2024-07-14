@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     email: "",
     role: "",
     profilePhoto: "",
+    id: "",
   });
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -83,8 +84,10 @@ export const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setUser({
         isLoggedIn: true,
+        id: response.data._id,
         name: response.data.name,
         email: response.data.email,
         role: response.data.role,
@@ -120,11 +123,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signin = async (name, email, password, role) => {
+  const signin = async (name, email, password, contactNumber, role) => {
     try {
       const response = await axios.post(`${apiBaseUrl}/auth/${role}/register`, {
         name,
         email,
+        contactNumber,
         password,
       });
       if (role === "student") {
@@ -136,6 +140,52 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const sendOTP = async (email, newUser) => {
+    setisLoading(true);
+    try {
+      const response = await axios.post(`${apiBaseUrl}/auth/sendOTP`, {
+        email,
+        newUser,
+      });
+      setisLoading(false);
+      return response.status;
+    } catch (error) {
+      console.error("Failed to send OTP", error);
+      setisLoading(false);
+      return error.response.status;
+    }
+  };
+
+  const checkOTP = async (email, otp) => {
+    setisLoading(true);
+    try {
+      await axios.post(`${apiBaseUrl}/auth/checkOTP`, {
+        email,
+        otp,
+      });
+      setisLoading(false);
+      return true;
+    } catch (error) {
+      console.error("Failed to verify OTP", error);
+      setisLoading(false);
+      return false;
+    }
+  };
+  const updatePassword = async (email, newPassword) => {
+    setisLoading(true);
+    try {
+      await axios.put(`${apiBaseUrl}/auth/updatePassword`, {
+        email,
+        newPassword,
+      });
+      setisLoading(false);
+      return true;
+    } catch (error) {
+      console.error("Failed to update password", error);
+      setisLoading(false);
+      return false;
+    }
+  };
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -160,6 +210,9 @@ export const AuthProvider = ({ children }) => {
         fetchMyData,
         UpdatehMyData,
         SetProfilPhoto,
+        sendOTP,
+        checkOTP,
+        updatePassword,
       }}
     >
       {children}

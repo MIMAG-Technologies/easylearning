@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./DashBoard.css";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import LogoutButton from "../Common/LogoutButton";
 
 function DashBoard() {
   const loc = useLocation();
@@ -26,6 +27,7 @@ function DashBoard() {
         >
           My Profile
         </Link>
+        <LogoutButton />
       </nav>
       <Outlet />
     </div>

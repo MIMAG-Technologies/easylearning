@@ -74,7 +74,17 @@ function Login() {
             ) : (
               <EyeOff onClick={togglePasswordVisibility} />
             )}
-            <p className="info-text">Forgot Password?</p>
+            <p
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigate("/auth/forgot-password");
+              }}
+              className="info-text"
+            >
+              Forgot Password?
+            </p>
           </span>
           <button type="submit">Login</button>
           <div className="line"></div>

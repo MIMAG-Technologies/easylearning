@@ -6,36 +6,51 @@ const { hashPassword, comparePassword } = require("../utils/hashing");
 const { generateToken } = require("../utils/jwt");
 
 const sendOTP = async (req, res) => {
-  const { email } = req.body;
+  const { email, newUser } = req.body;
   const otp = OTPGenerator.generate(6, {
     upperCase: false,
     specialChars: false,
   });
+
   try {
-    // Check if Otp already exists for the email
-    let otpRecord = await Otp.findOne({ email });
     const user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: "User Already Exists" });
-    }
 
-    if (otpRecord) {
-      // Update existing Otp
-      otpRecord.otp = otp;
-      otpRecord.createdAt = Date.now();
+    if (newUser) {
+      if (user) {
+        return res.status(400).json({ message: "User already exists" });
+      }
     } else {
-      // Create new Otp record
-      otpRecord = new Otp({ email, otp, createdAt: Date.now() });
+      if (!user) {
+        return res.status(404).json({ message: "User does not exist" });
+      }
     }
 
-    await otpRecord.save();
-    await sendEmail(email, "Your Otp Code", `<h1>Your Otp code is ${otp}</h1>`);
+    // Create or update the OTP record
+    await Otp.findOneAndUpdate(
+      { email },
+      { otp, createdAt: Date.now() },
+      { upsert: true, new: true }
+    );
 
-    res.status(200).json({ message: "Otp sent successfully" });
+    const subject = newUser
+      ? "Your OTP Code for Sign-in"
+      : "Your OTP Code for Resetting Password";
+
+    const emailContent = `
+      <h1>Dear User,</h1>
+      <p>Your OTP code is <strong>${otp}</strong>.</p>
+      <p>Thank you for using Psycortex Online Education.</p>
+      <p>Best regards,<br>Psycortex Online Education Team</p>
+    `;
+
+    await sendEmail(email, subject, emailContent);
+
+    res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
+    console.log(error);
     res
       .status(500)
-      .json({ message: "Error sending Otp", error: error.message });
+      .json({ message: "Error sending OTP", error: error.message });
   }
 };
 
@@ -46,27 +61,59 @@ const checkOTP = async (req, res) => {
     const otpRecord = await Otp.findOne({ email, otp });
 
     if (!otpRecord) {
-      return res.status(400).json({ message: "Invalid Otp" });
+      return res.status(400).json({ message: "Invalid OTP" });
     }
 
     const currentTime = Date.now();
-    const otpAge = currentTime - otpRecord.createdAt;
+    const otpAge = currentTime - otpRecord.createdAt.getTime();
 
     if (otpAge > 15 * 60 * 1000) {
       // 15 minutes
-      return res.status(400).json({ message: "Otp expired" });
+      return res.status(400).json({ message: "OTP expired" });
     }
 
-    res.status(200).json({ message: "Otp verified successfully" });
+    res.status(200).json({ message: "OTP verified successfully" });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error verifying Otp", error: error.message });
+      .json({ message: "Error verifying OTP", error: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    user.password = hashedPassword;
+
+    await user.save();
+
+    // Send email notification
+    const emailContent = `
+      <h1>Dear ${user.name},</h1>
+      <p>Your password has been successfully updated.</p>
+      <p>If you did not request this change, please contact our support team immediately.</p>
+      <p>Best regards,<br>Psycortex Online Education Team</p>
+    `;
+    await sendEmail(email, "Password Successfully Updated", emailContent);
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error resetting password", error: error.message });
   }
 };
 
 const createStudent = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, contactNumber } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -81,6 +128,7 @@ const createStudent = async (req, res) => {
       name,
       email,
       profilePhotoUrl: "",
+      contactNumber,
       password: hashedPassword,
       role: "student",
     });
@@ -89,6 +137,19 @@ const createStudent = async (req, res) => {
 
     const payload = { user: { id: user.id, role: user.role } };
     const token = generateToken(payload);
+
+    // Send email notification
+    const emailContent = `
+     <h1>Welcome ${user.name}!</h1>
+     <p>You have successfully registered as a student on Psycortex Online Education.</p>
+     <p>We are excited to have you on board.</p>
+     <p>Best regards,<br>Psycortex Online Education Team</p>
+   `;
+    await sendEmail(
+      email,
+      "Welcome to Psycortex Online Education",
+      emailContent
+    );
 
     res.status(201).json({ message: "Student registered successfully", token });
   } catch (error) {
@@ -117,6 +178,14 @@ const studentLogin = async (req, res) => {
     const payload = { user: { id: user.id, role: user.role } };
 
     const token = generateToken(payload);
+    // Send email notification
+    const emailContent = `
+      <h1>Dear ${user.name},</h1>
+      <p>You have successfully logged in to Psycortex Online Education.</p>
+      <p>If this wasn't you, please contact our support team immediately.</p>
+      <p>Best regards,<br>Psycortex Online Education Team</p>
+    `;
+    await sendEmail(email, "Login Notification", emailContent);
 
     res.status(200).json({ token });
   } catch (error) {
@@ -178,6 +247,15 @@ const teacherLogin = async (req, res) => {
     const payload = { user: { id: user.id, role: user.role } };
 
     const token = generateToken(payload);
+
+    // Send email notification
+    const emailContent = `
+        <h1>Dear ${user.name},</h1>
+        <p>You have successfully logged in to Psycortex Online Education as a teacher.</p>
+        <p>If this wasn't you, please contact our support team immediately.</p>
+        <p>Best regards,<br>Psycortex Online Education Team</p>
+      `;
+    await sendEmail(email, "Login Notification", emailContent);
 
     res.status(200).json({ token });
   } catch (error) {
@@ -253,4 +331,5 @@ module.exports = {
   createTeacher,
   teacherLogin,
   adminLogin,
+  resetPassword,
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ChevronRight, Menu, Search, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
@@ -17,7 +17,12 @@ function MobileNavbar() {
   const handleImageError = (e) => {
     e.target.src = noProfilePhoto; // Set the source to the alternative image in case of error
   };
-
+  useEffect(() => {
+    setIsLevel1Open(false); // Close level 1 navigation when page changes
+    if (loc.pathname.includes("courses")) {
+      setIsSearchBoxOpen(false);
+    }
+  }, [loc.pathname]);
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -105,7 +110,9 @@ function MobileNavbar() {
               onError={handleImageError}
               alt=""
             />
-            <Link to={`/profile/${user.id}`}>{user.name}</Link>
+            <Link to={user.role === "admin" ? "/admin" : "/dashboard"}>
+              {user.name}
+            </Link>
           </p>
         )}
 

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./MyLearning.css";
-import { Circle, Pencil, CirclePlus } from "lucide-react";
+import {
+  Circle,
+  Pencil,
+  CirclePlus,
+  X,
+  SquareChevronRight,
+} from "lucide-react";
 import {
   Link,
   Outlet,
@@ -15,6 +21,8 @@ function LearningNav() {
   const { user } = React.useContext(AuthContext);
   const { userId, courseId, moduleId } = useParams();
   const [course, setCourse] = useState(null);
+  const [isSideMenuOn, setisSideMenuOn] = useState(false);
+  const { pathname } = useLocation();
   const loc = useLocation();
   const navigate = useNavigate();
 
@@ -29,6 +37,10 @@ function LearningNav() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    setisSideMenuOn(false);
+  }, [pathname]);
 
   useEffect(() => {
     const fetchAndNavigate = async () => {
@@ -56,7 +68,36 @@ function LearningNav() {
 
   return (
     <div className="LearningNav">
-      <section className="module-nav">
+      {isSideMenuOn ? (
+        <X
+          style={{
+            right: isSideMenuOn ? "10px" : "",
+          }}
+          className="LN-icons"
+          onClick={() => {
+            setisSideMenuOn(!isSideMenuOn);
+          }}
+        />
+      ) : (
+        <span
+          style={{
+            left: !isSideMenuOn ? "10px" : "",
+          }}
+          className="LN-icons"
+          onClick={() => {
+            setisSideMenuOn(!isSideMenuOn);
+          }}
+        >
+          <SquareChevronRight />
+          Menu
+        </span>
+      )}
+      <section
+        className="module-nav"
+        style={{
+          left: isSideMenuOn ? "0px" : "-100%",
+        }}
+      >
         <span>
           <h4>{course.title}</h4>
           <p>{course.providingInstitution}</p>
@@ -127,7 +168,7 @@ function LearningNav() {
           <Link to="#">Certificates</Link>
         </h4>
         <h4>
-          <Link to="#">Messages</Link>
+          <Link to="discussion">Messages</Link>
         </h4>
       </section>
       <Outlet />
