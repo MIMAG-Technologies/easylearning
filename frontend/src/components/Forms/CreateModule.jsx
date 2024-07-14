@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { createModule, fetchModule, UpdateModule } from "../utils/moduleUtils";
+import { toast } from "react-toastify";
 
 function CreateModule() {
   const history = useNavigate();
@@ -27,15 +28,15 @@ function CreateModule() {
     try {
       if (editMode) {
         await UpdateModule(module, moduleId);
-        window.alert("Module updated successfully");
+        toast.success("Module updated successfully");
       } else {
         const moduleToSubmit = { ...module, userid: userId };
         await createModule(moduleToSubmit, decodedCourseId);
-        window.alert("Module created successfully");
+        toast.success("Module created successfully");
       }
       history(-1);
     } catch (error) {
-      window.alert(`Error ${editMode ? "updating" : "creating"} module`);
+      toast.error(`Error ${editMode ? "updating" : "creating"} module`);
     }
   };
 

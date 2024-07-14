@@ -3,6 +3,7 @@ import { CirclePlus } from "lucide-react";
 import OneCourseCard from "../../Courses/OneCourseCard";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { fetchCourses } from "../../utils/courseUtils";
+import { toast } from "react-toastify";
 
 function CourseManagement() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,15 +11,25 @@ function CourseManagement() {
   const [coursesList, setCoursesList] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchCoursesData = async () => {
       try {
         const data = await fetchCourses();
-        setCoursesList(data);
+        if (isMounted) {
+          setCoursesList(data);
+        }
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        if (isMounted) {
+          console.error("Error fetching courses:", error);
+          toast.error("Error fetching courses");
+        }
       }
     };
     fetchCoursesData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [loc.pathname]);
 
   const navigate = useNavigate();

@@ -6,6 +6,7 @@ import {
   fetchMaterial,
   updateMaterial,
 } from "../utils/materialUtils";
+import { toast } from "react-toastify";
 
 const allowedDomains = [
   "meet.google.com",
@@ -62,6 +63,7 @@ function CreateMaterial() {
         formIframe: material.formIframe ? material.formIframe : "",
       }));
     } catch (error) {
+      toast.error("Failed to fetch material");
       console.error(error);
     }
   };
@@ -109,7 +111,7 @@ function CreateMaterial() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (kind === "OnlineClassLink" && linkError) {
-      window.alert(linkError);
+      toast.error(linkError);
       return;
     }
     const finalTemplate = {
@@ -120,14 +122,14 @@ function CreateMaterial() {
     try {
       if (editMode) {
         await updateMaterial(finalTemplate, materialId);
-        window.alert("Material updated successfully");
+        toast.success("Material updated successfully");
       } else {
         await createMaterial(finalTemplate);
-        window.alert("Material created successfully");
+        toast.success("Material created successfully");
       }
       history(-1);
     } catch (error) {
-      window.alert(`Error ${editMode ? "updating" : "creating"} material`);
+      toast.error(`Error ${editMode ? "updating" : "creating"} material`);
     }
   };
 

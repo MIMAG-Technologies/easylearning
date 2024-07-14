@@ -3,7 +3,11 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./App.css";
 import "./components/Forms/Forms.css";
+import "react-toastify/dist/ReactToastify.css";
+
 import { AuthContext } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+
 // COMPONENTS IMPORTS
 import Login from "./components/Auth/Login";
 import NotFound from "./components/Common/NotFound";
@@ -55,6 +59,19 @@ function App() {
   return (
     <>
       {isLoading && <Loader />}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
 
       <Routes>
         {/* Same For All Users Route */}

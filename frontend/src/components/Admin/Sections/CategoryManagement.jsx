@@ -1,8 +1,8 @@
 import { CirclePlus, Pencil, Save, Trash2 } from "lucide-react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function CategoryManagement() {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -13,22 +13,32 @@ function CategoryManagement() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    let isMounted = true;
+    const fetchCategories = async () => {
+      setisLoading(true);
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/categories/all`
+        );
+        if (isMounted) {
+          setCategoriesList(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error fetching categories:", error);
+          toast.error("Error fetching categories");
+        }
+      } finally {
+        setisLoading(false);
+      }
+    };
 
-  const fetchCategories = async () => {
-    setisLoading(true);
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/categories/all`
-      );
-      setCategoriesList(response.data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    } finally {
-      setisLoading(false);
-    }
-  };
+    fetchCategories();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSaveClick = async (category) => {
     setisLoading(true);
@@ -48,8 +58,10 @@ function CategoryManagement() {
         )
       );
       setEditingCategory(null);
+      toast.success("Category updated successfully");
     } catch (error) {
       console.error("Error updating category:", error);
+      toast.error("Error updating category");
     } finally {
       setisLoading(false);
     }
@@ -74,8 +86,10 @@ function CategoryManagement() {
         setCategoriesList(
           categoriesList.filter((cat) => cat._id !== category._id)
         );
+        toast.success("Category deleted successfully");
       } catch (error) {
         console.error("Error deleting category:", error);
+        toast.error("Error deleting category");
       } finally {
         setisLoading(false);
       }
@@ -97,9 +111,10 @@ function CategoryManagement() {
       );
       const newCategory = response.data;
       setCategoriesList([...categoriesList, newCategory]);
-      window.alert("New Category added successfully");
+      toast.success("New category added successfully");
     } catch (error) {
       console.error("Error adding category:", error);
+      toast.error("Error adding category");
     } finally {
       setisLoading(false);
     }

@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import ProfilePhoto from "../../assets/Images/profile-pic.png";
 import { uploadFile } from "../utils/courseUtils";
 import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
+import { toast } from "react-toastify";
 
 function MyProfil() {
   const { fetchMyData, UpdatehMyData } = useContext(AuthContext);
@@ -35,7 +36,7 @@ function MyProfil() {
 
   const handleFileUpload = async () => {
     if (!file) {
-      alert("Please select a file first.");
+      toast.warn("Please select a file first.");
       return;
     }
     setIsUploading(true);
@@ -46,12 +47,12 @@ function MyProfil() {
         ...prevUser,
         profilePhotoUrl: uploadResult.imageUrl,
       }));
-      alert("File uploaded successfully.");
+      toast.success("File uploaded successfully.");
       setFile(null);
       fileInputRef.current.value = null;
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Error uploading the file.");
+      toast.error("Error uploading the file.");
     } finally {
       setIsUploading(false);
     }
@@ -61,10 +62,10 @@ function MyProfil() {
     setIsUpdating(true);
     const response = await UpdatehMyData(user);
     if (response === "success") {
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       setInitialUser(user); // Update initialUser to current user state
     } else {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
     setIsUpdating(false);
   };

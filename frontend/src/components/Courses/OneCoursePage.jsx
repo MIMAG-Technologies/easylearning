@@ -72,7 +72,10 @@ function OneCoursePage() {
                     style={{
                       cursor: "pointer",
                     }}
-                    id="btnSubmit"
+                    onClick={() => {
+                      navigate(`/payments/${courseId}`);
+                    }}
+                    // id="btnSubmit"
                   >
                     Enroll now
                   </button>

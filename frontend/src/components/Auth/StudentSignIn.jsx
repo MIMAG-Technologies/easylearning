@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function StudentSignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -34,29 +35,29 @@ function StudentSignIn() {
 
     if (step === 1) {
       if (!formData.email) {
-        alert("Email is required!");
+        toast.warn("Email is required!");
         return;
       }
       const status = await SendOTP();
       if (status === 200) {
-        alert("OTP sent successfully!");
+        toast.success("OTP sent successfully!");
         setStep(2);
       } else if (status === 400) {
-        alert("User Already Exists!");
+        toast.warn("User Already Exists!");
       } else {
-        alert("Failed to send OTP!");
+        toast.error("Failed to send OTP!");
       }
     } else if (step === 2) {
       if (!otp) {
-        alert("OTP is required!");
+        toast.warn("OTP is required!");
         return;
       }
       const isOtpValid = await VerifyOTP();
       if (isOtpValid) {
         setStep(3);
-        alert("Otp is valid!");
+        toast.success("Email is validated successfully!");
       } else {
-        alert("Invalid OTP!");
+        toast.error("Invalid OTP!");
       }
       return;
     } else {
@@ -66,20 +67,22 @@ function StudentSignIn() {
         !formData.password ||
         !formData.contactNumber
       ) {
-        alert("All fields are required!");
+        toast.warn("All fields are required!");
         return;
       }
-      try {
-        await signin(
-          formData.name,
-          formData.email,
-          formData.password,
-          formData.contactNumber,
-          formData.role
-        );
+
+      const status = await signin(
+        formData.name,
+        formData.email,
+        formData.password,
+        formData.contactNumber,
+        formData.role
+      );
+      if (status === 200) {
         navigate("/");
-      } catch (error) {
-        console.error("Failed to sign in", error);
+        toast.success("Signed in successfully!");
+      } else {
+        toast.error("Failed to sign in!");
       }
     }
   };

@@ -65,6 +65,9 @@
   border-radius: 2px;
   border: 1px solid black;
 }
+#password-container input {
+  width: 90% !important;
+}
 #Auth p {
   text-wrap: balance;
   text-align: center;

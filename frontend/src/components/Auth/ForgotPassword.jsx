@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function ForgotPassword() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -35,41 +36,41 @@ function ForgotPassword() {
 
     if (step === 1) {
       if (!formData.email) {
-        alert("Email is required!");
+        toast.warn("Email is required!");
         return;
       }
       const status = await SendOTP();
       if (status === 200) {
-        alert("OTP sent successfully!");
+        toast.success("OTP sent successfully!");
         setStep(2);
       } else if (status === 404) {
-        alert("User Doesn't Exists!");
+        toast.error("User Doesn't Exists!");
       } else {
-        alert("Failed to send OTP!");
+        toast.error("Failed to send OTP!");
       }
     } else if (step === 2) {
       if (!otp) {
-        alert("OTP is required!");
+        toast.info("OTP is required!");
         return;
       }
       const isOtpValid = await checkOTP(formData.email, otp);
       if (isOtpValid) {
         setStep(3);
-        alert("OTP is valid!");
+        toast.success("Email is validated successfully!");
       } else {
-        alert("Invalid OTP!");
+        toast.error("Invalid OTP!");
       }
     } else if (step === 3) {
       if (!formData.password) {
-        alert("Password is required!");
+        toast.info("Password is required!");
         return;
       }
       const success = await updatePassword(formData.email, formData.password);
       if (success) {
-        alert("Password updated successfully!");
+        toast.success("Password updated successfully!");
         navigate(-1);
       } else {
-        alert("Failed to update password!");
+        toast.error("Failed to update password!");
       }
     }
   };

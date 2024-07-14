@@ -71,7 +71,15 @@ function MyOneModule() {
   }
 
   if (!moduleInfo || !material) {
-    return <div>Loading...</div>;
+    return (
+      <section className="module-container">
+        <h1>
+          {moduleId === "no-module"
+            ? "There are no Modules here to display"
+            : "Loading..."}
+        </h1>
+      </section>
+    );
   }
 
   return (

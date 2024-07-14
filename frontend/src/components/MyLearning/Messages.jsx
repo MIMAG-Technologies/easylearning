@@ -1,14 +1,9 @@
-import React, {
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import ProfilePhoto from "../../assets/Images/profile-pic.png";
+import { toast } from "react-toastify";
 
 function Messages() {
   const { userId, courseId } = useParams();
@@ -78,7 +73,7 @@ function Messages() {
       fetchMessages();
       setMessageText("");
     } catch (error) {
-      alert("Failed to send message");
+      toast.error("Failed to send message");
       console.error("An error occurred", error);
     }
   };

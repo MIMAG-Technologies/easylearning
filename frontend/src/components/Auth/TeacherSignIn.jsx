@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function TeacherSignIn() {
   const [isPasswordVisible, setisPasswordVisible] = useState(false);
@@ -34,16 +35,36 @@ function TeacherSignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await signin(
-        formData.name,
-        formData.email,
-        formData.password,
-        formData.role
-      );
+
+    // Basic validation
+    if (formData.name.trim() === "") {
+      toast.error("Name is required");
+      return;
+    }
+    if (formData.email.trim() === "") {
+      toast.error("Email is required");
+      return;
+    }
+    if (formData.password.trim() === "") {
+      toast.error("Password is required");
+      return;
+    }
+    if (formData.password.length < 8 || formData.password.length > 72) {
+      toast.error("Password must be between 8 and 72 characters");
+      return;
+    }
+
+    const status = await signin(
+      formData.name,
+      formData.email,
+      formData.password,
+      formData.role
+    );
+    if (status === 200) {
+      toast.success("Teacher account created successfully");
       navigate(-1);
-    } catch (error) {
-      console.error("Failed to sign in", error);
+    } else {
+      toast.error("Failed to create teacher account");
     }
   };
 

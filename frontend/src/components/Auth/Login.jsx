@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
 import "./Auth.css";
 
@@ -27,18 +29,22 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login using AuthContext login function
-    try {
-      await login(email, password, user);
-      // Redirect based on user type after successful login
+    if (!email || !password) {
+      toast.warn("Email and password are required!");
+      return;
+    }
+
+    const status = await login(email, password, user);
+    // Redirect based on user type after successful login
+    if (status === 200) {
+      toast.success("Successfully logged in");
       if (user === "admin") {
         navigate("/admin");
       } else {
         navigate("/");
       }
-    } catch (error) {
-      console.error("Login failed", error);
-      // Handle login error if needed
+    } else {
+      toast.error("Login failed. Please check your credentials and try again.");
     }
   };
 
@@ -89,7 +95,8 @@ function Login() {
           <button type="submit">Login</button>
           <div className="line"></div>
           <p className="have_an_account">
-            Don't have an account? <Link to="/auth/signin/student">Log in</Link>
+            Don't have an account?{" "}
+            <Link to="/auth/signin/student">Sign up</Link>
           </p>
           <p className="have_an_account">
             Are you a {who === "student" ? "teacher" : "student"}?

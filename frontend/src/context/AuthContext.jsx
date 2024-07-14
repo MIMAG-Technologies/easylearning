@@ -102,12 +102,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password, role) => {
+    setisLoading(true);
     try {
       const response = await axios.post(`${apiBaseUrl}/auth/${role}/login`, {
         email,
         password,
       });
-      console.log(response.data.token);
 
       // Add a delay before setting token to localStorage
       setTimeout(() => {
@@ -118,12 +118,17 @@ export const AuthProvider = ({ children }) => {
           console.error("Error saving token to localStorage:", error);
         }
       }, 100); // Adjust delay time as needed
+      setisLoading(false);
+      return 200;
     } catch (error) {
       console.error("Failed to login", error);
+      setisLoading(false);
+      return 500;
     }
   };
 
   const signin = async (name, email, password, contactNumber, role) => {
+    setisLoading(true);
     try {
       const response = await axios.post(`${apiBaseUrl}/auth/${role}/register`, {
         name,
@@ -135,8 +140,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", response.data.token);
         setToken(response.data.token);
       }
+      setisLoading(false);
+      return 200;
     } catch (error) {
       console.error("Failed to sign in", error);
+      setisLoading(false);
+      return 500;
     }
   };
 

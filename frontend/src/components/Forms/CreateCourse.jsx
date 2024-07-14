@@ -10,6 +10,7 @@ import {
 import noImg from "../../assets/Images/no-thumbnail.jpg";
 import { X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function CreateCourse() {
   const [file, setFile] = useState(null);
@@ -42,36 +43,45 @@ function CreateCourse() {
   const courseId = isEditMode ? loc.pathname.split("/")[4] : null;
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         const instructorsData = await fetchInstructors();
-        setInstructors(instructorsData);
+        if (isMounted) setInstructors(instructorsData);
 
         const categoriesData = await fetchCategories();
-        setCategories(categoriesData);
+        if (isMounted) setCategories(categoriesData);
 
         if (isEditMode) {
           const courseData = await fetchCourse(courseId);
-          setFormData({
-            title: courseData.title,
-            price: courseData.price,
-            instructor: courseData.instructor._id,
-            category: courseData.category._id,
-            belongTo: courseData.belongTo,
-            whatWillLearn: courseData.whatWillLearn.join("\n"),
-            thumbnailUrl: courseData.thumbnailUrl,
-            description: courseData.description,
-            providingInstitution: courseData.providingInstitution,
-            level: courseData.level,
-            expectedDuration: courseData.expectedDuration,
-          });
+          if (isMounted) {
+            setFormData({
+              title: courseData.title,
+              price: courseData.price,
+              instructor: courseData.instructor._id,
+              category: courseData.category._id,
+              belongTo: courseData.belongTo,
+              whatWillLearn: courseData.whatWillLearn.join("\n"),
+              thumbnailUrl: courseData.thumbnailUrl,
+              description: courseData.description,
+              providingInstitution: courseData.providingInstitution,
+              level: courseData.level,
+              expectedDuration: courseData.expectedDuration,
+            });
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        if (isMounted) toast.error("Error fetching data");
       }
     };
 
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [isEditMode, courseId]);
 
   const handleInputChange = (e) => {
@@ -85,7 +95,7 @@ function CreateCourse() {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size > 1024 * 1024) {
-      window.alert("File size should be less than 1MB");
+      toast.error("File size should be less than 1MB");
       setFile(null);
       fileInputRef.current.value = null;
     } else {
@@ -96,7 +106,7 @@ function CreateCourse() {
   const handleFileUpload = async (e) => {
     e.preventDefault();
     if (!file) {
-      window.alert("Please select a file first.");
+      toast.error("Please select a file first.");
       return;
     }
 
@@ -106,11 +116,11 @@ function CreateCourse() {
         ...prevData,
         thumbnailUrl: uploadResult.imageUrl,
       }));
-      window.alert("File uploaded successfully.");
+      toast.success("File uploaded successfully.");
       setFile(null);
       fileInputRef.current.value = null;
     } catch (error) {
-      window.alert("Error uploading the file.");
+      toast.error("Error uploading the file.");
       setFile(null);
       fileInputRef.current.value = null;
     }
@@ -127,14 +137,14 @@ function CreateCourse() {
     try {
       if (isEditMode) {
         await updateCourse(courseId, courseData); // Call the update function
-        window.alert("Course updated successfully.");
+        toast.success("Course updated successfully.");
       } else {
         await createCourse(courseData); // Call the create function
-        window.alert("Course created successfully.");
+        toast.success("Course created successfully.");
       }
       navigate("/admin/course-management");
     } catch (error) {
-      window.alert(`Error ${isEditMode ? "updating" : "creating"} course.`);
+      toast.error(`Error ${isEditMode ? "updating" : "creating"} course.`);
     }
   };
 

@@ -3,27 +3,42 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ProfilePhoto from "../../../assets/Images/profile-pic.png";
+import { toast } from "react-toastify";
 
 function TeacherManagement() {
   const [teachers, setTeachers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  // Fetch teachers from the API
   useEffect(() => {
+    let isMounted = true;
     const fetchTeachers = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/fetch/users/teacher/all`
         );
-        setTeachers(response.data);
+        if (isMounted) {
+          setTeachers(response.data);
+        }
       } catch (error) {
-        console.error("Error fetching teachers:", error);
+        if (isMounted) {
+          console.error("Error fetching teachers:", error);
+          toast.error("Error fetching teachers");
+        }
       }
     };
 
     fetchTeachers();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  const handleRemoveTeacher = (teacherId) => {
+    // Add logic to remove the teacher
+    toast.info("Teacher removal functionality not implemented yet");
+  };
 
   const oneTeacher = (teacher) => {
     return (
@@ -42,15 +57,12 @@ function TeacherManagement() {
         </span>
         <UserX
           className="removeuserbtn"
-          onClick={() => {
-            window.alert("Remove user");
-          }}
+          onClick={() => handleRemoveTeacher(teacher._id)}
         />
       </Link>
     );
   };
 
-  // Filter teachers based on the search query
   const filteredTeachers = teachers.filter(
     (teacher) =>
       teacher.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
