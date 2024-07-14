@@ -1,6 +1,5 @@
 // checkout.js
-
-function hashData(algo, data) {
+async function hashData(algo, data) {
   const encoder = new TextEncoder();
   const dataBuffer = encoder.encode(data);
 
@@ -19,12 +18,13 @@ async function handleResponse(res) {
     res.paymentMethod.paymentTransaction.statusCode == "0300"
   ) {
     alert("success");
-    console.log(res);
+    localStorage.setItem("paymentDone", true);
+
     return false;
     // success code
   } else {
     alert("Error");
-    console.log(res);
+
     return false;
     // error code
   }

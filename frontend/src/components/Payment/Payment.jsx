@@ -11,6 +11,7 @@ function Payment() {
   const [course, setCourse] = useState({});
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [ispaymentDone, setispaymentDone] = useState(false);
 
   const fetchCoursesData = async () => {
     setIsLoading(true);
@@ -55,9 +56,26 @@ function Payment() {
           <li>{course.expectedDuration} long course</li>
           <li>{course.level} level Course</li>
         </ul>
-        <a className="card__cta cta" id="btnSubmit">
-          Checkout
-        </a>
+        <label htmlFor="ticktermandcondition">
+          <input type="checkbox" name="" id="ticktermandcondition" /> Please
+          tick this to continue.By ticking this you will agree to our term and
+          conditions
+        </label>
+        {ispaymentDone ? (
+          <a className="card__cta cta" onClick={doEnroll}>
+            Continue
+          </a>
+        ) : (
+          <a className="card__cta cta" id="btnSubmit">
+            <span
+              onClick={() => {
+                setispaymentDone(!ispaymentDone);
+              }}
+            >
+              Checkout
+            </span>
+          </a>
+        )}
       </div>
     </div>
   );
