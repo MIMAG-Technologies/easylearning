@@ -1,5 +1,6 @@
 const Module = require("../models/module");
 const Course = require("../models/course");
+const Material = require("../models/material");
 
 // Create a new module
 const createModule = async (req, res) => {
@@ -138,6 +139,9 @@ const deleteModule = async (req, res) => {
       course.modules.pull(moduleId);
       await course.save();
     }
+
+    // Delete any associated materials
+    await Material.deleteMany({ module: moduleId });
 
     res.status(200).json({ message: "Module deleted successfully" });
   } catch (error) {

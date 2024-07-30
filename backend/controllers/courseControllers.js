@@ -2,6 +2,7 @@ const Course = require("../models/course");
 const User = require("../models/user");
 const Category = require("../models/category");
 const Module = require("../models/module");
+const { sendEmail } = require("../utils/mailSender");
 
 // Create a new course
 const createCourse = async (req, res) => {
@@ -203,7 +204,7 @@ const enrollCourse = async (req, res) => {
         isCommon: false,
         userid: user._id,
       };
-      delete newModuleData._id; // Ensure a new _id is generated
+      delete newModuleData._id;
 
       const newModule = new Module(newModuleData);
       await newModule.save();
@@ -212,12 +213,34 @@ const enrollCourse = async (req, res) => {
 
     // Update the course with new modules
     course.modules.push(...newModules);
+    course.studentsEnrolled.push(user._id);
     await course.save();
 
     // Save the updated user
     await user.save();
 
     res.status(200).json({ message: "Enrollment successful" });
+    const emailContent = `
+  <h1>Welcome to ${course.title}, ${user.name}!</h1>
+  <p>Congratulations on enrolling in our course. We're excited to have you on board.</p>
+  <p>This course is designed to provide you with the best learning experience, and we're here to support you every step of the way.</p>
+  <p>Here are some quick tips to get you started:</p>
+  <ul>
+<li>Access the 'My Learning' section by selecting the user menu in the top right corner of the website on desktop or by tapping the 3-line button and then the user menu on mobile.</li>
+    <li>Once there, you will see all your enrolled courses. Click on any course to access it.</li>
+    <li>There will be modules, and the teacher will upload material frequently.</li>
+    <li>For discussions, there is a chat section with the teacher.</li>
+  </ul>
+  <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+  <p>Happy Learning!</p>
+  <p>Best regards,<br>Psycortex Online Education Team</p>
+`;
+
+    sendEmail(email, "Welcome to Your New Course!", emailContent).catch(
+      (error) => {
+        console.error("Error sending email:", error);
+      }
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -102,9 +102,13 @@ const resetPassword = async (req, res) => {
       <p>If you did not request this change, please contact our support team immediately.</p>
       <p>Best regards,<br>Psycortex Online Education Team</p>
     `;
-    await sendEmail(email, "Password Successfully Updated", emailContent);
 
     res.status(200).json({ message: "Password reset successfully" });
+    await sendEmail(email, "Password Successfully Updated", emailContent).catch(
+      (error) => {
+        console.error("Error sending email:", error);
+      }
+    );
   } catch (error) {
     res
       .status(500)
@@ -145,13 +149,15 @@ const createStudent = async (req, res) => {
      <p>We are excited to have you on board.</p>
      <p>Best regards,<br>Psycortex Online Education Team</p>
    `;
+
+    res.status(201).json({ message: "Student registered successfully", token });
     await sendEmail(
       email,
       "Welcome to Psycortex Online Education",
       emailContent
-    );
-
-    res.status(201).json({ message: "Student registered successfully", token });
+    ).catch((error) => {
+      console.error("Error sending email:", error);
+    });
   } catch (error) {
     res
       .status(500)
@@ -185,9 +191,13 @@ const studentLogin = async (req, res) => {
       <p>If this wasn't you, please contact our support team immediately.</p>
       <p>Best regards,<br>Psycortex Online Education Team</p>
     `;
-    await sendEmail(email, "Login Notification", emailContent);
 
     res.status(200).json({ token });
+    await sendEmail(email, "Login Notification", emailContent).catch(
+      (error) => {
+        console.error("Error sending email:", error);
+      }
+    );
   } catch (error) {
     res
       .status(500)
@@ -255,9 +265,13 @@ const teacherLogin = async (req, res) => {
         <p>If this wasn't you, please contact our support team immediately.</p>
         <p>Best regards,<br>Psycortex Online Education Team</p>
       `;
-    await sendEmail(email, "Login Notification", emailContent);
 
     res.status(200).json({ token });
+    await sendEmail(email, "Login Notification", emailContent).catch(
+      (error) => {
+        console.error("Error sending email:", error);
+      }
+    );
   } catch (error) {
     res
       .status(500)

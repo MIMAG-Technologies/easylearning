@@ -2,8 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import ProfilePhoto from "../../assets/Images/profile-pic.png";
 import { fetchCourse } from "../utils/courseUtils";
-import { Check, ChevronDown, CirclePlus, PenLine, Star } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  CirclePlus,
+  PenLine,
+  Star,
+  Trash2,
+} from "lucide-react";
 import Markdown from "react-markdown";
+import { DeleteModule } from "../utils/moduleUtils";
+import { toast } from "react-toastify";
 
 function OneCoursePage() {
   const { courseId } = useParams();
@@ -12,7 +21,26 @@ function OneCoursePage() {
   const [course, setCourse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [expandedModuleIndex, setExpandedModuleIndex] = useState(null);
+  const deleteMod = async (moduleId) => {
+    // Show confirmation dialog
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this Module? All Material Associated With this Module Also be deleted ! This action cannot be reversed."
+    );
 
+    if (userConfirmed) {
+      // Proceed with deletion if user confirms
+      const res = await DeleteModule(moduleId);
+      if (res === 200) {
+        toast.success("Module deleted successfully!");
+        fetchCourse();
+      } else {
+        toast.error("Failed to delete Module!");
+      }
+    } else {
+      // Do nothing if user cancels
+      toast.info("Deletion canceled.");
+    }
+  };
   const fetchCoursesData = async () => {
     setIsLoading(true);
     try {
@@ -90,7 +118,6 @@ function OneCoursePage() {
                   About
                 </a>
                 <a href="#modules">Modules</a>
-                <a href="">Reviews</a>
               </nav>
               <section id="about">
                 <h3>What you'll learn</h3>
@@ -162,9 +189,19 @@ function OneCoursePage() {
                       {window.innerWidth > 600 && <h3>Module Details</h3>}
                       <ChevronDown />
                       {loc.pathname.includes("/admin/course-management") && (
-                        <Link to={`edit-module/${module._id}`}>
-                          <PenLine />
-                        </Link>
+                        <>
+                          <Link to={`edit-module/${module._id}`}>
+                            <PenLine />
+                          </Link>
+                          <Link
+                            onClick={() => {
+                              deleteMod(module._id);
+                            }}
+                            className="addModule"
+                          >
+                            <Trash2 />
+                          </Link>
+                        </>
                       )}
                     </span>
                   </div>

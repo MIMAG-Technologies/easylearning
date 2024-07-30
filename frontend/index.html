@@ -37,6 +37,36 @@
     ></script>
     <script type="text/javascript">
       $(document).ready(function () {
+        const getCredentials = async () => {
+          const token = localStorage.getItem("token");
+          try {
+            const response = await fetch(
+              `https://easyapi.psycortex.in/api/v1/getPaymentGatewayCredentails`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            const res = await response.json();
+            return res;
+          } catch (error) {
+            return {};
+          }
+        };
+
+        const consumerMobileNo = "7249424403";
+        const consumerEmailId = "psycortex01@gmail.com";
+        const logoUrl =
+          "https://psycortex.in/assets/Images/thebraintakeLogo.png";
+
         function hashData(algo, data) {
           const encoder = new TextEncoder();
           const dataBuffer = encoder.encode(data);
@@ -49,82 +79,138 @@
           });
         }
 
-        async function handleResponse(res) {
+        const complete = async (
+          transactionState,
+          transactionIdentifier,
+          errorMessage
+        ) => {
+          const token = localStorage.getItem("token");
+          const transactionToken = localStorage.getItem("TransactionToken");
+
+          try {
+            const response = await fetch(
+              `https://easyapi.psycortex.in/api/v1/transaction/complete`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  token: transactionToken,
+                  transactionState: transactionState,
+                  transactionIdentifier: transactionIdentifier,
+                  dateTime: new Date().toISOString(),
+                  errorMessage: errorMessage,
+                }),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            const res = await response.json();
+          } catch (error) {
+            if (transactionState === "success") {
+              alert(
+                "Your payment is done, but due to some technical issues, the item is not added to the purchased list. Please contact our support team!"
+              );
+            }
+          }
+        };
+
+        const handleResponse = async (res) => {
           if (
-            typeof res != "undefined" &&
-            typeof res.paymentMethod != "undefined" &&
-            typeof res.paymentMethod.paymentTransaction != "undefined" &&
-            typeof res.paymentMethod.paymentTransaction.statusCode !=
+            typeof res !== "undefined" &&
+            typeof res.paymentMethod !== "undefined" &&
+            typeof res.paymentMethod.paymentTransaction !== "undefined" &&
+            typeof res.paymentMethod.paymentTransaction.statusCode !==
               "undefined" &&
             res.paymentMethod.paymentTransaction.statusCode == "0300"
           ) {
-            alert("success");
-            console.log(res);
-            return false;
-            // success code
+            await complete(
+              "success",
+              res.paymentMethod.paymentTransaction.identifier,
+              res.paymentMethod.paymentTransaction.errorMessage
+            );
+            localStorage.setItem("isTransactionDone", "success");
           } else {
-            alert("Error");
-            console.log(res);
-            return false;
-            // error code
+            await complete(
+              "failure",
+              res.paymentMethod.paymentTransaction.identifier,
+              res.paymentMethod.paymentTransaction.errorMessage
+            );
+            localStorage.setItem("isTransactionDone", "failure");
           }
-        }
-
-        async function getToken() {
+        };
+        async function getToken(credentials) {
           const algo = "SHA-512"; //sha256, sha512, md5
-          const data =
-            "T955031|TXN1140|4||c12345|9999999999|test@gmail.com||||||||||1025180466GPADTD";
+          const data = `${credentials.merchantCode}|${
+            credentials.txnId
+          }|${localStorage.getItem("transactionPaymentAmount")}||${
+            credentials.consumerId
+          }|${consumerMobileNo}|${consumerEmailId}||||||||||${
+            credentials.encryptionKey
+          }`;
           return await hashData(algo, data);
         }
 
-        $(document)
-          .off("click", "#btnSubmit")
-          .on("click", "#btnSubmit", async function (e) {
-            e.preventDefault();
-            const token = await getToken();
+        const initTransaction = async () => {
+          const credentials = await getCredentials();
+          if (Object.keys(credentials).length === 0) return;
 
-            var configJson = {
-              tarCall: false,
-              features: {
-                enableAbortResponse: true,
-                enableExpressPay: true,
-                enableInstrumentDeRegistration: true,
-                enableMerTxnDetails: true,
-                enableNewWindowFlow: true,
-              },
-              consumerData: {
-                deviceId: "WEBSH2", //possible values 'WEBSH1', 'WEBSH2' and 'WEBMD5'
-                token: token,
-                responseHandler: handleResponse,
-                paymentMode: "all",
-                merchantLogoUrl:
-                  "https://psycortex.in/assets/Images/thebraintakeLogo.png", //provided merchant logo will be displayed
-                merchantId: "T955031",
-                consumerId: "c12345",
-                consumerMobileNo: "9999999999",
-                consumerEmailId: "test@gmail.com",
-                txnId: "TXN1140", //Unique merchant transaction ID
-                items: [
-                  {
-                    itemId: "first",
-                    amount: "4",
-                    comAmt: "0",
-                  },
-                ],
-                customStyle: {
-                  PRIMARY_COLOR_CODE: "#3977b7",
-                  SECONDARY_COLOR_CODE: "#FFFFFF",
-                  BUTTON_COLOR_CODE_1: "#1969bb",
-                  BUTTON_COLOR_CODE_2: "#FFFFFF",
+          $(document)
+            .off("click", "#btnSubmit")
+            .on("click", "#btnSubmit", async function (e) {
+              e.preventDefault();
+              localStorage.setItem("isTransactionDone", "pending");
+              const token = await getToken(credentials);
+
+              var configJson = {
+                tarCall: false,
+                features: {
+                  enableAbortResponse: true,
+                  enableExpressPay: true,
+                  enableInstrumentDeRegistration: true,
+                  enableMerTxnDetails: true,
+                  enableNewWindowFlow: true,
                 },
-              },
-            };
+                consumerData: {
+                  deviceId: "WEBSH2", //possible values 'WEBSH1', 'WEBSH2' and 'WEBMD5'
+                  token: token,
+                  responseHandler: handleResponse,
+                  paymentMode: "all",
+                  merchantLogoUrl: logoUrl, // provided merchant logo will be displayed
+                  merchantId: credentials.merchantCode,
+                  consumerId: credentials.consumerId,
+                  consumerMobileNo: consumerMobileNo,
+                  consumerEmailId: consumerEmailId,
+                  txnId: credentials.txnId,
+                  items: [
+                    {
+                      itemId: "first",
+                      amount: localStorage.getItem("transactionPaymentAmount"),
+                      comAmt: "0",
+                    },
+                  ],
+                  customStyle: {
+                    PRIMARY_COLOR_CODE: "#3977b7",
+                    SECONDARY_COLOR_CODE: "#FFFFFF",
+                    BUTTON_COLOR_CODE_1: "#1969bb",
+                    BUTTON_COLOR_CODE_2: "#FFFFFF",
+                  },
+                },
+              };
 
-            $.pnCheckout(configJson);
-            if (configJson.features.enableNewWindowFlow) {
-              pnCheckoutShared.openNewWindow();
-            }
-          });
+              $.pnCheckout(configJson);
+              if (configJson.features.enableNewWindowFlow) {
+                pnCheckoutShared.openNewWindow();
+              }
+            });
+        };
+
+        initTransaction();
       });
     </script>
   </body>

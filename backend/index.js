@@ -11,6 +11,7 @@ const courseRouter = require("./routes/course");
 const moduleRouter = require("./routes/module");
 const materialRouter = require("./routes/material");
 const discussionRouter = require("./routes/discussions");
+const transactionRouter = require("./routes/transaction");
 const { createAdminUser } = require("./controllers/authControllers");
 
 const app = express();
@@ -66,6 +67,7 @@ app.use(BASE_URL, moduleRouter);
 app.use(BASE_URL, uploadRoute);
 app.use(BASE_URL, materialRouter);
 app.use(BASE_URL, discussionRouter);
+app.use(BASE_URL, transactionRouter);
 
 // Serve the uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

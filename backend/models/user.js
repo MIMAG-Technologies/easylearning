@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   assignedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
   contactNumber: { type: String, default: "" }, // Added contact number
   address: {
+    appartmentNo: { type: String, default: "" },
     street: { type: String, default: "" },
     city: { type: String, default: "" },
     state: { type: String, default: "" },

@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link, Outlet, useLocation } from "react-router-dom";
 import { fetchModule } from "../utils/moduleUtils";
-import { fetchMaterial } from "../utils/materialUtils";
+import { deleteMaterial, fetchMaterial } from "../utils/materialUtils";
 import {
   CirclePlus,
   NotebookPen,
   PenLine,
   ScrollText,
+  Trash2,
   Video,
 } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function MyOneModule() {
   const { user } = useContext(AuthContext);
@@ -81,6 +83,27 @@ function MyOneModule() {
       </section>
     );
   }
+
+  const deleteMat = async (materialId) => {
+    // Show confirmation dialog
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this material? This action cannot be reversed."
+    );
+
+    if (userConfirmed) {
+      // Proceed with deletion if user confirms
+      const res = await deleteMaterial(materialId);
+      if (res === 200) {
+        toast.success("Material deleted successfully!");
+        getMaterial();
+      } else {
+        toast.error("Failed to delete material!");
+      }
+    } else {
+      // Do nothing if user cancels
+      toast.info("Deletion canceled.");
+    }
+  };
 
   return (
     <section className="module-container">
@@ -186,9 +209,21 @@ function MyOneModule() {
             )}
 
             {user.role !== "student" && (
-              <Link to={`material/edit/${item.kind}/${item._id}`}>
-                <PenLine />
-              </Link>
+              <>
+                <Link to={`material/edit/${item.kind}/${item._id}`}>
+                  <PenLine />
+                </Link>
+                <Link
+                  onClick={() => {
+                    deleteMat(item._id);
+                  }}
+                  style={{
+                    backgroundColor: "red",
+                  }}
+                >
+                  <Trash2 />
+                </Link>
+              </>
             )}
           </div>
         ))}

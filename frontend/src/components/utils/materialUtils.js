@@ -34,6 +34,22 @@ export const updateMaterial = async (materialData, materialId) => {
     throw error;
   }
 };
+export const deleteMaterial = async (materialId) => {
+  try {
+    await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/material/${materialId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return 200;
+  } catch (error) {
+    console.error("Error updating course:", error);
+    return 400;
+  }
+};
 export const fetchMaterial = async (materialId) => {
   try {
     const response = await axios.get(

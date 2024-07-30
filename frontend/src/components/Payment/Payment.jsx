@@ -2,49 +2,94 @@ import React, { useEffect, useState, useContext } from "react";
 import "./Payment.css";
 import { fetchCourse, enrollCourse } from "../utils/courseUtils";
 import { AuthContext } from "../../context/AuthContext";
-
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { initiateTransaction } from "../utils/paymentUtils.js";
+import { toast } from "react-toastify";
 
 function Payment() {
   const { id } = useParams();
   const courseId = atob(id);
   const [course, setCourse] = useState({});
+  const [haveToUpdateAddress, setHaveToUpdateAddress] = useState(false);
+  const [isPaymentInitiated, setIsPaymentInitiated] = useState(false);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [ispaymentDone, setispaymentDone] = useState(false);
 
   const fetchCoursesData = async () => {
     setIsLoading(true);
     try {
       const data = await fetchCourse(courseId);
       setCourse(data);
-      console.log(data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchCoursesData();
   }, []);
 
-  if (isLoading) {
-    return <p>Loading course...</p>;
-  }
+  useEffect(() => {
+    let intervalId = setInterval(() => {
+      const status = localStorage.getItem("isTransactionDone");
+
+      if (status === "success" || status === "failure") {
+        localStorage.removeItem("isTransactionDone");
+        localStorage.removeItem("TransactionToken");
+        localStorage.removeItem("transactionPaymentAmount");
+        if (status === "success") {
+          toast.success("Payment completed!");
+          doEnroll();
+          navigate("/dashboard/mylearning");
+        } else if (status === "failure") {
+          toast.error("Failed to Make Payment!");
+          navigate(-1);
+        }
+      }
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const doEnroll = async () => {
     setIsLoading(true);
     try {
       await enrollCourse(user.email, courseId);
-      alert("Course enrolled successfully!");
+      toast.success("Course Enrolled Successfully!");
     } catch (error) {
-      console.error("Error fetching courses:", error);
-      alert("Course failed to be enroll ");
+      console.error("Error enrolling in course:", error);
+      toast.error("Course enrollment failed");
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleInitiateTransaction = async () => {
+    const res = await initiateTransaction(user.id, courseId, `${course.price}`);
+    if (res.status === 200) {
+      localStorage.setItem("TransactionToken", res.token);
+      localStorage.setItem("transactionPaymentAmount", course.price);
+      setIsPaymentInitiated(true);
+      toast.info("Transaction Initiated!");
+    } else if (res.status === 400) {
+      setIsPaymentInitiated(true);
+      setHaveToUpdateAddress(true);
+      toast.error(
+        "Please Update Your Address from Profile Section and try Again!!"
+      );
+    } else if (res.status === 401) {
+      toast.warn("You are  already enrolled in this course");
+    } else {
+      toast.error("Failed to initiate transaction");
+    }
+  };
+
+  if (isLoading) {
+    return <p>Loading course...</p>;
+  }
 
   return (
     <div className="cards__inner">
@@ -57,24 +102,31 @@ function Payment() {
           <li>{course.level} level Course</li>
         </ul>
         <label htmlFor="ticktermandcondition">
-          <input type="checkbox" name="" id="ticktermandcondition" /> Please
-          tick this to continue.By ticking this you will agree to our term and
+          <input type="checkbox" id="ticktermandcondition" /> Please tick this
+          to continue. By ticking this you will agree to our terms and
           conditions
         </label>
-        {ispaymentDone ? (
-          <a className="card__cta cta" onClick={doEnroll}>
-            Continue
+        {!isPaymentInitiated && (
+          <a className="card__cta cta" onClick={handleInitiateTransaction}>
+            Initiate Transaction
           </a>
-        ) : (
-          <a className="card__cta cta" id="btnSubmit">
-            <span
-              onClick={() => {
-                setispaymentDone(!ispaymentDone);
-              }}
-            >
+        )}
+        {isPaymentInitiated && haveToUpdateAddress && (
+          <Link className="card__cta cta" to="/dashboard/myprofile">
+            Go To Profile Section
+          </Link>
+        )}
+        {isPaymentInitiated && !haveToUpdateAddress && (
+          <>
+            <label id="wordline-select">
+              <input type="radio" checked />
+              Pay with Worldline
+              <img src="/assets/worldline-logo.svg" alt="Worldline" />
+            </label>
+            <a className="card__cta cta" id="btnSubmit">
               Checkout
-            </span>
-          </a>
+            </a>
+          </>
         )}
       </div>
     </div>

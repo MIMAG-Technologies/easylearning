@@ -46,3 +46,19 @@ export const UpdateModule = async (module, ModuleId) => {
     throw error;
   }
 };
+export const DeleteModule = async (ModuleId) => {
+  try {
+    await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/modules/${ModuleId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return 200;
+  } catch (error) {
+    console.error("Error creating course:", error);
+    throw 400;
+  }
+};

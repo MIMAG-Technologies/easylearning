@@ -6,6 +6,7 @@ import {
   CirclePlus,
   X,
   SquareChevronRight,
+  Trash2,
 } from "lucide-react";
 import {
   Link,
@@ -16,6 +17,8 @@ import {
 } from "react-router-dom";
 import { getUserCourse } from "../utils/courseUtils";
 import { AuthContext } from "../../context/AuthContext";
+import { DeleteModule } from "../utils/moduleUtils";
+import { toast } from "react-toastify";
 
 function LearningNav() {
   const { user } = React.useContext(AuthContext);
@@ -37,7 +40,26 @@ function LearningNav() {
       console.error(error);
     }
   };
+  const deleteMod = async (moduleId) => {
+    // Show confirmation dialog
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this Module? All Material Associated With this Module Also be deleted ! This action cannot be reversed."
+    );
 
+    if (userConfirmed) {
+      // Proceed with deletion if user confirms
+      const res = await DeleteModule(moduleId);
+      if (res === 200) {
+        toast.success("Module deleted successfully!");
+        fetchCourse();
+      } else {
+        toast.error("Failed to delete Module!");
+      }
+    } else {
+      // Do nothing if user cancels
+      toast.info("Deletion canceled.");
+    }
+  };
   useEffect(() => {
     setisSideMenuOn(false);
   }, [pathname]);
@@ -151,15 +173,27 @@ function LearningNav() {
                 Module {module.order}
               </p>
               {user.role !== "student" && (
-                <Link
-                  to={`edit-module/${module._id}`}
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "10px",
-                  }}
-                >
-                  <Pencil />
-                </Link>
+                <>
+                  <Link
+                    to={`edit-module/${module._id}`}
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Pencil />
+                  </Link>
+                  <Link
+                    onClick={() => {
+                      deleteMod(module._id);
+                    }}
+                    style={{
+                      marginRight: "10px",
+                    }}
+                  >
+                    <Trash2 />
+                  </Link>
+                </>
               )}
             </div>
           ))}

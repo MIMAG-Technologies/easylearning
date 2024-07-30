@@ -305,6 +305,37 @@ function MyProfil() {
         <h1>Address</h1>
         <div className="input-containers">
           <div>
+            <label htmlFor="street">Street</label>
+            <input
+              type="text"
+              name="street"
+              value={user?.address?.street || ""}
+              onChange={handleAddressChange}
+              style={{
+                borderColor: isAddressChanged("street", user?.address?.street)
+                  ? borderUpdateColor
+                  : borderNormalColor,
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="appartmentNo">Appartment No</label>
+            <input
+              type="text"
+              name="appartmentNo"
+              value={user?.address?.appartmentNo || ""}
+              onChange={handleAddressChange}
+              style={{
+                borderColor: isAddressChanged(
+                  "appartmentNo",
+                  user?.address?.appartmentNo
+                )
+                  ? borderUpdateColor
+                  : borderNormalColor,
+              }}
+            />
+          </div>
+          <div>
             <label htmlFor="city">City</label>
             <input
               type="text"

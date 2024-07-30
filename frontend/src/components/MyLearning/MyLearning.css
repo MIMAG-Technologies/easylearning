@@ -108,7 +108,9 @@
   gap: 20px;
   margin: 5vh 0px;
 }
-
+.notes {
+  word-wrap: break-word;
+}
 .onematerial span * {
   margin: 0%;
 }
