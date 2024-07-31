@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 function ApplyAsInstructor() {
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const { setisLoading } = useContext(AuthContext);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -21,9 +25,78 @@ function ApplyAsInstructor() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.address ||
+      !form.position ||
+      !form.resume
+    ) {
+      toast.error("All fields are required");
+      return false;
+    }
+    if (!form.email.includes("@")) {
+      toast.error("Invalid email format");
+      return false;
+    }
+    if (form.phone.length < 10) {
+      toast.error("Invalid phone number");
+      return false;
+    }
+    if (
+      form.resume &&
+      (form.resume.type !== "application/pdf" ||
+        form.resume.size > 2 * 1024 * 1024)
+    ) {
+      toast.error("Resume must be a PDF file and less than 2MB");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic
+    if (!validateForm()) {
+      return;
+    }
+
+    setisLoading(true);
+
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("email", form.email);
+    formData.append("phone", form.phone);
+    formData.append("address", form.address);
+    formData.append("position", form.position);
+    formData.append("resume", form.resume);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/apply`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data);
+      if (
+        response.data.message === "Application with this email already exists"
+      ) {
+        toast.info(response.data.message);
+      } else {
+        toast.success("Application submitted successfully");
+        navigate(-1); // Go back to the previous page
+      }
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      toast.error("Error submitting application");
+    } finally {
+      setisLoading(false);
+    }
   };
 
   return (
@@ -37,7 +110,7 @@ function ApplyAsInstructor() {
         >
           Apply as Instructor
         </h1>
-        <X className="x-btn" onClick={() => history(-1)} />
+        <X className="x-btn" onClick={() => navigate(-1)} />
         <form
           className="apply_as_instructor"
           onSubmit={handleSubmit}

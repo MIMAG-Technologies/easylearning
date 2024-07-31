@@ -37,11 +37,14 @@
     ></script>
     <script type="text/javascript">
       $(document).ready(function () {
+        API_BASE_URL = "https://easyapi.psycortex.in/api/v1";
+        // API_BASE_URL = "http://localhost:5000/api/v1";
+
         const getCredentials = async () => {
           const token = localStorage.getItem("token");
           try {
             const response = await fetch(
-              `https://easyapi.psycortex.in/api/v1/getPaymentGatewayCredentails`,
+              `${API_BASE_URL}/getPaymentGatewayCredentails`,
               {
                 method: "GET",
                 headers: {
@@ -89,7 +92,7 @@
 
           try {
             const response = await fetch(
-              `https://easyapi.psycortex.in/api/v1/transaction/complete`,
+              `${API_BASE_URL}/transaction/complete`,
               {
                 method: "POST",
                 headers: {
