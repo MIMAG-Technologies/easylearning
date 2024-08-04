@@ -102,9 +102,9 @@ function Payment() {
           <li>{course.level} level Course</li>
         </ul>
         <label htmlFor="ticktermandcondition">
-          <input type="checkbox" id="ticktermandcondition" /> Please tick this
-          to continue. By ticking this you will agree to our terms and
-          conditions
+          <input type="checkbox" id="ticktermandcondition" /> You agree to all
+          the terms & conditions mentioned on the website. No charge back would
+          be entertained once the payment is completed.
         </label>
         {!isPaymentInitiated && (
           <a className="card__cta cta" onClick={handleInitiateTransaction}>
