@@ -10,7 +10,13 @@ const CourseSchema = new Schema({
   description: { type: String, required: true },
   thumbnailUrl: { type: String, required: true },
   modules: [{ type: Schema.Types.ObjectId, ref: "Module" }],
-  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
+  isDeleted: { type: Boolean, default: false },
+  reviews: [
+    {
+      _id: { type: Schema.Types.ObjectId, ref: "Review" },
+      rating: { type: Number },
+    },
+  ],
   studentsEnrolled: [{ type: Schema.Types.ObjectId, ref: "User" }],
   providingInstitution: { type: String, required: true },
   level: {

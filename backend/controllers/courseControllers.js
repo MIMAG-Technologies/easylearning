@@ -3,6 +3,9 @@ const User = require("../models/user");
 const Category = require("../models/category");
 const Module = require("../models/module");
 const { sendEmail } = require("../utils/mailSender");
+const course = require("../models/course");
+const { isComplete } = require("../utils/isModuleComplete");
+const Review = require("../models/review");
 
 // Create a new course
 const createCourse = async (req, res) => {
@@ -69,7 +72,7 @@ const getCourseById = async (req, res) => {
     const { courseId } = req.params;
 
     if (courseId === "all") {
-      const courses = await Course.find()
+      const courses = await Course.find({ isDeleted: false })
         .select(
           "title price thumbnailUrl reviews providingInstitution level belongTo expectedDuration "
         )
@@ -81,7 +84,9 @@ const getCourseById = async (req, res) => {
     if (category) {
       const courses = await Course.find({ category: category._id })
         .populate("instructor")
+        .populate("reviews")
         .populate("category");
+
       return res.status(200).json(courses);
     }
 
@@ -164,14 +169,28 @@ const deleteCourse = async (req, res) => {
   try {
     const { courseId } = req.params;
 
-    const course = await Course.findByIdAndDelete(courseId);
+    const course = await Course.findById(courseId);
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    res.status(200).json({ message: "Course deleted successfully" });
+    if (course.studentsEnrolled.length === 0 || !course.studentsEnrolled) {
+      // Hard delete: delete the course and its associated modules
+      await Promise.all(
+        course.modules.map(async (moduleId) => {
+          await Module.findByIdAndDelete(moduleId);
+        })
+      );
+
+      await Course.findByIdAndDelete(courseId);
+      return res.status(200).json({ message: "Course deleted successfully" });
+    } else {
+      // Soft delete: mark the course as deleted
+      await Course.findByIdAndUpdate(courseId, { isDeleted: true });
+      return res.status(200).json({ message: "Course marked as deleted" });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -256,15 +275,17 @@ const getUserCourses = async (req, res) => {
     }
 
     // Check if user exists
-    const user = await User.findById(userId).populate({
-      path: "enrolledCourses assignedCourses",
-      select: "thumbnailUrl providingInstitution title modules",
-      populate: {
-        path: "modules",
-        select: "_id title order",
-        match: { userid: userId }, // Filter modules by userId
-      },
-    });
+    const user = await User.findById(userId)
+      .populate({
+        path: "enrolledCourses assignedCourses",
+        select: "thumbnailUrl providingInstitution title modules",
+        populate: {
+          path: "modules",
+          select: "_id title order",
+          match: { userid: userId }, // Filter modules by userId
+        },
+      })
+      .lean(); // Converts Mongoose documents to plain JS objects
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -280,6 +301,19 @@ const getUserCourses = async (req, res) => {
         .status(400)
         .json({ message: "Invalid role for this operation" });
     }
+
+    // Use Promise.all to wait for all async operations to complete
+    await Promise.all(
+      courses.map(async (course) => {
+        await Promise.all(
+          course.modules.map(async (module) => {
+            const isC = await isComplete(module._id);
+            module.isCompleted = isC; // Add the new attribute
+          })
+        );
+      })
+    );
+
     res.status(200).json({ courses });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -311,12 +345,75 @@ const getEnrolledStudents = async (req, res) => {
   }
 };
 
+const rateCourse = async (req, res) => {
+  try {
+    const { courseId, userId, rating, review } = req.body;
+
+    const existingReview = await Review.findOne({
+      course: courseId,
+      user: userId,
+    });
+    if (existingReview) {
+      return res
+        .status(200)
+        .json({ message: "You have already rated this course!", code: 200 });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const Newreview = new Review({
+      course: courseId,
+      user: userId,
+      rating,
+      comment: review,
+    });
+    await Newreview.save();
+    await Course.findByIdAndUpdate(
+      courseId,
+      { $push: { reviews: { _id: Newreview._id, rating: Newreview.rating } } },
+      { new: true }
+    );
+
+    return res
+      .status(201)
+      .json({ message: "Thank you for your valuable feedback!", code: 201 });
+  } catch (error) {
+    res
+      .status(200)
+      .json({ message: "Thank you for your valuable feedback!", code: 500 });
+  }
+};
+
+const isCourseCompleted = async (req, res) => {
+  try {
+    const { courseId, userId } = req.body;
+    const mymodules = await Module.find({ course: courseId, userid: userId });
+
+    for (const modul of mymodules) {
+      const isC = await isComplete(modul._id);
+      if (!isC) {
+        return res
+          .status(400)
+          .json({ message: "Course is not completed", code: 400 });
+      }
+    }
+
+    res.status(200).json({ message: "Course is completed", code: 200 });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createCourse,
+  rateCourse,
   getCourseById,
   updateCourse,
   deleteCourse,
   enrollCourse,
   getUserCourses,
   getEnrolledStudents,
+  isCourseCompleted,
 };

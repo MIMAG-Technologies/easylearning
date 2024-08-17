@@ -84,6 +84,22 @@ export const fetchCourse = async (courseId) => {
     throw error;
   }
 };
+export const deleteCourse = async (courseId) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/courses/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting Course:", error);
+    throw error;
+  }
+};
 export const getUserCourse = async (userId) => {
   try {
     const response = await axios.get(
@@ -137,5 +153,39 @@ export const createCourse = async (courseData) => {
   } catch (error) {
     console.error("Error creating course:", error);
     throw error;
+  }
+};
+export const rateCourse = async (courseData) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/courses/rate`,
+      courseData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating course:", error);
+    throw error;
+  }
+};
+export const apiisCourseCompleted = async (courseData) => {
+  try {
+    await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/courses/isCourseCompleted`,
+      courseData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return true;
+  } catch (error) {
+    console.error("Error creating course:", error);
+    return false;
   }
 };

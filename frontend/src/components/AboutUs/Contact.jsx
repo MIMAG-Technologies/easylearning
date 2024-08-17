@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 function Contact() {
   const [isButtonDisabled, setisButtonDisabled] = useState(false);
+  const { setisLoading } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -22,15 +27,61 @@ function Contact() {
     }));
   };
 
+  const validateForm = () => {
+    for (let key in formData) {
+      if (!formData[key]) {
+        toast.error(`${key} cannot be empty`);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    setisLoading(true);
+
+    setisButtonDisabled(true);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/contactus`,
+        formData
+      );
+
+      if (response.status === 200) {
+        toast.success("Form submitted successfully!");
+        setFormData({
+          firstname: "",
+          lastname: "",
+          email: "",
+          contactNumber: "",
+          city: "",
+          state: "",
+          country: "",
+          message: "",
+        });
+      } else {
+        toast.error("Failed to submit the form.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while submitting the form.");
+    } finally {
+      setisButtonDisabled(false);
+      setisLoading(false);
+    }
+  };
+
   const observedElements = useRef([]);
+  const loc = useLocation();
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, []);
-
-  const loc = useLocation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,39 +108,8 @@ function Contact() {
     };
   }, []);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission
-    console.log("Form submission is disabled.");
-  };
-
-  const [message, setmessage] = useState("");
-  const [ismessageVisible, setismessageVisible] = useState(false);
-
   return (
     <>
-      {ismessageVisible ? (
-        <div id="messageBox">
-          <div>
-            <span
-              onClick={() => {
-                setismessageVisible(false);
-              }}
-            >
-              x
-            </span>
-            {message}
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
       <div className="Contact">
         <h1 ref={(el) => observedElements.current.push(el)}>Get in Touch</h1>
         <div>

@@ -47,7 +47,6 @@ const sendOTP = async (req, res) => {
 
     res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ message: "Error sending OTP", error: error.message });
@@ -289,11 +288,11 @@ const adminLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // const isMatch = await comparePassword(password, user.password);
+    const isMatch = await comparePassword(password, user.password);
 
-    // if (!isMatch) {
-    //   return res.status(400).json({ message: "Invalid credentials" });
-    // }
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
     const payload = { user: { id: user.id, role: user.role } };
 
@@ -336,11 +335,42 @@ const createAdminUser = async () => {
     console.error("Error creating admin user:", error);
   }
 };
+
+const resetAdminPassword = async (req, res) => {
+  const { oldpassword, password } = req.body;
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+  try {
+    const user = await User.findById(req.user.id);
+
+    const isMatch = await comparePassword(oldpassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid old password" });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    res.json({ message: "Password reset successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error  in  password resetting of admin",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   sendOTP,
   checkOTP,
   createAdminUser,
   createStudent,
+  resetAdminPassword,
   studentLogin,
   createTeacher,
   teacherLogin,

@@ -46,6 +46,9 @@ import StudentSignIn from "./components/Auth/StudentSignIn";
 import TeacherSignIn from "./components/Auth/TeacherSignIn";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import Messages from "./components/MyLearning/Messages";
+import Certifications from "./components/MyLearning/Certifications";
+import OneUserPage from "./components/MyLearning/OneUserPage";
+import AdminPasswordReset from "./components/Auth/AdminPasswordReset";
 
 function App() {
   const { pathname } = useLocation();
@@ -92,6 +95,7 @@ function App() {
             path="psycortex-online-education/:section"
             element={<PolicyTemplate />}
           />
+          <Route path="user/:role/:userId" element={<OneUserPage />} />
           {/* DASHBOARDS Routes*/}
           <Route path="dashboard" element={<DashBoard />}>
             <Route index element={<UserCourses />} />
@@ -114,6 +118,7 @@ function App() {
               element={<DoQuiz />}
             />
             <Route path="discussion" element={<Messages />} />
+            <Route path="certificates" element={<Certifications />} />
             <Route path="module/:moduleId" element={<MyOneModule />}>
               <Route path="material/:mode/:kind" element={<CreateMaterial />} />
               <Route
@@ -151,6 +156,7 @@ function App() {
               <Route path="edit-module/:moduleId" element={<CreateModule />} />
             </Route>
           </Route>
+          <Route path="reset-password" element={<AdminPasswordReset />} />
           <Route path="student-management" element={<StudentMangement />} />
           <Route path="teacher-management" element={<TeacherManagement />} />
         </Route>

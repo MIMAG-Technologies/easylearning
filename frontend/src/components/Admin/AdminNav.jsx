@@ -5,7 +5,11 @@ import { AuthContext } from "../../context/AuthContext";
 
 function AdminNav() {
   const navigate = useNavigate();
-  const { user } = React.useContext(AuthContext);
+  const { user, logout } = React.useContext(AuthContext);
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
   const loc = useLocation();
   useEffect(() => {
     if (user.role !== "admin" && user.name !== "") {
@@ -21,8 +25,14 @@ function AdminNav() {
       <div id="AdminNavTop">
         <h1>ADMIN PANEL</h1>
         <span>
-          <button>Change Password</button>
-          <button>Logout</button>
+          <button
+            onClick={() => {
+              navigate("reset-password");
+            }}
+          >
+            Change Password
+          </button>
+          <button onClick={handleLogout}>Logout</button>
         </span>
       </div>
       <Outlet />

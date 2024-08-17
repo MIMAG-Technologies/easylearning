@@ -41,7 +41,6 @@ const sendEmail = async (to, subject, htmlContent, attachments = []) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
   } catch (error) {
     throw new Error(`Error sending email: ${error.message}`);
   }
@@ -85,12 +84,15 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
     `;
 
   try {
+    res.status(200).send("Application received.");
     await sendEmail(email, "Application Received", applicantEmailContent, [
       {
         filename: req.file.originalname,
         path: resumePath,
       },
-    ]);
+    ]).catch((error) => {
+      console.error("Error sending email:", error);
+    });
 
     await sendEmail(
       process.env.ADMIN_EMAIL,
@@ -102,8 +104,9 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
           path: resumePath,
         },
       ]
-    );
-    res.status(200).send("Application received.");
+    ).catch((error) => {
+      console.error("Error sending email:", error);
+    });
   } catch (error) {
     res.status(500).send(`Error sending email: ${error.message}`);
   }

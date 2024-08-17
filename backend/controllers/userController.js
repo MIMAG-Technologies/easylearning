@@ -15,7 +15,11 @@ const getUsers = async (req, res) => {
       return res.status(200).json(users);
     } else {
       if (indentifier.match(/^[0-9a-fA-F]{24}$/)) {
-        const user = await User.findById(indentifier);
+        const user = await User.findById(indentifier).populate({
+          path: "enrolledCourses assignedCourses",
+          select:
+            "title price thumbnailUrl reviews providingInstitution level belongTo expectedDuration ",
+        });
         if (!user) {
           return res.status(404).json({ message: "User not found" });
         }

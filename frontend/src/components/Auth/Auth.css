@@ -82,7 +82,7 @@
   margin: 10px 0px !important;
 }
 #Auth form button {
-  background: rgb(0, 86, 210);
+  background: var(--primary-color);
   border: none;
   border-radius: 4px;
   font-size: 14px;

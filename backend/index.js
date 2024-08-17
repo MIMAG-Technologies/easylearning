@@ -13,6 +13,7 @@ const materialRouter = require("./routes/material");
 const discussionRouter = require("./routes/discussions");
 const transactionRouter = require("./routes/transaction");
 const applicationRouter = require("./routes/apply");
+const contactUsRoute = require("./routes/contactform");
 const { createAdminUser } = require("./controllers/authControllers");
 
 const app = express();
@@ -70,6 +71,7 @@ app.use(BASE_URL, materialRouter);
 app.use(BASE_URL, discussionRouter);
 app.use(BASE_URL, transactionRouter);
 app.use(BASE_URL, applicationRouter);
+app.use(BASE_URL, contactUsRoute);
 
 // Serve the uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

@@ -6,6 +6,12 @@ const router = Router();
 
 // COURSES
 router.post("/courses/create", auth, courseControllers.createCourse);
+router.post("/courses/rate", auth, courseControllers.rateCourse);
+router.post(
+  "/courses/isCourseCompleted",
+  auth,
+  courseControllers.isCourseCompleted
+);
 router.get("/courses/user/:userId", auth, courseControllers.getUserCourses);
 router.get(
   "/courses/userList/:courseId",

@@ -53,6 +53,17 @@ function OneCoursePage() {
     }
   };
 
+  const avgrating = (rating) => {
+    if (rating.length === 0) {
+      return 0; // Return 0 or another appropriate value when there are no ratings
+    }
+    let sum = 0;
+    rating.forEach((element) => {
+      sum += element.rating;
+    });
+    return sum / rating.length;
+  };
+
   useEffect(() => {
     fetchCoursesData();
   }, []);
@@ -93,7 +104,9 @@ function OneCoursePage() {
                     alt=""
                   />
                   Instructors:
-                  <Link>{course.instructor.name}</Link>
+                  <Link to={`/user/teacher/${course.instructor._id}`}>
+                    {course.instructor.name}
+                  </Link>
                 </p>
                 <span className="enrollprice">
                   <button
@@ -135,9 +148,9 @@ function OneCoursePage() {
               <p>Gain insight into a topic and learn the fundamentals</p>
               <div className="line"></div>
               <span>
-                <h3>0.0</h3>
+                <h3>{avgrating(course.reviews)}</h3>
                 <Star color="#702b88" size={20} className="ccardstar" />
-                <p>(0 reviews)</p>
+                <p>({course.reviews.length} reviews)</p>
               </span>
               <h3>{course.level}</h3>
               <h3>{course.expectedDuration} (approximately)</h3>

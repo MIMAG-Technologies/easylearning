@@ -42,7 +42,11 @@ function TeacherManagement() {
 
   const oneTeacher = (teacher) => {
     return (
-      <Link key={teacher._id} className="oneteachercard">
+      <Link
+        key={teacher._id}
+        to={`/user/teacher/${teacher._id}`}
+        className="oneteachercard"
+      >
         <img
           src={
             teacher.profilePhotoUrl === ""

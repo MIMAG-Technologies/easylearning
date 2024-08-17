@@ -17,5 +17,6 @@ router.get("/fetch/users/:role/:indentifier", userControllers.getUsers);
 router.get("/fetch/user", auth, userControllers.fetchMe);
 router.get("/user", auth, userControllers.GetMe);
 router.put("/user", auth, userControllers.UpdateMe);
+router.put("/admin/resetpassword", auth, authControllers.resetAdminPassword);
 
 module.exports = router;

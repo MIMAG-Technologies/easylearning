@@ -7,6 +7,7 @@ import {
   X,
   SquareChevronRight,
   Trash2,
+  CircleCheck,
 } from "lucide-react";
 import {
   Link,
@@ -159,7 +160,15 @@ function LearningNav() {
                 module._id === moduleId && "module-active"
               }`}
             >
-              <Circle />
+              {module.isCompleted ? (
+                <CircleCheck
+                  style={{
+                    fill: "#07bc0c",
+                  }}
+                />
+              ) : (
+                <Circle />
+              )}
               <p
                 style={{
                   cursor: "pointer",
@@ -198,9 +207,11 @@ function LearningNav() {
             </div>
           ))}
         </div>
-        <h4>
-          <Link to="#">Certificates</Link>
-        </h4>
+        {user.role === "student" && (
+          <h4>
+            <Link to="certificates">Certificates</Link>
+          </h4>
+        )}
         <h4>
           <Link to="discussion">Messages</Link>
         </h4>
