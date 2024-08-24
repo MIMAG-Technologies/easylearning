@@ -17,18 +17,22 @@ router.post(
   transactionController.completeTransaction
 );
 
-router.get("/getPaymentGatewayCredentails", auth, (req, res) => {
-  const merchantCode = process.env.MERCHANT_CODE;
-  const encryptionKey = process.env.ENCRYPTION_KEY;
-  const consumerId = process.env.CONSUMER_ID;
-  const txnId = process.env.TXN_ID;
+router.get(
+  "/getPaymentGatewayCredentails",
+  // auth,
+  (req, res) => {
+    const merchantCode = process.env.MERCHANT_CODE;
+    const encryptionKey = process.env.ENCRYPTION_KEY;
+    const consumerId = process.env.CONSUMER_ID;
+    const txnId = process.env.TXN_ID;
 
-  res.status(200).json({
-    merchantCode,
-    encryptionKey,
-    consumerId,
-    txnId,
-  });
-});
+    res.status(200).json({
+      merchantCode,
+      encryptionKey,
+      consumerId,
+      txnId,
+    });
+  }
+);
 
 module.exports = router;
