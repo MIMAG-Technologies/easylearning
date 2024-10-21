@@ -15,6 +15,7 @@ function Payment() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isAggred, setisAggred] = useState(false);
 
   const fetchCoursesData = async () => {
     setIsLoading(true);
@@ -68,6 +69,15 @@ function Payment() {
   };
 
   const handleInitiateTransaction = async () => {
+    if (!isAggred) {
+      toast.info("Please agree to the terms and conditions");
+      return;
+    }
+    if (!user.isLoggedIn) {
+      toast.warn("Please Login First!");
+      navigate("/auth/login/student");
+      return;
+    }
     const res = await initiateTransaction(user.id, courseId, `${course.price}`);
     if (res.status === 200) {
       localStorage.setItem("TransactionToken", res.token);
@@ -102,12 +112,46 @@ function Payment() {
           <li>{course.level} level Course</li>
         </ul>
         <label htmlFor="ticktermandcondition">
-          <input type="checkbox" id="ticktermandcondition" /> You agree to all
-          the terms & conditions mentioned on the website. No charge back would
-          be entertained once the payment is completed.
+          <p>
+            Please read all the terms and conditions carefully before making
+            your payment:
+          </p>
+          <ul>
+            <li>
+              You are eligible to apply for a refund within 7 days of purchase.
+            </li>
+            <li>
+              No chargeback requests will be accepted after 7 days from the date
+              of purchase.
+            </li>
+          </ul>
+          <p
+            style={{
+              marginBottom: "10px",
+            }}
+          >
+            Kindly proceed with the payment only after reviewing our
+            terms and conditions.
+          </p>
+          <span>
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                setisAggred(e.target.checked);
+              }}
+              id="ticktermandcondition"
+            />{" "}
+            You agree to all the terms & conditions mentioned on the website.
+          </span>
         </label>
         {!isPaymentInitiated && (
-          <a className="card__cta cta" onClick={handleInitiateTransaction}>
+          <a
+            className="card__cta cta"
+            onClick={handleInitiateTransaction}
+            style={{
+              cursor: "pointer",
+            }}
+          >
             Initiate Transaction
           </a>
         )}

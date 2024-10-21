@@ -14,7 +14,7 @@
 }
 .cards__inner {
   margin: 5vh auto;
-  max-width: 500px;
+  max-width: 600px;
   margin-top: 20vh;
 }
 @media screen and (max-width: 540px) {
