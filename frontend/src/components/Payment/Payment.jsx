@@ -124,6 +124,10 @@ function Payment() {
               No chargeback requests will be accepted after 7 days from the date
               of purchase.
             </li>
+            <li>
+              For any chargeback or cancellation kindly mail us on
+              info.edu@psycortex.in
+            </li>
           </ul>
           <p
             style={{

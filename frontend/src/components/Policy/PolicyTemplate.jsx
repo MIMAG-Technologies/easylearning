@@ -30,7 +30,6 @@ function PolicyTemplate() {
 
     observedElements.current.forEach((el) => {
       if (el) {
-        // Ensure element is valid before observing
         observer.observe(el);
       }
     });
@@ -43,6 +42,7 @@ function PolicyTemplate() {
   if (!blog) {
     return "NO BLOG FOUND";
   }
+
   return (
     <div
       className="One-Blog"
@@ -75,7 +75,25 @@ function PolicyTemplate() {
               ref={(el) => el && observedElements.current.push(el)}
               key={index}
             >
-              {item.text}
+              {item.link ? (
+                <>
+                  {item.text.split("<a/>")[0]}
+                  <a
+                    href={item.link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      textDecoration: "none",
+                      color: "#501a77",
+                    }}
+                  >
+                    {item.link.text}
+                  </a>
+                  {item.text.split("<a/>")[1]}
+                </>
+              ) : (
+                item.text
+              )}
             </p>
           );
         } else {
