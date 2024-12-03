@@ -5,6 +5,7 @@ const auth = require("../middlewares/auth");
 const router = Router();
 
 // COURSES
+router.get("/courses/cart", courseControllers.getCartCourses);
 router.post("/courses/create", auth, courseControllers.createCourse);
 router.post("/courses/rate", auth, courseControllers.rateCourse);
 router.post(

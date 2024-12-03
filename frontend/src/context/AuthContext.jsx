@@ -7,15 +7,30 @@ export const AuthContext = createContext();
 // Create a provider component
 export const AuthProvider = ({ children }) => {
   const [isLoading, setisLoading] = useState(false);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState( ()=> {
+    const userData = localStorage.getItem("userData");
+    return userData? JSON.parse(userData) : {
     isLoggedIn: false,
     name: "",
     email: "",
+    contactNumber:"",
     role: "",
     profilePhoto: "",
     id: "",
-  });
+    address: {
+      appartmentNo: "",
+      street: "",
+      city: "",
+      state: "",
+      country: "",
+      postalCode: "",
+    },
+}});
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [cart, setCart] = useState(()=>{
+    const cartData = localStorage.getItem("UserCart")
+    return cartData? JSON.parse(cartData) : []
+    })
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -23,6 +38,12 @@ export const AuthProvider = ({ children }) => {
       fetchUserData(token);
     }
   }, [token]);
+  useEffect(()=>{
+    localStorage.setItem("UserCart", JSON.stringify(cart));
+  },[cart])
+  useEffect(()=>{
+    localStorage.setItem("userData", JSON.stringify(user));
+  },[user])
 
   const fetchMyData = async () => {
     setisLoading(true);
@@ -211,9 +232,11 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         login,
         signin,
         logout,
+        setToken,
         isLoading,
         setisLoading,
         fetchMyData,
@@ -222,6 +245,8 @@ export const AuthProvider = ({ children }) => {
         sendOTP,
         checkOTP,
         updatePassword,
+        cart,
+        setCart,
       }}
     >
       {children}

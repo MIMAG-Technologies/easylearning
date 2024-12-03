@@ -3,7 +3,7 @@ const User = require("../models/user");
 const Category = require("../models/category");
 const Module = require("../models/module");
 const { sendEmail } = require("../utils/mailSender");
-const course = require("../models/course");
+const { Types } = require("mongoose");
 const { isComplete } = require("../utils/isModuleComplete");
 const Review = require("../models/review");
 
@@ -406,6 +406,52 @@ const isCourseCompleted = async (req, res) => {
   }
 };
 
+
+
+
+const getCartCourses = async (req, res) => {
+  try {
+    const { cart } = req.body;
+    let courseData = [];
+
+    for (let i = 0; i < cart.length; i++) {
+      const courseId = cart[i].id;
+
+      // Check if the ID is valid
+      if (!Types.ObjectId.isValid(courseId)) {
+        return res
+          .status(400)
+          .json({ message: `Invalid course ID: ${courseId}` });
+      }
+
+      const onecourse = await Course.findById(courseId).select(
+        "title price thumbnailUrl"
+      );
+
+      // Check if the course was found
+      if (!onecourse) {
+        return res
+          .status(404)
+          .json({ message: `Course with ID ${courseId} not found` });
+      }
+
+      // Merge the course data with quantity and push it to the result array
+      const courseWithQuantity = {
+        ...onecourse.toObject(),
+        quantity: cart[i].quantity,
+      };
+      courseData.push(courseWithQuantity);
+    }
+
+    res.status(200).json(courseData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
 module.exports = {
   createCourse,
   rateCourse,
@@ -415,5 +461,6 @@ module.exports = {
   enrollCourse,
   getUserCourses,
   getEnrolledStudents,
+  getCartCourses,
   isCourseCompleted,
 };

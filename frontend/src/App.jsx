@@ -49,6 +49,9 @@ import Messages from "./components/MyLearning/Messages";
 import Certifications from "./components/MyLearning/Certifications";
 import OneUserPage from "./components/MyLearning/OneUserPage";
 import AdminPasswordReset from "./components/Auth/AdminPasswordReset";
+import StudentLogin from "./components/Auth/StudentLogin";
+import UserCart from "./components/Payment/UserCart";
+import CheckOut from "./components/Payment/CheckOut";
 
 function App() {
   const { pathname } = useLocation();
@@ -95,6 +98,8 @@ function App() {
             path="psycortex-online-education/:section"
             element={<PolicyTemplate />}
           />
+          <Route path="/user/mycart" element={<UserCart />} />
+          <Route path="/user/checkout" element={<CheckOut />} />
           <Route path="user/:role/:userId" element={<OneUserPage />} />
           {/* DASHBOARDS Routes*/}
           <Route path="dashboard" element={<DashBoard />}>
@@ -136,6 +141,7 @@ function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="signin/student" element={<StudentSignIn />} />
           <Route path="signin/teacher" element={<TeacherSignIn />} />
+          <Route path="login/student" element={<StudentLogin />} />
           <Route path="login/:who" element={<Login />} />
         </Route>
 

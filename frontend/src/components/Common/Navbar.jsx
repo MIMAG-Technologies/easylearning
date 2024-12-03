@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight, Search } from "lucide-react";
+import { ChevronDown, ChevronRight, Search, ShoppingCart } from "lucide-react";
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
@@ -30,7 +30,7 @@ function Navbar() {
   }, [loc.pathname]);
 
   const { categoriesList, coursesList } = useContext(ResoursesContext);
-  const { user } = useContext(AuthContext);
+  const { user,cart } = useContext(AuthContext);
   if (!Array.isArray(categoriesList)) {
     return <div>Loading...</div>; // Or some other fallback UI
   }
@@ -148,6 +148,13 @@ function Navbar() {
               <Search size={20} strokeWidth={1.5} />
             </button>
           </div>
+
+          <Link to={"/user/mycart"} className="cart-container">
+            <span id={cart.length} className="usercart">
+              <ShoppingCart />
+            </span>
+          </Link>
+
           {user.isLoggedIn ? (
             <>
               <p className="user-info-tab">

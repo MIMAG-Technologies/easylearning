@@ -4,6 +4,124 @@ const Otp = require("../models/otp");
 const { sendEmail } = require("../utils/mailSender");
 const { hashPassword, comparePassword } = require("../utils/hashing");
 const { generateToken } = require("../utils/jwt");
+const { decrypt } = require("../utils/cryptoUtils");
+
+
+const sendOTPForLogin = async (req, res) => {
+  const { email } = req.body;
+
+  // Generate a 6-digit OTP
+  const otp = OTPGenerator.generate(6, {
+    upperCase: false,
+    specialChars: false,
+  });
+
+  try {
+    // Save OTP to the database with a timestamp
+    await Otp.findOneAndUpdate(
+      { email },
+      { otp, createdAt: Date.now() },
+      { upsert: true, new: true }
+    );
+
+    // Send OTP to user's email
+    const subject = "Your OTP Code for Login";
+    const emailContent = `
+      <h1>Hello,</h1>
+      <p>Your OTP code for login is: <strong>${otp}</strong>.</p>
+      <p>It is valid for 15 minutes. Do not share this OTP with anyone.</p>
+      <p>Best regards,<br>Psycortex Online Education Team</p>
+    `;
+    await sendEmail(email, subject, emailContent);
+
+    res.status(200).json({ message: "OTP sent successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error sending OTP", error: error.message });
+  }
+};
+
+const googleLogin = async (req, res) => {
+  try {
+    const DECRYPTION_KEY = process.env.DECRYPTION_KEY; // Fetch key from .env
+    const { encryptedData } = req.body;
+    const decryptedData = decrypt(encryptedData, DECRYPTION_KEY);
+    const { name, email } = JSON.parse(decryptedData);
+    if (!email || !name) {
+      return res.status(400).json({ success: false, error: "Invalid request" });
+    }
+
+    // Check if the user exists in the database
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        profilePhotoUrl: "",
+        contactNumber: "",
+        role: "student",
+      });
+    }
+
+    // Generate a JWT for the user
+ const payload = { user: { id: user.id, role: user.role } };
+ const token = generateToken(payload);
+
+ res.status(200).json({ message: "Login successful", token });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ success: false, error: "Invalid or expired token" });
+  }
+};
+
+const verifyOTPAndLogin = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    // Find the OTP record for the given email
+    const otpRecord = await Otp.findOne({ email, otp });
+
+    if (!otpRecord) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    // Check if the OTP is expired (15-minute validity)
+    const currentTime = Date.now();
+    const otpAge = currentTime - otpRecord.createdAt.getTime();
+
+    if (otpAge > 15 * 60 * 1000) {
+      return res.status(400).json({ message: "OTP expired" });
+    }
+
+    // Check if the user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // If user does not exist, create a new user
+      user = new User({
+        name: "",
+        email,
+        profilePhotoUrl: "",
+        contactNumber: "",
+        role: "student",
+      });
+      await user.save();
+    }
+
+    // Generate a JWT token for the user
+    const payload = { user: { id: user.id, role: user.role } };
+    const token = generateToken(payload);
+
+    res.status(200).json({ message: "Login successful", token });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error during OTP verification", error: error.message });
+  }
+};
+
 
 const sendOTP = async (req, res) => {
   const { email, newUser } = req.body;
@@ -372,8 +490,11 @@ module.exports = {
   createStudent,
   resetAdminPassword,
   studentLogin,
+  googleLogin,
   createTeacher,
   teacherLogin,
   adminLogin,
   resetPassword,
+  sendOTPForLogin,
+  verifyOTPAndLogin,
 };

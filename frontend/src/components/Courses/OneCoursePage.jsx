@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import ProfilePhoto from "../../assets/Images/profile-pic.png";
 import { fetchCourse } from "../utils/courseUtils";
 import {
@@ -13,14 +13,15 @@ import {
 import Markdown from "react-markdown";
 import { DeleteModule } from "../utils/moduleUtils";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 function OneCoursePage() {
   const { courseId } = useParams();
-  const navigate = useNavigate();
   const decodedcourseId = atob(courseId);
   const [course, setCourse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [expandedModuleIndex, setExpandedModuleIndex] = useState(null);
+  const { cart, setCart } = useContext(AuthContext);
   const deleteMod = async (moduleId) => {
     // Show confirmation dialog
     const userConfirmed = window.confirm(
@@ -51,6 +52,30 @@ function OneCoursePage() {
     } finally {
       setIsLoading(false);
     }
+  };
+  const addToCart = () => {
+    const existingCart = cart;
+    const productIndex = existingCart.findIndex(
+      (item) => item.id === decodedcourseId
+    );
+
+    if (productIndex !== -1) {
+      // Update quantity if the product with the same variant already exists
+      existingCart[productIndex].quantity += 1;
+    } else {
+      const cartItem = {
+        id: decodedcourseId,
+        title: course.title,
+        price: course.price,
+        quantity: 1,
+        level: course.level,
+        expectedDuration: course.expectedDuration,
+      };
+      existingCart.push(cartItem);
+    }
+
+    setCart([...existingCart]);
+    toast.success("Course added to cart!");
   };
 
   const avgrating = (rating) => {
@@ -113,12 +138,10 @@ function OneCoursePage() {
                     style={{
                       cursor: "pointer",
                     }}
-                    onClick={() => {
-                      navigate(`/payments/${courseId}`);
-                    }}
+                    onClick={addToCart}
                     // id="btnSubmit"
                   >
-                    Enroll now
+                    Add to Cart
                   </button>
                   <p>{"Price: Rs " + course.price}</p>
                 </span>

@@ -32,7 +32,7 @@ function Login() {
     if (!email || !password) {
       toast.warn("Email and password are required!");
       return;
-    }
+    } 
 
     const status = await login(email, password, user);
     // Redirect based on user type after successful login
