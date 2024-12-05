@@ -17,7 +17,7 @@ function OutCome() {
           students improve their mental and emotional health, cultivating a
           lasting sense of fulfillment and purpose.
         </p>
-        <Link to={"/auth/signin/student"}>Join Now</Link>
+        <Link to={"/auth/login/student"}>Join Now</Link>
       </div>
     </div>
   );

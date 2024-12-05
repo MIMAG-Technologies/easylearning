@@ -143,7 +143,7 @@ function LandingPage() {
         </span>
         <p>{keywords[currentKW].description}</p>
 
-        <Link to={"/auth/signin/student"}>Join Now</Link>
+        <Link to={"/auth/login/student"}>Join Now</Link>
       </div>
       <div className="landingimg">
         <div className="contentdiv">
