@@ -292,8 +292,28 @@ const getUserCourses = async (req, res) => {
     }
 
     let courses;
+
     if (user.role === "student") {
-      courses = user.enrolledCourses;
+      // Fetch courses with quantities for students
+      courses = await Promise.all(
+        user.enrolledCoursesCount.map(async (enrolledCourse) => {
+          const course = await Course.findById(enrolledCourse.courseId)
+            .select("thumbnailUrl providingInstitution title modules")
+            .populate({
+              path: "modules",
+              select: "_id title order",
+              match: { userid: userId }, // Filter modules by userId
+            })
+            .lean();
+
+          if (course) {
+            // Add the quantity attribute
+            course.quantity = enrolledCourse.quantity;
+          }
+
+          return course;
+        })
+      );
     } else if (user.role === "teacher") {
       courses = user.assignedCourses;
     } else {
@@ -305,12 +325,14 @@ const getUserCourses = async (req, res) => {
     // Use Promise.all to wait for all async operations to complete
     await Promise.all(
       courses.map(async (course) => {
-        await Promise.all(
-          course.modules.map(async (module) => {
-            const isC = await isComplete(module._id);
-            module.isCompleted = isC; // Add the new attribute
-          })
-        );
+        if (course && course.modules) {
+          await Promise.all(
+            course.modules.map(async (module) => {
+              const isC = await isComplete(module._id);
+              module.isCompleted = isC; // Add the new attribute
+            })
+          );
+        }
       })
     );
 
@@ -319,6 +341,7 @@ const getUserCourses = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const getEnrolledStudents = async (req, res) => {
   try {

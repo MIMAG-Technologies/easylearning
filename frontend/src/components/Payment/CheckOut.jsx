@@ -118,7 +118,7 @@ function CheckOut() {
           required
           name="country"
           placeholder="Country"
-          value={user.address.country || ""}
+          value={user.address?.country || ""}
           onChange={handleChange}
         />
 
@@ -129,7 +129,7 @@ function CheckOut() {
           required
           name="street"
           placeholder="Street Address"
-          value={user.address.street || ""}
+          value={user.address?.street || ""}
           onChange={handleChange}
         />
 
@@ -140,7 +140,7 @@ function CheckOut() {
           required
           name="appartmentNo"
           placeholder="appartmentNo"
-          value={user.address.appartmentNo || ""}
+          value={user.address?.appartmentNo || ""}
           onChange={handleChange}
         />
 
@@ -151,7 +151,7 @@ function CheckOut() {
           name="city"
           required
           placeholder="City"
-          value={user.address.city || ""}
+          value={user.address?.city || ""}
           onChange={handleChange}
         />
 
@@ -162,7 +162,7 @@ function CheckOut() {
           name="state"
           required
           placeholder="State"
-          value={user.address.state || ""}
+          value={user.address?.state || ""}
           onChange={handleChange}
         />
 
@@ -173,7 +173,7 @@ function CheckOut() {
           name="postalCode"
           required
           placeholder="Pin Code"
-          value={user.address.postalCode || ""}
+          value={user.address?.postalCode || ""}
           onChange={handleChange}
         />
       </form>

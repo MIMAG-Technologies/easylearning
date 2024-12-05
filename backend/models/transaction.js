@@ -15,9 +15,14 @@ const transactionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  quantity: {
+    type: String,
+    required: true,
+    min: 1,
+  },
   transactionState: {
     type: String,
-    default: "pending",
+    enum: ["success", "failure"],
   },
   transactionIdentifier: {
     type: String,

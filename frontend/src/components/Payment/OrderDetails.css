@@ -1,0 +1,110 @@
+.order-details-container {
+  margin-top: 18vh;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.invoice-box {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.header-logo-and-details {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.invoice-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgb(85, 26, 139);
+  color: white;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.invoice-title {
+  font-family: "Exo 2", sans-serif;
+}
+.company-logo {
+  width: 80px;
+}
+
+.company-details {
+  text-align: left;
+}
+
+.invoice-title {
+  font-size: 28px;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.invoice-body {
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.section-icon {
+  margin-right: 10px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.order-table th,
+.order-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.total-label {
+  font-weight: bold;
+  color: rgb(85, 26, 139);
+}
+
+.total-amount {
+  font-weight: bold;
+  color: rgb(85, 26, 139);
+}
+
+.print-button {
+  display: block;
+  margin: 40px auto 0;
+  padding: 10px 20px;
+  background-color: rgb(85, 26, 139);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

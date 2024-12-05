@@ -48,7 +48,7 @@ const fetchMe = async (req, res) => {
     }
 
     const user = await User.findOne({ _id: id }).select(
-      "name email role profilePhotoUrl"
+      "name email role profilePhotoUrl address contactNumber"
     );
 
     if (!user) {

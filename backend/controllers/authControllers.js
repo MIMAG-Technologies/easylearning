@@ -40,7 +40,7 @@ const sendOTPForLogin = async (req, res) => {
       .status(500)
       .json({ message: "Error sending OTP", error: error.message });
   }
-};
+}; 
 
 const googleLogin = async (req, res) => {
   try {

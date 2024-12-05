@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ChevronRight, Menu, Search, X } from "lucide-react";
+import { ChevronRight, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ResoursesContext } from "../../context/ResoursesContext";
 import noProfilePhoto from "../../assets/Images/profile-pic.png";
@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 function MobileNavbar() {
   const { categoriesList } = useContext(ResoursesContext);
-  const { user } = useContext(AuthContext);
+  const { user, cart } = useContext(AuthContext);
   const navigate = useNavigate();
   const loc = useLocation();
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false);
@@ -75,6 +75,7 @@ function MobileNavbar() {
               style={{
                 height: "6vh",
                 marginRight: "5px",
+                textAlign: "center",
               }}
               src="\assets\logo\apple-touch-icon.png"
               alt=""
@@ -82,6 +83,12 @@ function MobileNavbar() {
             Psycortex Online Education{" "}
           </Link>
         )}
+
+        <Link to={"/user/mycart"} className="cart-container">
+          <span id={cart.length} className="usercart">
+            <ShoppingCart />
+          </span>
+        </Link>
 
         {isLevel1Open || isSearchBoxOpen ? (
           <X
@@ -111,7 +118,7 @@ function MobileNavbar() {
               alt=""
             />
             <Link to={user.role === "admin" ? "/admin" : "/dashboard"}>
-              {user.name}
+              {user.name.trim() === "" ? "My Account" : user.name}
             </Link>
           </p>
         )}
@@ -178,9 +185,6 @@ function MobileNavbar() {
 
         {!user.isLoggedIn && (
           <div className="login-signin-box">
-            <Link className="joininbtn" to={"/auth/signin/student"}>
-              Join for Free
-            </Link>
             <Link className="loginbtn" to={"/auth/login/student"}>
               Log In
             </Link>

@@ -10,6 +10,7 @@ router.post("/auth/student/login", authControllers.verifyOTPAndLogin);
 
 
 router.post("/auth/checkOTP", authControllers.checkOTP);
+router.post("/auth/googleLogin", authControllers.googleLogin);
 router.put("/auth/updatePassword", authControllers.resetPassword);
 router.post("/auth/student/register", authControllers.createStudent);
 router.post("/auth/teacher/register", authControllers.createTeacher);

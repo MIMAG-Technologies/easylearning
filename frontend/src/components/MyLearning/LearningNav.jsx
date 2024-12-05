@@ -77,7 +77,8 @@ function LearningNav() {
             selectedCourse.modules.length !== 0
               ? selectedCourse.modules[0]._id
               : "no-module"
-          }`
+          }`,
+          { replace: true }
         );
       }
     };

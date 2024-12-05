@@ -42,7 +42,6 @@ import StudentList from "./components/DashBoards/StudentList";
 import CreateMaterial from "./components/Forms/CreateMaterial";
 import ReadNotes from "./components/MyLearning/ReadNotes";
 import DoQuiz from "./components/MyLearning/DoQuiz";
-import StudentSignIn from "./components/Auth/StudentSignIn";
 import TeacherSignIn from "./components/Auth/TeacherSignIn";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import Messages from "./components/MyLearning/Messages";
@@ -52,6 +51,7 @@ import AdminPasswordReset from "./components/Auth/AdminPasswordReset";
 import StudentLogin from "./components/Auth/StudentLogin";
 import UserCart from "./components/Payment/UserCart";
 import CheckOut from "./components/Payment/CheckOut";
+import OrderDetails from "./components/Payment/OrderDetails";
 
 function App() {
   const { pathname } = useLocation();
@@ -100,6 +100,7 @@ function App() {
           />
           <Route path="/user/mycart" element={<UserCart />} />
           <Route path="/user/checkout" element={<CheckOut />} />
+          <Route path="/user/order" element={<OrderDetails />} />
           <Route path="user/:role/:userId" element={<OneUserPage />} />
           {/* DASHBOARDS Routes*/}
           <Route path="dashboard" element={<DashBoard />}>
@@ -139,7 +140,6 @@ function App() {
         {/* Auth Routes */}
         <Route path="auth">
           <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="signin/student" element={<StudentSignIn />} />
           <Route path="signin/teacher" element={<TeacherSignIn />} />
           <Route path="login/student" element={<StudentLogin />} />
           <Route path="login/:who" element={<Login />} />

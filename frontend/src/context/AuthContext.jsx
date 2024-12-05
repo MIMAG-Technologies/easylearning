@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { encrypt } from "../components/utils/cryptoUtils";
 
 // Create the Auth context
 export const AuthContext = createContext();
@@ -7,30 +9,39 @@ export const AuthContext = createContext();
 // Create a provider component
 export const AuthProvider = ({ children }) => {
   const [isLoading, setisLoading] = useState(false);
-  const [user, setUser] = useState( ()=> {
+  const {
+    isAuthenticated,
+    user: auth0User,
+    isLoading: auth0IsLoading,
+    logout: auth0Logout,
+  } = useAuth0();
+  const [user, setUser] = useState(() => {
     const userData = localStorage.getItem("userData");
-    return userData? JSON.parse(userData) : {
-    isLoggedIn: false,
-    name: "",
-    email: "",
-    contactNumber:"",
-    role: "",
-    profilePhoto: "",
-    id: "",
-    address: {
-      appartmentNo: "",
-      street: "",
-      city: "",
-      state: "",
-      country: "",
-      postalCode: "",
-    },
-}});
+    return userData
+      ? JSON.parse(userData)
+      : {
+          isLoggedIn: false,
+          name: "",
+          email: "",
+          contactNumber: "",
+          role: "",
+          profilePhoto: "",
+          id: "",
+          address: {
+            appartmentNo: "",
+            street: "",
+            city: "",
+            state: "",
+            country: "",
+            postalCode: "",
+          },
+        };
+  });
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [cart, setCart] = useState(()=>{
-    const cartData = localStorage.getItem("UserCart")
-    return cartData? JSON.parse(cartData) : []
-    })
+  const [cart, setCart] = useState(() => {
+    const cartData = localStorage.getItem("UserCart");
+    return cartData ? JSON.parse(cartData) : [];
+  });
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -38,12 +49,50 @@ export const AuthProvider = ({ children }) => {
       fetchUserData(token);
     }
   }, [token]);
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem("UserCart", JSON.stringify(cart));
-  },[cart])
-  useEffect(()=>{
+  }, [cart]);
+  useEffect(() => {
     localStorage.setItem("userData", JSON.stringify(user));
-  },[user])
+  }, [user]);
+
+  const handleOAuthLogin = async () => {
+    try {
+      const encryptionKey = import.meta.env.VITE_DECRYPTION_KEY;
+
+      // Validate if user data exists
+      if (!auth0User || !auth0User.name || !auth0User.email) {
+        throw new Error("Invalid user data provided.");
+      }
+
+      const data = { name: auth0User.name, email: auth0User.email };
+
+      // Encrypt user data
+      const encryptedData = encrypt(JSON.stringify(data), encryptionKey);
+
+      // Send encrypted data to the backend
+      const res = await axios.post(`${apiBaseUrl}/auth/googleLogin`, {
+        encryptedData,
+      });
+
+      const token = res.data.token;
+
+      // Save token and fetch user info
+      localStorage.setItem("token", token);
+      setToken(token);
+    } catch (error) {
+      console.error("OAuth login failed:", error.message);
+    }
+  };
+
+  const checkAuthentication = async () => {
+    if (!auth0IsLoading && isAuthenticated && auth0User) {
+      await handleOAuthLogin();
+    }
+  };
+  useEffect(() => {
+    checkAuthentication();
+  }, [isAuthenticated, auth0IsLoading, auth0User]);
 
   const fetchMyData = async () => {
     setisLoading(true);
@@ -113,6 +162,8 @@ export const AuthProvider = ({ children }) => {
         email: response.data.email,
         role: response.data.role,
         profilePhoto: response.data.profilePhotoUrl,
+        address: response.data.address,
+        contactNumber: response.data.contactNumber,
       });
     } catch (error) {
       console.error("Failed to fetch user data", error);
@@ -226,6 +277,7 @@ export const AuthProvider = ({ children }) => {
       role: "",
       profilePhoto: "",
     });
+    auth0Logout();
   };
 
   return (

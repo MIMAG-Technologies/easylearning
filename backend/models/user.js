@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name: { type: String, required: true },
+  name: { type: String },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   profilePhotoUrl: { type: String },
   bio: { type: String, default: "" },
   socialMedia: {
@@ -17,6 +17,14 @@ const UserSchema = new Schema({
   headline: { type: String, default: "" },
   role: { type: String, enum: ["student", "teacher", "admin"], required: true },
   enrolledCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+  enrolledCoursesCount: [
+    {
+      courseId: { type: Schema.Types.ObjectId, ref: "Course" },
+      quantity: {
+        type: Number,
+      },
+    },
+  ],
   assignedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
   contactNumber: { type: String, default: "" }, // Added contact number
   address: {

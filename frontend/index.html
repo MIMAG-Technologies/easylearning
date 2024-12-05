@@ -42,184 +42,280 @@
       type="text/javascript"
       src="https://www.paynimo.com/Paynimocheckout/server/lib/checkout.js"
     ></script>
-    <script type="text/javascript">
+   <script type="text/javascript">
+      // Configuration Object
+      const CONFIG = {
+        PAYMENT_GATEWAY: {
+          API_ENDPOINT: "http://localhost:5000/api/v1", // Replace with your actual endpoint
+          MERCHANT_CODE: "",
+          MERCHANT_KEY: "",
+          CONSUMER_ID: "",
+          LOGO_URL: "https://psycortex.in/assets/Images/thebraintakeLogo.png",
+          COLORS: {
+            PRIMARY_COLOR: "#3977b7",
+            SECONDARY_COLOR: "#FFFFFF",
+            BUTTON_COLOR_1: "#1969bb",
+            BUTTON_COLOR_2: "#FFFFFF",
+          },
+        },
+        CONSUMER_DETAILS: {
+          MOBILE_NO: "7249424403", // Consider making this dynamic
+          EMAIL_ID: "psycortex01@gmail.com", // Consider making this dynamic
+        },
+      };
+
       $(document).ready(function () {
-        API_BASE_URL = "https://easyapi.psycortex.in/api/v1";
-        // API_BASE_URL = "http://localhost:5000/api/v1";
-
-        const getCredentials = async () => {
-          const token = localStorage.getItem("token");
+        // Enhanced Secure Hashing Function
+        const hashData = async (algo, data) => {
           try {
-            const response = await fetch(
-              `${API_BASE_URL}/getPaymentGatewayCredentails`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  // Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-
-            const res = await response.json();
-            return res;
-          } catch (error) {
-            return {};
-          }
-        };
-
-        const consumerMobileNo = "7249424403";
-        const consumerEmailId = "psycortex01@gmail.com";
-        const logoUrl =
-          "https://psycortex.in/assets/Images/thebraintakeLogo.png";
-
-        function hashData(algo, data) {
-          const encoder = new TextEncoder();
-          const dataBuffer = encoder.encode(data);
-
-          return crypto.subtle.digest(algo, dataBuffer).then((hashBuffer) => {
+            const encoder = new TextEncoder();
+            const dataBuffer = encoder.encode(data);
+            const hashBuffer = await crypto.subtle.digest(algo, dataBuffer);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray
               .map((byte) => byte.toString(16).padStart(2, "0"))
               .join("");
-          });
-        }
+          } catch (error) {
+            console.error("Hashing failed:", error);
+            return null;
+          }
+        };
 
-        const complete = async (
-          transactionState,
-          transactionIdentifier,
-          errorMessage
-        ) => {
-          const token = localStorage.getItem("token");
-          const transactionToken = localStorage.getItem("TransactionToken");
-
+        // Improved Credentials Fetching
+        const getCredentials = async () => {
           try {
             const response = await fetch(
-              `${API_BASE_URL}/transaction/complete`,
+              `${CONFIG.PAYMENT_GATEWAY.API_ENDPOINT}/getPaymentGatewayCredentails`,
               {
-                method: "POST",
+                method: "GET",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                  token: transactionToken,
-                  transactionState: transactionState,
-                  transactionIdentifier: transactionIdentifier,
-                  dateTime: new Date().toISOString(),
-                  errorMessage: errorMessage,
-                }),
               }
             );
 
             if (!response.ok) {
-              throw new Error("Network response was not ok");
+              throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const res = await response.json();
+            const credentials = await response.json();
+
+            // Validate crucial credentials
+            if (!credentials.merchantCode || !credentials.txnId) {
+              throw new Error("Invalid payment gateway credentials");
+            }
+
+            return credentials;
           } catch (error) {
+            console.error("Credentials fetch error:", error);
+            // alert("Unable to process payment. Please try again later.");
+            return null;
+          }
+        };
+
+        // Transform Cart Items
+        const transformArray = (inputArray) => {
+          if (!Array.isArray(inputArray)) {
+            console.error("Invalid cart data");
+            return [];
+          }
+          return inputArray.map((item) => ({
+            id: item.id || null,
+            quantity: item.quantity || 0,
+          }));
+        };
+
+        // Enhanced Transaction Completion Handler
+        const completeTransaction = async (
+          transactionState,
+          transactionIdentifier,
+          errorMessage
+        ) => {
+          try {
+            
+            const UserData = JSON.parse(localStorage.getItem("userData") || {});
+            const cartData = localStorage.getItem("UserCart") || [];
+            const grandTotal = localStorage.getItem("GrandTotal") || 0;
+
+            const ProductData = transformArray(JSON.parse(cartData));
+
+            const transactionData = {
+              amount: grandTotal,
+              transactionState,
+              transactionIdentifier,
+              errorMessage,
+            };
+
+            const payload = {
+              user:UserData,
+              items:ProductData,
+              transactionData:transactionData,
+            };
+            console.log(payload);
+
+            const response = await fetch(
+              `${CONFIG.PAYMENT_GATEWAY.API_ENDPOINT}/transaction/make-transaction`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`Transaction logging failed: ${response.status}`);
+            }
+
             if (transactionState === "success") {
+              alert("Purchase Successful!");
+              const orderDetails = JSON.stringify({
+                UserData,
+                cartData,
+                transactionData,
+              });
+              localStorage.removeItem("UserCart");
+              localStorage.removeItem("GrandTotal");
+              localStorage.setItem("OrderDetailes", orderDetails);
+              window.location.href = "/user/order";
+            } else {
+              alert("Transaction Failed. Please try again.");
+            }
+          } catch (error) {
+            console.error("Transaction completion error:", error);
+            if(transactionState === "success") {
               alert(
-                "Your payment is done, but due to some technical issues, the item is not added to the purchased list. Please contact our support team!"
+                "There was an issue processing your transaction. Please contact support."
               );
             }
+
           }
         };
 
+        // Response Handler
         const handleResponse = async (res) => {
-          if (
-            typeof res !== "undefined" &&
-            typeof res.paymentMethod !== "undefined" &&
-            typeof res.paymentMethod.paymentTransaction !== "undefined" &&
-            typeof res.paymentMethod.paymentTransaction.statusCode !==
-              "undefined" &&
-            res.paymentMethod.paymentTransaction.statusCode == "0300"
-          ) {
-            await complete(
-              "success",
-              res.paymentMethod.paymentTransaction.identifier,
-              res.paymentMethod.paymentTransaction.errorMessage
-            );
-            localStorage.setItem("isTransactionDone", "success");
-          } else {
-            await complete(
-              "failure",
-              res.paymentMethod.paymentTransaction.identifier,
-              res.paymentMethod.paymentTransaction.errorMessage
-            );
-            localStorage.setItem("isTransactionDone", "failure");
+          try {
+            if (
+              res &&
+              res.paymentMethod &&
+              res.paymentMethod.paymentTransaction &&
+              res.paymentMethod.paymentTransaction.statusCode === "0300"
+            ) {
+              await completeTransaction(
+                "success",
+                res.paymentMethod.paymentTransaction.identifier,
+                res.paymentMethod.paymentTransaction.errorMessage
+              );
+            } else {
+              await completeTransaction(
+                // "failure",
+                "success",
+                res.paymentMethod.paymentTransaction.identifier,
+                res.paymentMethod.paymentTransaction.errorMessage
+              );
+            }
+          } catch (error) {
+            console.error("Response handling error:", error);
           }
         };
-        async function getToken(credentials) {
-          const algo = "SHA-512"; //sha256, sha512, md5
-          const data = `${credentials.merchantCode}|${
-            credentials.txnId
-          }|${localStorage.getItem("transactionPaymentAmount")}||${
-            credentials.consumerId
-          }|${consumerMobileNo}|${consumerEmailId}||||||||||${
-            credentials.encryptionKey
-          }`;
-          return await hashData(algo, data);
-        }
 
-        const initTransaction = async () => {
-          const credentials = await getCredentials();
-          if (Object.keys(credentials).length === 0) return;
-
-          $(document)
-            .off("click", "#btnSubmit")
-            .on("click", "#btnSubmit", async function (e) {
-              e.preventDefault();
-              localStorage.setItem("isTransactionDone", "pending");
-              const token = await getToken(credentials);
-
-              var configJson = {
-                tarCall: false,
-                features: {
-                  enableAbortResponse: true,
-                  enableExpressPay: true,
-                  enableInstrumentDeRegistration: true,
-                  enableMerTxnDetails: true,
-                  enableNewWindowFlow: true,
-                },
-                consumerData: {
-                  deviceId: "WEBSH2", //possible values 'WEBSH1', 'WEBSH2' and 'WEBMD5'
-                  token: token,
-                  responseHandler: handleResponse,
-                  paymentMode: "all",
-                  merchantLogoUrl: logoUrl, // provided merchant logo will be displayed
-                  merchantId: credentials.merchantCode,
-                  consumerId: credentials.consumerId,
-                  consumerMobileNo: consumerMobileNo,
-                  consumerEmailId: consumerEmailId,
-                  txnId: credentials.txnId,
-                  items: [
-                    {
-                      itemId: "first",
-                      amount: localStorage.getItem("transactionPaymentAmount"),
-                      comAmt: "0",
-                    },
-                  ],
-                  customStyle: {
-                    PRIMARY_COLOR_CODE: "#3977b7",
-                    SECONDARY_COLOR_CODE: "#FFFFFF",
-                    BUTTON_COLOR_CODE_1: "#1969bb",
-                    BUTTON_COLOR_CODE_2: "#FFFFFF",
-                  },
-                },
-              };
-
-              $.pnCheckout(configJson);
-              if (configJson.features.enableNewWindowFlow) {
-                pnCheckoutShared.openNewWindow();
-              }
-            });
+        // Generate Transaction Token
+        const getToken = async (credentials) => {
+          try {
+            const algo = "SHA-512";
+            const data = `${credentials.merchantCode}|${
+              credentials.txnId
+            }|${localStorage.getItem("GrandTotal")}||${
+              credentials.consumerId
+            }|${CONFIG.CONSUMER_DETAILS.MOBILE_NO}|${
+              CONFIG.CONSUMER_DETAILS.EMAIL_ID
+            }||||||||||${credentials.encryptionKey}`;
+            return await hashData(algo, data);
+          } catch (error) {
+            console.error("Token generation error:", error);
+            return null;
+          }
         };
 
+        // Initialize Transaction
+        const initTransaction = async () => {
+          try {
+            const credentials = await getCredentials();
+            if (!credentials) return;
+
+            $(document)
+              .off("click", "#btnSubmit")
+              .on("click", "#btnSubmit", async function (e) {
+                e.preventDefault();
+
+                // Validate grand total
+                const grandTotal = localStorage.getItem("GrandTotal");
+                if (!grandTotal || parseFloat(grandTotal) <= 0) {
+                  alert("Invalid transaction amount");
+                  return;
+                }
+
+                localStorage.setItem("isTransactionDone", "pending");
+
+                const token = await getToken(credentials);
+                if (!token) {
+                  alert("Failed to generate transaction token");
+                  return;
+                }
+
+                const configJson = {
+                  tarCall: false,
+                  features: {
+                    enableAbortResponse: true,
+                    enableExpressPay: true,
+                    enableInstrumentDeRegistration: true,
+                    enableMerTxnDetails: true,
+                    enableNewWindowFlow: true,
+                  },
+                  consumerData: {
+                    deviceId: "WEBSH2",
+                    token: token,
+                    responseHandler: handleResponse,
+                    paymentMode: "all",
+                    merchantLogoUrl: CONFIG.PAYMENT_GATEWAY.LOGO_URL,
+                    merchantId: credentials.merchantCode,
+                    consumerId: credentials.consumerId,
+                    consumerMobileNo: CONFIG.CONSUMER_DETAILS.MOBILE_NO,
+                    consumerEmailId: CONFIG.CONSUMER_DETAILS.EMAIL_ID,
+                    txnId: credentials.txnId,
+                    items: [
+                      {
+                        itemId: "first",
+                        amount: grandTotal,
+                        comAmt: "0",
+                      },
+                    ],
+                    customStyle: {
+                      PRIMARY_COLOR_CODE:
+                        CONFIG.PAYMENT_GATEWAY.COLORS.PRIMARY_COLOR,
+                      SECONDARY_COLOR_CODE:
+                        CONFIG.PAYMENT_GATEWAY.COLORS.SECONDARY_COLOR,
+                      BUTTON_COLOR_CODE_1:
+                        CONFIG.PAYMENT_GATEWAY.COLORS.BUTTON_COLOR_1,
+                      BUTTON_COLOR_CODE_2:
+                        CONFIG.PAYMENT_GATEWAY.COLORS.BUTTON_COLOR_2,
+                    },
+                  },
+                };
+
+                $.pnCheckout(configJson);
+                if (configJson.features.enableNewWindowFlow) {
+                  pnCheckoutShared.openNewWindow();
+                }
+              });
+          } catch (error) {
+            console.error("Transaction initialization error:", error);
+            alert("Unable to initialize payment. Please try again.");
+          }
+        };
+
+        // Initialize on document ready
         initTransaction();
       });
     </script>

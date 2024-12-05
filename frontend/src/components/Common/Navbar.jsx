@@ -168,7 +168,7 @@ function Navbar() {
                   alt=""
                 />
                 <Link to={user.role === "admin" ? "/admin" : "/dashboard"}>
-                  {user.name}
+                  {user.name.trim() === "" ? "My Account": user.name}
                 </Link>
               </p>
             </>
@@ -177,9 +177,7 @@ function Navbar() {
               <p>
                 <Link to={"/auth/login/student"}>Login</Link>
               </p>
-              <button>
-                <Link to={"/auth/signin/student"}>Join For Free</Link>
-              </button>
+              
             </>
           )}
         </div>

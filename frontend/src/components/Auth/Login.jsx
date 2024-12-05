@@ -16,7 +16,7 @@ function Login() {
   const { login } = useContext(AuthContext);
 
   useEffect(() => {
-    const validUsers = ["student", "teacher", "admin"];
+    const validUsers = ["teacher", "admin"];
     if (validUsers.includes(who)) {
       setUser(who);
     } else {
@@ -95,16 +95,8 @@ function Login() {
           <button type="submit">Login</button>
           <div className="line"></div>
           <p className="have_an_account">
-            Don't have an account?{" "}
-            <Link to="/auth/signin/student">Sign up</Link>
-          </p>
-          <p className="have_an_account">
-            Are you a {who === "student" ? "teacher" : "student"}?
-            <Link
-              to={`/auth/login/${who === "student" ? "teacher" : "student"}`}
-            >
-              Log in
-            </Link>
+            Are you a student?
+            <Link to={`/auth/login/student`}>Log in</Link>
           </p>
         </form>
       </div>

@@ -4,11 +4,12 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContext';
-
+import { useAuth0 } from "@auth0/auth0-react";
 export default function StudentLogin() {
     const [email, setEmail] = useState("");
     const [isOTPsent, setisOTPsent] = useState(false)
     const [otp, setotp] = useState("")
+     const { loginWithRedirect } = useAuth0();
      const navigate = useNavigate();
      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
      const { setisLoading, setToken } = useContext(AuthContext);
@@ -83,12 +84,28 @@ export default function StudentLogin() {
           )}
 
           <button type="submit">{!isOTPsent ? "Send OTP" : "Login"}</button>
+          </form>
           <div className="line"></div>
+          <button
+            onClick={() => loginWithRedirect()}
+            title="Sign In"
+            className="login-next-btn2"
+          >
+            <i className="fa-brands fa-google"></i>
+            <span>Sign In with Google</span>
+          </button>
+          <button
+            onClick={() => loginWithRedirect()}
+            title="Sign In"
+            className="login-next-btn2"
+          >
+            <i className="fa-brands fa-microsoft"></i>
+            <span>Sign In with Microsoft</span>
+          </button>
           <p className="have_an_account">
             Are you Instructor?
             <Link to="/auth/login/teacher">Login</Link>
           </p>
-        </form>
       </div>
     </div>
   );

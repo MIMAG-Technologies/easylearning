@@ -34,6 +34,7 @@ function UserCourses() {
               <span>
                 <p>Course | {course.providingInstitution}</p>
                 <h4>{course.title}</h4>
+                {user.role === "student" && <p>Quantity : {course.quantity}</p>}
               </span>
               <div className="verticalLine"></div>
               <Link

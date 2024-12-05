@@ -1,20 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const transactionController = require("../controllers/transactionController");
-const auth = require("../middlewares/auth");
 
-// Create a new material
+
 router.post(
-  "/transaction/initiate",
-  auth,
-  transactionController.initiateTransaction
+  "/transaction/make-transaction",
+  transactionController.makeTransaction
 );
-
-// Get material(s)
 router.post(
-  "/transaction/complete",
-  auth,
-  transactionController.completeTransaction
+  "/transaction/sendMails",
+  transactionController.sendTransactionEmail
 );
 
 router.get(
