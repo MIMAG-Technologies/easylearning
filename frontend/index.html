@@ -46,7 +46,7 @@
       // Configuration Object
       const CONFIG = {
         PAYMENT_GATEWAY: {
-          API_ENDPOINT: "http://localhost:5000/api/v1", // Replace with your actual endpoint
+          API_ENDPOINT: "https://easyapi.psycortex.in/api/v1", // Replace with your actual endpoint
           MERCHANT_CODE: "",
           MERCHANT_KEY: "",
           CONSUMER_ID: "",
@@ -209,8 +209,8 @@
               );
             } else {
               await completeTransaction(
-                // "failure",
-                "success",
+                "failure",
+                // "success",
                 res.paymentMethod.paymentTransaction.identifier,
                 res.paymentMethod.paymentTransaction.errorMessage
               );
