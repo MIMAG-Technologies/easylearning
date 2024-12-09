@@ -41,6 +41,7 @@ function AdminNav() {
         <NavLink to={"course-management"}>Courses</NavLink>
         <NavLink to={"student-management"}>Students</NavLink>
         <NavLink to={"teacher-management"}>Teacher</NavLink>
+        <NavLink to={"transaction-management/all"}>Transaction</NavLink>
       </div>
     </>
   );

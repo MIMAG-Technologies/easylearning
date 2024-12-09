@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const transactionController = require("../controllers/transactionController");
+const auth = require("../middlewares/auth");
 
 
 router.post(
@@ -11,10 +12,12 @@ router.post(
   "/transaction/sendMails",
   transactionController.sendTransactionEmail
 );
+router.get("/transaction/get-transactions/:id",auth,transactionController.getTransactions)
+
 
 router.get(
   "/getPaymentGatewayCredentails",
-  // auth,
+  auth,
   (req, res) => {
     const merchantCode = process.env.MERCHANT_CODE;
     const encryptionKey = process.env.ENCRYPTION_KEY;

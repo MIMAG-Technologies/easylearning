@@ -52,6 +52,7 @@ import StudentLogin from "./components/Auth/StudentLogin";
 import UserCart from "./components/Payment/UserCart";
 import CheckOut from "./components/Payment/CheckOut";
 import OrderDetails from "./components/Payment/OrderDetails";
+import UserTransactions from "./components/Admin/Sections/TransactionMangement";
 
 function App() {
   const { pathname } = useLocation();
@@ -163,6 +164,10 @@ function App() {
             </Route>
           </Route>
           <Route path="reset-password" element={<AdminPasswordReset />} />
+          <Route
+            path="transaction-management/:id"
+            element={<UserTransactions />}
+          />
           <Route path="student-management" element={<StudentMangement />} />
           <Route path="teacher-management" element={<TeacherManagement />} />
         </Route>

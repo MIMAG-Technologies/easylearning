@@ -203,5 +203,83 @@ const makeTransaction = async (req, res) => {
   }
 };
 
+function groupTransactionsByIdentifier(transactions) {
+  const grouped = {};
 
-module.exports = { makeTransaction, sendTransactionEmail };
+  transactions.forEach((transaction) => {
+    const { transactionIdentifier, courseId, quantity, ...rest } = transaction;
+
+    if (!grouped[transactionIdentifier]) {
+      grouped[transactionIdentifier] = {
+        ...rest,
+        transactionIdentifier,
+        courseList: [],
+      };
+    }
+
+    grouped[transactionIdentifier].courseList.push({
+      ...courseId,
+      quantity:Number(quantity)
+    });
+  });
+
+  return Object.values(grouped);
+}
+
+const getTransactions = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Case 1: Fetch all transactions
+    if (id === "all") {
+      const transactions = await Transaction.find()
+        .populate({
+          path: "courseId", // Path to the field to populate
+          select: "_id title price expectedDuration",
+        })
+        .populate({
+          path: "userId", // Populate user details
+          select: "_id name email contactNumber address", // Select specific fields from user
+        })
+        .lean(); // Ensures plain JavaScript objects
+
+      const groupedTransactions = groupTransactionsByIdentifier(transactions);
+
+      return res
+        .status(200)
+        .json({ success: true, data: { transactions: groupedTransactions } });
+    }
+
+    // Case 2: Check if id is a valid email
+
+    const user = await User.findById(id).lean();
+
+    // Fetch transactions for the user
+    const transactions = await Transaction.find({
+      userId: user._id,
+    })
+      .populate({
+        path: "courseId", // Path to the field to populate
+        select: "_id title price expectedDuration",
+      })
+      .populate({
+        path: "userId", // Populate user details
+        select: "_id name email contactNumber address", // Select specific fields from user
+      })
+      .lean(); // Ensures plain JavaScript objects
+
+    const groupedTransactions = groupTransactionsByIdentifier(transactions);
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        data: { user, transactions: groupedTransactions },
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+module.exports = { makeTransaction, sendTransactionEmail, getTransactions };

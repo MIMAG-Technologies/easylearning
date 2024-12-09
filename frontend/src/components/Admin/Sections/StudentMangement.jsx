@@ -1,6 +1,5 @@
-import { CirclePlus, UserX } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 import ProfilePhoto from "../../../assets/Images/profile-pic.png";
 import { toast } from "react-toastify";
@@ -37,9 +36,8 @@ function StudentManagement() {
 
   const oneStudent = (student) => {
     return (
-      <Link
+      <div
         key={student._id}
-        to={`/user/student/${student._id}`}
         className="oneteachercard"
       >
         <img
@@ -53,8 +51,29 @@ function StudentManagement() {
         <span>
           <h3>{student.name}</h3>
           <p>{student.email}</p>
-        </span>
-      </Link>
+          </span>
+          <button
+            className="view-btn"
+            style={{
+              marginLeft:"auto"
+            }}
+            onClick={() => {
+              navigate(`/admin/transaction-management/${student._id}`);
+            }}
+          >
+
+            View Transactions
+          </button>
+          <button
+            className="view-btn"
+            onClick={() => {
+              navigate(`/user/student/${student._id}`);
+            }}
+          >
+
+            View User
+          </button>
+      </div>
     );
   };
 
