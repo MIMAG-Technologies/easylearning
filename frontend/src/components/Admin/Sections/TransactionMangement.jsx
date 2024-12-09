@@ -94,7 +94,7 @@ export default function UserTransactions() {
       return {
         productId: product._id,
         name: product.title,
-        cost: product.price.toLocaleString(), // Format as currency
+        cost: product.price, // Format as currency
         quantity: product.quantity
       };
     });
@@ -126,7 +126,7 @@ export default function UserTransactions() {
 
     const calculateSubtotal = () => {
       return cartData.reduce(
-        (acc, item) => acc + parseInt(item.cost) * parseInt(item.quantity),
+        (acc, item) => acc + item.cost * item.quantity,
         0
       );
     };
@@ -186,7 +186,7 @@ export default function UserTransactions() {
                     item.quantity
                   }</td>
                   <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">₹${(
-                    parseInt(item.cost) * parseInt(item.quantity)
+                    item.cost * item.quantity
                   ).toLocaleString()}</td>
                 </tr>
               `
@@ -232,7 +232,7 @@ export default function UserTransactions() {
   return (
     <div className="UserTransactions">
       <div className="filters">
-        <input
+        <input 
           type="date"
           name="date"
           value={filter.date}
