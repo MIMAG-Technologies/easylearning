@@ -323,11 +323,17 @@ border: 1px solid rgb(0, 0, 0);
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
+  margin-left: 10px;
   border: none;
  
   background-color: #333333;
   color: white;
 }
+.filters input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%); /* Adjust color */
+  cursor: pointer;
+}
+
 .filters button {
   padding: 10px 20px;
   background-color: #000000;

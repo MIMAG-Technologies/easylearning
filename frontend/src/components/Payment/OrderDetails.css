@@ -3,7 +3,9 @@
   padding: 20px;
   font-family: "Segoe UI", sans-serif;
 }
-
+.OrderDetails *{
+  margin: 0%;
+}
 .invoice-box {
   max-width: 800px;
   margin: 0 auto;

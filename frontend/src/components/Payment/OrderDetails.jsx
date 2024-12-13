@@ -65,13 +65,32 @@ function OrderDetails() {
   const printInvoice = () => {
     const printContents = invoiceRef.current.innerHTML;
     const printWindow = window.open("", "", "width=800,height=600");
-    printWindow.document.write(
-      `<html>
+     const style = `
+    <style>
+      body *{
+        margin: 0%;
+      }
+         @media print {
+        body {
+          margin: 0;
+        }
+        .content-wrapper {
+          transform: scale(0.95); /* Scale content to 80% */
+          transform-origin: top left; /* Set the scale origin */
+           width: 105.26%;
+        }
+      }
+    </style>
+  `;
+
+  printWindow.document.write(
+    `<html>
       <head>
-      <title>Invoice</title>
+        <title>Invoice</title>
+        ${style}
       </head>
-      <body>`
-    );
+      <body>
+       `);
     printWindow.document.write(printContents);
     printWindow.document.write("</body></html>");
     printWindow.document.close();
@@ -93,6 +112,7 @@ function OrderDetails() {
         padding: "20px",
         fontFamily: "'Segoe UI', sans-serif",
       }}
+      className="OrderDetails"
     >
       <div
         ref={invoiceRef}
@@ -286,9 +306,7 @@ function OrderDetails() {
                         textAlign: "right",
                       }}
                     >
-                      ₹
-                      {item.price *
-                        item.quantity}
+                      ₹{item.price * item.quantity}
                     </td>
                   </tr>
                 ))}
@@ -389,6 +407,45 @@ function OrderDetails() {
               {transactionData.transactionState}
             </p>
           </section>
+        </div>
+        <div
+          style={{
+            padding: "0px 20px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            paddingBottom: "20px",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              color: "#333",
+            }}
+          >
+            Thanks for the Purchase
+          </h3>
+          <p>
+            Please read all the terms and conditions carefully before making
+            your payment.
+          </p>
+
+          <p>
+            ● You are eligible to apply for cancellation within 7 days of
+            purchase.
+          </p>
+          <p>● No chargeback will be entertained after 7 days of payment.</p>
+          <p>
+            ● Within 10 days of your purchase, you will receive an email kindly
+            acknowledge your purchase.
+          </p>
+
+          <p>
+            Kindly proceed with the payment only after reviewing our terms and
+            conditions.
+          </p>
+          <a href="https://edu.psycortex.in/">edu.psycortex.in</a>
         </div>
       </div>
 

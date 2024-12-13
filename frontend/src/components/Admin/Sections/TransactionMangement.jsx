@@ -8,10 +8,10 @@ export default function UserTransactions() {
   const [userTransactions, setUserTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [rawData, setrawData] = useState({});
-  const [filter, setFilter] = useState({
-    date: "",
-    transactionState: "",
-  });
+ const [filter, setFilter] = useState({
+   startDate: "",
+   endDate: "",
+ });
   const navi = useNavigate();
 
   function formatDate(dateString) {
@@ -55,26 +55,23 @@ export default function UserTransactions() {
     setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
-  const applyFilters = () => {
-    const filtered = userTransactions.filter((transaction) => {
-      const matchesDate = filter.date
-        ? new Date(transaction.dateTime).toISOString().slice(0, 10) ===
-          filter.date
-        : true;
-      const matchesState = filter.transactionState
-        ? transaction.transactionState === filter.transactionState
-        : true;
-
-      return matchesDate && matchesState;
-    });
-    setFilteredTransactions(filtered);
-  };
+   const applyFilters = () => {
+     const { startDate, endDate } = filter;
+     const filtered = userTransactions.filter((transaction) => {
+       const transactionDate = new Date(transaction.dateTime)
+         .toISOString()
+         .slice(0, 10);
+       const matchesStartDate = startDate ? transactionDate >= startDate : true;
+       const matchesEndDate = endDate ? transactionDate <= endDate : true;
+       return matchesStartDate && matchesEndDate;
+     });
+     setFilteredTransactions(filtered);
+   };
 
   const resetFilters = () => {
-    setFilter({ date: "", transactionState: "" });
+    setFilter({ startDate: "", endDate: "" });
     setFilteredTransactions(userTransactions);
   };
-
   function getTransactionDetails(transactionId) {
     // Destructure user and transactions data
     const { user, transactions } = rawData;
@@ -133,9 +130,31 @@ export default function UserTransactions() {
 
     // Create a new window for printing
     const printWindow = window.open("", "_blank");
-
+const style = `
+    <style>
+      body *{
+        margin: 0%;
+      }
+         @media print {
+        body {
+          margin: 0;
+        }
+        .content-wrapper {
+          transform: scale(0.95); /* Scale content to 80% */
+          transform-origin: top left; /* Set the scale origin */
+           width: 105.26%;
+        }
+      }
+    </style>
+  `;
     // Create the invoice content as a string
     const printContents = `
+    <html>
+      <head>
+        <title>Invoice</title>
+        ${style}
+      </head>
+      <body>
     <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
       <header style="display: flex; align-items: center; flex-direction: column; justify-content: space-between; padding: 20px; background-color: #c1c1c1; color: black; border-top-left-radius: 8px; border-top-right-radius: 8px;">
         <div style="display: flex; width: 100%; gap: 20px; align-items: center; margin-bottom: 20px;">
@@ -220,7 +239,35 @@ export default function UserTransactions() {
           }</p>
         </section>
       </div>
+      <div
+  style="padding: 0px 20px; display: flex; flex-direction: column; gap: 5px; padding-bottom: 20px;"
+>
+  <h3 style="font-size: 18px; font-weight: bold; color: #333;">
+    Thanks for the Purchase
+  </h3>
+  <p>
+    Please read all the terms and conditions carefully before making your
+    payment.
+  </p>
+
+  <p>
+    ● You are eligible to apply for cancellation within 7 days of purchase.
+  </p>
+  <p>● No chargeback will be entertained after 7 days of payment.</p>
+  <p>
+    ● Within 10 days of your purchase, you will receive an email kindly
+    acknowledge your purchase.
+  </p>
+
+  <p>
+    Kindly proceed with the payment only after reviewing our terms and
+    conditions.
+  </p>
+  <a href="https://edu.psycortex.in/">edu.psycortex.in</a>
+</div>
+
     </div>
+    </body></html>
   `;
 
     // Write the invoice content to the new window
@@ -232,38 +279,24 @@ export default function UserTransactions() {
   return (
     <div className="UserTransactions">
       <div className="filters">
-        <input 
-          type="date"
-          name="date"
-          value={filter.date}
-          onChange={handleFilterChange}
-        />
-
-        <div className="radio-input">
-          <label>
-            <input
-              type="radio"
-              id="value-1"
-              name="transactionState"
-              value="success"
-              onChange={handleFilterChange}
-              checked={filter.transactionState === "success"}
-            />
-            <span>Success</span>
-          </label>
-          <label>
-            <input
-              type="radio"
-              id="value-2"
-              name="transactionState"
-              value="failure"
-              onChange={handleFilterChange}
-              checked={filter.transactionState === "failure"}
-            />
-            <span>Failure</span>
-          </label>
-          <span className="selection"></span>
-        </div>
+        <label>
+          Start Date:
+          <input
+            type="date"
+            name="startDate"
+            value={filter.startDate}
+            onChange={handleFilterChange}
+          />
+        </label>
+        <label>
+          End Date:
+          <input
+            type="date"
+            name="endDate"
+            value={filter.endDate}
+            onChange={handleFilterChange}
+          />
+        </label>
         <button onClick={applyFilters}>Apply</button>
         <button onClick={resetFilters}>Reset</button>
       </div>
